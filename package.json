@@ -1,0 +1,31 @@
+{
+  "name": "react-portal-tooltip",
+  "version": "0.1.0",
+  "description": "Awesome React tooltips",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romainberger/react-portal-tooltip"
+  },
+  "bugs": {
+    "url": "https://github.com/romainberger/react-portal-tooltip"
+  },
+  "homepage": "https://github.com/dailymotion/react-collider",
+  "scripts": {
+    "start": "./node_modules/.bin/babel src --watch --out-dir lib"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "component",
+    "tooltip",
+    "portal"
+  ],
+  "author": "Romain Berger <romain@romainberger.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^5.8.21",
+    "react": "^0.13.3"
+  }
+}
+
