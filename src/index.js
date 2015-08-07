@@ -1,19 +1,12 @@
-import React, {PropTypes} from 'react/addons'
-const PureRenderMixin = React.addons.PureRenderMixin
+import React, {PropTypes} from 'react'
+import isClient from 'is-client'
 
-const PureComponent = React.createElement({
-  mixins: [PureRenderMixin],
-  render() {}
-})
-
-class Card extends PureComponent {
+class Card extends React.Component {
   static PropTypes = {
-    position: PropTypes.object,
     active: PropTypes.bool,
     placement: PropTypes.string
   }
   static defaultProps = {
-    position: {top: -1000, left: -1000},
     active: false,
     placement: 'right'
   }
@@ -24,7 +17,7 @@ class Card extends PureComponent {
     height: 0
   }
   get style() {
-    let parent = React.findDOMNode(this.props.parent)
+    let parent = document.querySelector(this.props.parent)
     let position = parent.getBoundingClientRect()
     let top = window.scrollY + position.top
     let left = window.scrollX + position.left
@@ -104,20 +97,11 @@ export default class ToolTip extends React.Component {
   static propTypes = {
     active: PropTypes.bool
   }
-  static styleguide() {
-    return {
-      name: 'Tooltip',
-      category: 'Utils',
-      description: 'Magic Tooltip©. Check out `user/screenname` to see an example.',
-      code: `import Tooltip from 'components/utils/tooltip'
-<Tooltip active={this.isTooltipActive()} parent={this} placement="top">Damn that tooltip looks GOOD</Tooltip>`
-    }
-  }
   componentDidMount() {
     if (portalNode) {
       this.renderPortal(this.props)
     }
-    if (isClient && !portalNode) {
+    if (isClient() && !portalNode) {
       portalNode = document.createElement('div')
       portalNode.className = 'ToolTipPortal'
       document.body.appendChild(portalNode)

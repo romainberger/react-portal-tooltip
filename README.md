@@ -25,8 +25,8 @@ class MyComponent extends React.Component {
     render() {
         return (
             <div>
-                <p onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>This is a cool component</p>
-                <ToolTip active={this.state.isTooltipActive} placement="top" parent={this}>
+                <p id="text" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>This is a cool component</p>
+                <ToolTip active={this.state.isTooltipActive} placement="top" parent="#text">
                     <div>
                         <p>This is the content of the tooltip</p>
                         <img src="image.png"/>

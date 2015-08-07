@@ -1,0 +1,20 @@
+{
+  "name": "react-portal-tooltip-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack --progress --colors --display-error-details --watch"
+  },
+  "author": "Romain Berger <romain@romainberger.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^5.8.21",
+    "babel-loader": "^5.3.2",
+    "react": "^0.13.3",
+    "webpack": "^1.11.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21"
+  }
+}
