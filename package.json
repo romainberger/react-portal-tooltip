@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/dailymotion/react-collider",
   "scripts": {
-    "start": "babel src --watch --out-dir lib"
+    "start": "./node_modules/.bin/babel src --watch --out-dir lib"
   },
   "keywords": [
     "react",

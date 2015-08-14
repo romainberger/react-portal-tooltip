@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
-  "scripts": {
-    "start": "webpack --progress --colors --display-error-details --watch"
-  },
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
   "dependencies": {
@@ -15,6 +12,8 @@
     "webpack": "^1.11.0"
   },
   "devDependencies": {
-    "babel": "^5.8.21"
+    "babel": "^5.8.21",
+    "react-hot-loader": "^1.2.8",
+    "webpack-dev-server": "^1.10.1"
   }
 }

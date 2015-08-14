@@ -17,7 +17,7 @@ class Card extends React.Component {
     height: 0
   }
   get style() {
-    let parent = document.querySelector(this.props.parent)
+    let parent = this.props.parent
     let position = parent.getBoundingClientRect()
     let top = window.scrollY + position.top
     let left = window.scrollX + position.left
@@ -123,7 +123,7 @@ export default class ToolTip extends React.Component {
     this.renderPortal(newProps)
   }
   renderPortal(props) {
-    React.render(<Card {...props} placement={this.props.placement} parent={this.props.parent}/>, portalNode)
+    React.render(<Card {...props} placement={this.props.placement} parent={document.querySelector(this.props.parent)}/>, portalNode)
   }
   shouldComponentUpdate() {
     return false
