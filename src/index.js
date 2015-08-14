@@ -123,7 +123,7 @@ export default class ToolTip extends React.Component {
     this.renderPortal(newProps)
   }
   renderPortal(props) {
-    React.render(<Card {...props} placement={this.props.placement} parent={document.querySelector(this.props.parent)}/>, portalNode)
+    React.render(<Card {...props} placement={props.placement} parent={document.querySelector(props.parent)}/>, portalNode)
   }
   shouldComponentUpdate() {
     return false

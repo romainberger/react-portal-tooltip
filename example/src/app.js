@@ -54,24 +54,34 @@ const Countries = [
     { abbr: "WY", name: "Wyoming"}
 ]
 
-class List extends React.Component {
+class Country extends React.Component {
     state = {
-        activeCountry: false
+        isTooltipActive: false
     }
-    handleMouseEnter(abbr) {
-        this.setState({activeCountry: abbr})
+    showTooltip() {
+        this.setState({isTooltipActive: true})
     }
-    handleMouseLeave() {
-        this.setState({activeCountry: false})
+    hideTooltip() {
+        this.setState({isTooltipActive: false})
     }
+    render() {
+        return (
+            <div>
+                <span style={{position: 'relative'}} id={`country-${this.props.abbr}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.abbr}</span>
+                <ToolTip active={this.state.isTooltipActive} parent={`#country-${this.props.abbr}`}>
+                    <div>{this.props.name}</div>
+                </ToolTip>
+            </div>
+        )
+    }
+}
+
+class List extends React.Component {
     getList() {
         return Countries.map((country, key) => {
             return (
                 <li key={key}>
-                    <span style={{position: 'relative'}} id={`country-${key}`} onMouseEnter={this.handleMouseEnter.bind(this, country.abbr)} onMouseLeave={::this.handleMouseLeave}>{country.abbr}</span>
-                    <ToolTip active={this.state.activeCountry === country.abbr} parent={`#country-${key}`}>
-                        <div>{country.name}</div>
-                    </ToolTip>
+                    <Country {...country}/>
                 </li>
             )
         })
@@ -96,9 +106,9 @@ export default class App extends React.Component {
             <div>
                 <h1>React Portal ToolTip Example</h1>
                 <List />
-                <button id="text" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Hover me</button>
-                <ToolTip active={this.state.isTooltipActive} parent="#text">
-                    <div>Hey I am a tooltip</div>
+                <button id="text2" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Hover me</button>
+                <ToolTip active={this.state.isTooltipActive} parent="#text2">
+                    <div>Hey I am a tooltip too</div>
                 </ToolTip>
             </div>
         )
