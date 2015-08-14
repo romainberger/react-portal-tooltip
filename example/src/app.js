@@ -1,24 +1,28 @@
 import React from 'react'
 import ToolTip from './../../src'
+import Users from './users'
 
-const Countries = [
-    { abbr: "AL", name: "Alabama"},
-    { abbr: "AK", name: "Alaska"},
-    { abbr: "AZ", name: "Arizona"},
-    { abbr: "FL", name: "Florida"},
-    { abbr: "KS", name: "Kansas"},
-    { abbr: "KY", name: "Kentucky"},
-    { abbr: "LA", name: "Louisiana"},
-    { abbr: "MS", name: "Mississippi"},
-    { abbr: "NJ", name: "New Jersey"},
-    { abbr: "NM", name: "New Mexico"},
-    { abbr: "NY", name: "New York"},
-    { abbr: "TX", name: "Texas"},
-]
-
-class Country extends React.Component {
+class User extends React.Component {
     state = {
         isTooltipActive: false
+    }
+    static coverWrapperStyle = {
+        width: 370,
+        height: 80
+    }
+    static coverStyle = {
+        position: 'absolute',
+        width: 350,
+        height: 80,
+        top: 0,
+        left: 0
+    }
+    static avatarStyle = {
+        position: 'relative',
+        top: 30,
+        left: 20,
+        width: 70,
+        height: 70
     }
     showTooltip() {
         this.setState({isTooltipActive: true})
@@ -28,10 +32,20 @@ class Country extends React.Component {
     }
     render() {
         return (
-            <div>
-                <span style={{position: 'relative'}} id={`country-${this.props.abbr}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.abbr}</span>
-                <ToolTip active={this.state.isTooltipActive} parent={`#country-${this.props.abbr}`}>
-                    <div>{this.props.name}</div>
+            <div style={{cursor: 'pointer'}}>
+                <span style={{position: 'relative'}} id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.username}</span>
+                <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`}>
+                    <div className="row" style={User.coverWrapperStyle}>
+                        <img src={this.props.cover_250_url} style={User.coverStyle}/>
+                        <img src={this.props.avatar_120_url} style={User.avatarStyle}/>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div style={{padding: '30px 10px 10px 10px'}}>
+                                <a href="#">{this.props.username}</a>
+                            </div>
+                        </div>
+                    </div>
                 </ToolTip>
             </div>
         )
@@ -40,10 +54,10 @@ class Country extends React.Component {
 
 class List extends React.Component {
     getList() {
-        return Countries.map((country, key) => {
+        return Users.map((user, key) => {
             return (
-                <li key={key}>
-                    <Country {...country}/>
+                <li key={key} style={{marginBottom: 10}}>
+                    <User {...user}/>
                 </li>
             )
         })
