@@ -29,8 +29,9 @@ class Card extends React.Component {
       border: '1px solid #999',
       boxShadow: '0 0 4px rgba(0,0,0,.2)',
       borderRadius: '3px',
-      transition: `${this.state.transition} .3s ease-in-out`,
+      transition: `${this.state.transition} .3s ease-in-out, visibility .3s ease-in-out`,
       opacity: this.state.hover || this.props.active ? 1 : 0,
+      visibilty: this.state.hover || this.props.active ? 'visible' : 'hidden',
       zIndex: 50
     }
 
@@ -117,13 +118,13 @@ export default class ToolTip extends React.Component {
       renderTimeout = setTimeout(() => {
         nextProps.active = false
         this.renderPortal(nextProps)
-      }, 200)
+      }, 500)
     }
 
     this.renderPortal(newProps)
   }
   renderPortal(props) {
-    React.render(<Card {...props} placement={props.placement} parent={document.querySelector(props.parent)} key={props.parent}/>, portalNode)
+    React.render(<Card {...props} placement={props.placement} parent={document.querySelector(props.parent)}/>, portalNode)
   }
   shouldComponentUpdate() {
     return false

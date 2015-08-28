@@ -1,6 +1,6 @@
 import React from 'react'
 import ToolTip from './../../src'
-import Users from './users'
+import request from 'superagent'
 
 class User extends React.Component {
     state = {
@@ -32,17 +32,22 @@ class User extends React.Component {
     }
     render() {
         return (
-            <div style={{cursor: 'pointer'}}>
-                <span style={{position: 'relative'}} id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.username}</span>
+            <div className={this.props.className} style={{cursor: 'pointer'}}>
+                <span id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.username}</span>
                 <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`}>
                     <div className="row" style={User.coverWrapperStyle}>
                         <img src={this.props.cover_250_url} style={User.coverStyle}/>
-                        <img src={this.props.avatar_120_url} style={User.avatarStyle}/>
+                        <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>
                     </div>
                     <div className="row">
-                        <div className="col-lg-12">
+                        <div className="col-sm-12">
                             <div style={{padding: '30px 10px 10px 10px'}}>
-                                <a href="#">{this.props.username}</a>
+                                <a href="#">{this.props.screenname}</a>
+                                <span className="text-muted pull-right">
+                                    {this.props.videos_total} videos
+                                    &nbsp;&nbsp;
+                                    {this.props.fans_total} followers
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -53,23 +58,47 @@ class User extends React.Component {
 }
 
 class List extends React.Component {
+    static defaultProps = {
+        users: []
+    }
+    split(data, n) {
+      let result = [],
+          set = []
+
+      data.forEach((item) => {
+        if (set.length === n) {
+          result.push(set)
+          set = []
+        }
+
+        set.push(item)
+      })
+
+      if (set.length) {
+        result.push(set)
+      }
+
+      return result
+    }
     getList() {
-        return Users.map((user, key) => {
-            return (
-                <li key={key} style={{marginBottom: 10}}>
-                    <User {...user}/>
-                </li>
-            )
+        let list = []
+        this.split(this.props.data, 4).forEach((set) => {
+            list.push(<div className="row" style={{marginBottom: 20}}>
+                {set.map((user, key) => (<User className="col-lg-3" {...user}/>))}
+            </div>)
         })
+
+        return list
     }
     render() {
-        return <ul>{this.getList()}</ul>
+        return <div>{this.getList()}</div>
     }
 }
 
 export default class App extends React.Component {
     state = {
-        isTooltipActive: false
+        isTooltipActive: false,
+        users: {list: []}
     }
     showTooltip() {
         this.setState({isTooltipActive: true})
@@ -77,16 +106,24 @@ export default class App extends React.Component {
     hideTooltip() {
         this.setState({isTooltipActive: false})
     }
+    componentWillMount() {
+        request('GET', 'https://api.dailymotion.com/users?fields=id,username,screenname,cover_250_url,avatar_120_url,videos_total,fans_total&list=recommended')
+            .send()
+            .set('Accept', 'application/json')
+            .end((err, res) => {
+                this.setState({users: res.body})
+            })
+    }
     render() {
         return (
-            <div className="row">
-                <List className="col-lg-6" />
-                <div className="col-lg-6">
+            <div className="row" style={{marginTop: 20}}>
+                <List data={this.state.users.list}/>
+                {/*<div className="col-lg-6">
                     <button id="text2" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Hover me</button>
                     <ToolTip active={this.state.isTooltipActive} parent="#text2">
                         <div>Hey I am a tooltip too</div>
                     </ToolTip>
-                </div>
+                </div>*/}
             </div>
         )
     }
