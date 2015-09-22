@@ -5,6 +5,9 @@
   "main": "src/index.js",
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --progress --colors --display-error-details"
+  },
   "dependencies": {
     "babel-core": "^5.8.21",
     "babel-loader": "^5.3.2",
