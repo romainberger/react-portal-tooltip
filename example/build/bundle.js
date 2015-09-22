@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2bba298559269f386bf6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c9d1e909420a6a765a19"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -21439,15 +21439,15 @@
 	        value: function render() {
 	            return _react2['default'].createElement(
 	                'div',
-	                { className: this.props.className, style: { cursor: 'pointer' } },
+	                { className: this.props.className },
 	                _react2['default'].createElement(
 	                    'span',
-	                    { id: 'user-' + this.props.id, onMouseEnter: this.showTooltip.bind(this), onMouseLeave: this.hideTooltip.bind(this) },
+	                    { className: 'btn btn-link', id: 'user-' + this.props.id, onMouseEnter: this.showTooltip.bind(this), onMouseLeave: this.hideTooltip.bind(this), style: { cursor: 'pointer' } },
 	                    this.props.username
 	                ),
 	                _react2['default'].createElement(
 	                    _src2['default'],
-	                    { active: this.state.isTooltipActive, parent: '#user-' + this.props.id, placement: 'bottom' },
+	                    { active: this.state.isTooltipActive, parent: '#user-' + this.props.id, placement: this.props.placement, arrow: this.props.arrow },
 	                    _react2['default'].createElement(
 	                        'div',
 	                        { className: 'row', style: User.coverWrapperStyle },
@@ -21549,15 +21549,22 @@
 	            return result;
 	        }
 	    }, {
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate(nextProps) {
+	            return this.props.data !== nextProps.data || this.props.placement !== nextProps.placement || this.props.arrow !== nextProps.arrow;
+	        }
+	    }, {
 	        key: 'getList',
 	        value: function getList() {
+	            var _this = this;
+
 	            var list = [];
 	            this.split(this.props.data, 4).forEach(function (set, i) {
 	                list.push(_react2['default'].createElement(
 	                    'div',
 	                    { className: 'row', style: { marginBottom: 20 }, key: i },
 	                    set.map(function (user, key) {
-	                        return _react2['default'].createElement(User, _extends({ className: 'col-lg-3' }, user, { key: key }));
+	                        return _react2['default'].createElement(User, _extends({ className: 'col-lg-3' }, user, { key: key, placement: _this.props.placement, arrow: _this.props.arrow }));
 	                    })
 	                ));
 	            });
@@ -21573,12 +21580,6 @@
 	                this.getList()
 	            );
 	        }
-	    }], [{
-	        key: 'defaultProps',
-	        value: {
-	            users: []
-	        },
-	        enumerable: true
 	    }]);
 
 	    return List;
@@ -21594,7 +21595,9 @@
 
 	        this.state = {
 	            isTooltipActive: false,
-	            users: { list: [] }
+	            users: { list: [] },
+	            placement: 'right',
+	            arrow: true
 	        };
 	    }
 
@@ -21611,10 +21614,18 @@
 	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            var _this = this;
+	            var _this2 = this;
 
 	            (0, _superagent2['default'])('GET', 'https://api.dailymotion.com/users?fields=id,username,screenname,cover_250_url,avatar_120_url,videos_total,fans_total&list=recommended').send().set('Accept', 'application/json').end(function (err, res) {
-	                _this.setState({ users: res.body });
+	                _this2.setState({ users: res.body });
+	            });
+	        }
+	    }, {
+	        key: 'handleOnChange',
+	        value: function handleOnChange() {
+	            this.setState({
+	                placement: _react2['default'].findDOMNode(this.refs.placement).value,
+	                arrow: !this.state.arrow
 	            });
 	        }
 	    }, {
@@ -21623,7 +21634,67 @@
 	            return _react2['default'].createElement(
 	                'div',
 	                { className: 'row', style: { marginTop: 20 } },
-	                _react2['default'].createElement(List, { data: this.state.users.list })
+	                _react2['default'].createElement(
+	                    'div',
+	                    { className: 'col-lg-12' },
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'col-lg-4' },
+	                            _react2['default'].createElement(
+	                                'label',
+	                                { htmlFor: 'placement-select', style: { marginRight: 10 } },
+	                                'Position:'
+	                            ),
+	                            _react2['default'].createElement(
+	                                'select',
+	                                { onChange: this.handleOnChange.bind(this), ref: 'placement', defaultValue: 'right' },
+	                                _react2['default'].createElement(
+	                                    'option',
+	                                    { value: 'top' },
+	                                    'top'
+	                                ),
+	                                _react2['default'].createElement(
+	                                    'option',
+	                                    { value: 'right' },
+	                                    'right'
+	                                ),
+	                                _react2['default'].createElement(
+	                                    'option',
+	                                    { value: 'bottom' },
+	                                    'bottom'
+	                                ),
+	                                _react2['default'].createElement(
+	                                    'option',
+	                                    { value: 'left' },
+	                                    'left'
+	                                )
+	                            )
+	                        ),
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'col-lg-4' },
+	                            _react2['default'].createElement(
+	                                'label',
+	                                { htmlFor: 'arrow', style: { marginRight: 10 } },
+	                                'Display arrow'
+	                            ),
+	                            _react2['default'].createElement('input', { type: 'checkbox', onChange: this.handleOnChange.bind(this), checked: this.state.arrow })
+	                        )
+	                    ),
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        _react2['default'].createElement(
+	                            'h4',
+	                            { className: 'col-lg-12' },
+	                            'Hover the usernames to display the tooltips'
+	                        )
+	                    ),
+	                    _react2['default'].createElement(List, { data: this.state.users.list, placement: this.state.placement, arrow: this.state.arrow })
+	                )
 	            );
 	        }
 	    }]);
@@ -21633,12 +21704,6 @@
 
 	exports['default'] = App;
 	module.exports = exports['default'];
-	/*<div className="col-lg-6">
-	   <button id="text2" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Hover me</button>
-	   <ToolTip active={this.state.isTooltipActive} parent="#text2">
-	       <div>Hey I am a tooltip too</div>
-	   </ToolTip>
-	</div>*/
 
 	/* REACT HOT LOADER */ }).call(this); if (true) { (function () { module.hot.dispose(function (data) { data.makeHot = module.makeHot; }); if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(327), foundReactClasses = false; if (makeExportsHot(module, __webpack_require__(67))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app.js" + ": " + err.message); } }); } } })(); }
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
@@ -21724,8 +21789,12 @@
 	      return _react2['default'].createElement(
 	        'div',
 	        { style: this.style, onMouseEnter: this.handleMouseEnter.bind(this), onMouseLeave: this.handleMouseLeave.bind(this) },
-	        _react2['default'].createElement('span', { style: this.arrowStyle }),
-	        _react2['default'].createElement('span', { style: this.bgArrowStyle }),
+	        this.props.arrow ? _react2['default'].createElement(
+	          'div',
+	          null,
+	          _react2['default'].createElement('span', { style: this.arrowStyle }),
+	          _react2['default'].createElement('span', { style: this.bgArrowStyle })
+	        ) : null,
 	        this.props.children
 	      );
 	    }
@@ -21877,14 +21946,16 @@
 	    key: 'PropTypes',
 	    value: {
 	      active: _react.PropTypes.bool,
-	      placement: _react.PropTypes.string
+	      placement: _react.PropTypes.string,
+	      arrow: _react.PropTypes.bool
 	    },
 	    enumerable: true
 	  }, {
 	    key: 'defaultProps',
 	    value: {
 	      active: false,
-	      placement: 'right'
+	      placement: 'right',
+	      arrow: true
 	    },
 	    enumerable: true
 	  }]);
