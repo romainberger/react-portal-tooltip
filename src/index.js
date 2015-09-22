@@ -29,15 +29,10 @@ class Card extends React.Component {
       boxShadow: '0 0 8px rgba(0,0,0,.5)',
       borderRadius: '3px',
       transition: `${this.state.transition} .3s ease-in-out, visibility .3s ease-in-out`,
-      // opacity: this.state.hover || this.props.active ? 1 : 0,
-      // visibilty: this.state.hover || this.props.active ? 'visible' : 'hidden',
-      opacity: 1,
-      visibilty: 'visible',
+      opacity: this.state.hover || this.props.active ? 1 : 0,
+      visibilty: this.state.hover || this.props.active ? 'visible' : 'hidden',
       zIndex: 50
     }
-
-    console.log(top)
-    console.log(this.state.height)
 
     // wrong math everywhere
     // also needs to take into account the position relative to the window
