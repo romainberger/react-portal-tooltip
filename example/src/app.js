@@ -32,9 +32,9 @@ class User extends React.Component {
     }
     render() {
         return (
-            <div className={this.props.className} style={{cursor: 'pointer'}}>
-                <span id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.username}</span>
-                <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`} placement="bottom">
+            <div className={this.props.className}>
+                <span className="btn btn-link" id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{cursor: 'pointer'}}>{this.props.username}</span>
+                <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`} placement={this.props.placement} arrow={this.props.arrow}>
                     <div className="row" style={User.coverWrapperStyle}>
                         <img src={this.props.cover_250_url} style={User.coverStyle}/>
                         <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>
@@ -58,9 +58,6 @@ class User extends React.Component {
 }
 
 class List extends React.Component {
-    static defaultProps = {
-        users: []
-    }
     split(data, n) {
       let result = [],
           set = []
@@ -80,11 +77,14 @@ class List extends React.Component {
 
       return result
     }
+    shouldComponentUpdate(nextProps) {
+        return this.props.data !== nextProps.data || this.props.placement !== nextProps.placement || this.props.arrow !== nextProps.arrow
+    }
     getList() {
         let list = []
         this.split(this.props.data, 4).forEach((set, i) => {
             list.push(<div className="row" style={{marginBottom: 20}} key={i}>
-                {set.map((user, key) => (<User className="col-lg-3" {...user} key={key}/>))}
+                {set.map((user, key) => (<User className="col-lg-3" {...user} key={key} placement={this.props.placement} arrow={this.props.arrow}/>))}
             </div>)
         })
 
@@ -98,7 +98,9 @@ class List extends React.Component {
 export default class App extends React.Component {
     state = {
         isTooltipActive: false,
-        users: {list: []}
+        users: {list: []},
+        placement: 'right',
+        arrow: true
     }
     showTooltip() {
         this.setState({isTooltipActive: true})
@@ -114,16 +116,36 @@ export default class App extends React.Component {
                 this.setState({users: res.body})
             })
     }
+    handleOnChange() {
+        this.setState({
+            placement: React.findDOMNode(this.refs.placement).value,
+            arrow: !this.state.arrow
+        })
+    }
     render() {
         return (
             <div className="row" style={{marginTop: 20}}>
-                <List data={this.state.users.list}/>
-                {/*<div className="col-lg-6">
-                    <button id="text2" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Hover me</button>
-                    <ToolTip active={this.state.isTooltipActive} parent="#text2">
-                        <div>Hey I am a tooltip too</div>
-                    </ToolTip>
-                </div>*/}
+                <div className="col-lg-12">
+                    <div className="row">
+                        <div className="col-lg-4">
+                            <label htmlFor="placement-select" style={{marginRight: 10}}>Position:</label>
+                            <select onChange={::this.handleOnChange} ref="placement" defaultValue="right">
+                                <option value="top">top</option>
+                                <option value="right">right</option>
+                                <option value="bottom">bottom</option>
+                                <option value="left">left</option>
+                            </select>
+                        </div>
+                        <div className="col-lg-4">
+                            <label htmlFor="arrow" style={{marginRight: 10}}>Display arrow</label>
+                            <input type="checkbox" onChange={::this.handleOnChange} checked={this.state.arrow}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <h4 className="col-lg-12">Hover the usernames to display the tooltips</h4>
+                    </div>
+                    <List data={this.state.users.list} placement={this.state.placement} arrow={this.state.arrow}/>
+                </div>
             </div>
         )
     }
