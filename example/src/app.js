@@ -34,7 +34,7 @@ class User extends React.Component {
         return (
             <div className={this.props.className} style={{cursor: 'pointer'}}>
                 <span id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>{this.props.username}</span>
-                <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`}>
+                <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`} placement="top">
                     <div className="row" style={User.coverWrapperStyle}>
                         <img src={this.props.cover_250_url} style={User.coverStyle}/>
                         <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>
