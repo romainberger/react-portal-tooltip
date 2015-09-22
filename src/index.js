@@ -17,7 +17,7 @@ class Card extends React.Component {
     height: 0
   }
   get style() {
-    let parent = this.props.parent
+    let parent = this.props.parentEl
     let position = parent.getBoundingClientRect()
     let top = window.scrollY + position.top
     let left = window.scrollX + position.left
@@ -34,9 +34,6 @@ class Card extends React.Component {
       zIndex: 50
     }
 
-    // wrong math everywhere
-    // also needs to take into account the position relative to the window
-    // to prevent shit going out of window
     switch (this.props.placement) {
       case 'left':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
@@ -75,19 +72,19 @@ class Card extends React.Component {
       case 'left':
         style.right = -10
         style.top = '50%'
-        style.marginTop = -9
+        style.marginTop = -7
         style.borderLeft = '10px solid #fff'
-        style.borderTop = '10px solid transparent'
-        style.borderBottom = '10px solid transparent'
+        style.borderTop = '8px solid transparent'
+        style.borderBottom = '8px solid transparent'
         break
 
       case 'right':
         style.left = -10
         style.top = '50%'
-        style.marginTop = -9
+        style.marginTop = -7
         style.borderRight = '10px solid #fff'
-        style.borderTop = '10px solid transparent'
-        style.borderBottom = '10px solid transparent'
+        style.borderTop = '8px solid transparent'
+        style.borderBottom = '8px solid transparent'
         break
 
       case 'top':
@@ -95,8 +92,8 @@ class Card extends React.Component {
         style.left = '50%'
         style.marginLeft = -10
         style.borderTop = '10px solid #fff'
-        style.borderLeft = '10px solid transparent'
-        style.borderRight = '10px solid transparent'
+        style.borderLeft = '8px solid transparent'
+        style.borderRight = '8px solid transparent'
         break
 
       case 'bottom':
@@ -104,8 +101,8 @@ class Card extends React.Component {
         style.left = '50%'
         style.marginLeft = -10
         style.borderBottom = '10px solid #fff'
-        style.borderLeft = '10px solid transparent'
-        style.borderRight = '10px solid transparent'
+        style.borderLeft = '8px solid transparent'
+        style.borderRight = '8px solid transparent'
         break
     }
 
@@ -119,19 +116,19 @@ class Card extends React.Component {
       case 'left':
         style.right = -11
         style.top = '50%'
-        style.marginTop = -10
+        style.marginTop = -8
         style.borderLeft = '11px solid rgba(0,0,0,.4)'
-        style.borderTop = '11px solid transparent'
-        style.borderBottom = '11px solid transparent'
+        style.borderTop = '9px solid transparent'
+        style.borderBottom = '9px solid transparent'
         break
 
       case 'right':
         style.left = -11
         style.top = '50%'
-        style.marginTop = -10
+        style.marginTop = -8
         style.borderRight = '11px solid rgba(0,0,0,.4)'
-        style.borderTop = '11px solid transparent'
-        style.borderBottom = '11px solid transparent'
+        style.borderTop = '9px solid transparent'
+        style.borderBottom = '9px solid transparent'
         break
 
       case 'top':
@@ -139,8 +136,8 @@ class Card extends React.Component {
         style.left = '50%'
         style.marginLeft = -11
         style.borderTop = '11px solid rgba(0,0,0,.4)'
-        style.borderLeft = '11px solid transparent'
-        style.borderRight = '11px solid transparent'
+        style.borderLeft = '9px solid transparent'
+        style.borderRight = '9px solid transparent'
         break
 
       case 'bottom':
@@ -148,8 +145,8 @@ class Card extends React.Component {
         style.left = '50%'
         style.marginLeft = -11
         style.borderBottom = '11px solid rgba(0,0,0,.4)'
-        style.borderLeft = '11px solid transparent'
-        style.borderRight = '11px solid transparent'
+        style.borderLeft = '9px solid transparent'
+        style.borderRight = '9px solid transparent'
         break
     }
 
@@ -219,7 +216,9 @@ export default class ToolTip extends React.Component {
     this.renderPortal(newProps)
   }
   renderPortal(props) {
-    React.render(<Card {...props} placement={props.placement} parent={document.querySelector(props.parent)}/>, portalNode)
+    let {parent, ...other} = props
+    let parentEl = document.querySelector(parent)
+    React.render(<Card parentEl={parentEl} {...other} />, portalNode)
   }
   shouldComponentUpdate() {
     return false
