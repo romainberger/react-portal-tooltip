@@ -4,11 +4,13 @@ import isClient from 'is-client'
 class Card extends React.Component {
   static PropTypes = {
     active: PropTypes.bool,
-    placement: PropTypes.string
+    placement: PropTypes.string,
+    arrow: PropTypes.bool
   }
   static defaultProps = {
     active: false,
-    placement: 'right'
+    placement: 'right',
+    arrow: true
   }
   state = {
     hover: false,
@@ -172,8 +174,13 @@ class Card extends React.Component {
   render() {
     return (
       <div style={this.style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
-        <span style={this.arrowStyle}/>
-        <span style={this.bgArrowStyle}/>
+        {this.props.arrow ? (
+          <div>
+            <span style={this.arrowStyle}/>
+            <span style={this.bgArrowStyle}/>
+          </div>)
+          : null
+        }
         {this.props.children}
       </div>
     )
