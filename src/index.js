@@ -26,7 +26,7 @@ class Card extends React.Component {
       position: 'absolute',
       padding: '5px',
       background: '#fff',
-      boxShadow: '0 0 8px rgba(0,0,0,.5)',
+      boxShadow: '0 0 8px rgba(0,0,0,.3)',
       borderRadius: '3px',
       transition: `${this.state.transition} .3s ease-in-out, visibility .3s ease-in-out`,
       opacity: this.state.hover || this.props.active ? 1 : 0,
@@ -218,7 +218,7 @@ export default class ToolTip extends React.Component {
   renderPortal(props) {
     let {parent, ...other} = props
     let parentEl = document.querySelector(parent)
-    React.render(<Card parentEl={parentEl} {...other} />, portalNode)
+    React.render(<Card parentEl={parentEl} {...other}/>, portalNode)
   }
   shouldComponentUpdate() {
     return false
