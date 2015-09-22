@@ -1,6 +1,6 @@
 {
   "name": "react-portal-tooltip",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Awesome React tooltips",
   "main": "lib/index.js",
   "repository": {
