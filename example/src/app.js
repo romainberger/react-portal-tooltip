@@ -119,7 +119,7 @@ export default class App extends React.Component {
     handleOnChange() {
         this.setState({
             placement: React.findDOMNode(this.refs.placement).value,
-            arrow: !this.state.arrow
+            arrow: React.findDOMNode(this.refs.arrow).checked
         })
     }
     escape(html) {
@@ -163,7 +163,7 @@ export default class App extends React.Component {
                         </div>
                         <div className="col-lg-4">
                             <label htmlFor="arrow" style={{marginRight: 10}}>Display arrow</label>
-                            <input type="checkbox" onChange={::this.handleOnChange} checked={this.state.arrow}/>
+                            <input type="checkbox" onChange={::this.handleOnChange} checked={this.state.arrow} ref="arrow"/>
                         </div>
                     </div>
                     <div className="row">
