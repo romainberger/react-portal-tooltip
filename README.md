@@ -2,11 +2,15 @@
 
 Awesome tooltips.
 
-[Live demo](http://romainberger.github.io/react-portal-tooltip/)
+![react tooltip](https://raw.githubusercontent.com/romainberger/react-portal-tooltip/master/react-portal-tooltip.gif)
 
 ## Installation
 
     $ npm install react-portal-tooltip
+
+## Documentation and demo
+
+[http://romainberger.github.io/react-portal-tooltip/](http://romainberger.github.io/react-portal-tooltip/)
 
 ## Usage
 
@@ -46,3 +50,8 @@ class MyComponent extends React.Component {
 * `placement`: top, right, bottom or let. default to right
 * `parent`: the tooltip will be placed next to this element
 * `arrow`: boolean, display an arrow pointing to the parent or not
+* `group`: string, necessary if you want several independant tooltips
+
+## License
+
+MIT

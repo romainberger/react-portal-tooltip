@@ -19,6 +19,10 @@ class Card extends React.Component {
     height: 0
   }
   get style() {
+    if (!this.props.parentEl) {
+      return {display: 'none'}
+    }
+
     let parent = this.props.parentEl
     let position = parent.getBoundingClientRect()
     let top = window.scrollY + position.top
@@ -160,15 +164,16 @@ class Card extends React.Component {
   }
 }
 
-var portalNode = false,
-    renderTimeout = 0
+var portalNodes = {}
 
 export default class ToolTip extends React.Component {
   static defaultProps = {
-    active: false
+    active: false,
+    group: 'main'
   }
   static propTypes = {
-    active: PropTypes.bool
+    active: PropTypes.bool,
+    group: PropTypes.string
   }
   componentDidMount() {
     if (!this.props.active) {
@@ -180,16 +185,18 @@ export default class ToolTip extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (!portalNode && !nextProps.active) {
+    if ((!portalNodes[this.props.group] && !nextProps.active)) {
       return
     }
 
     let newProps = nextProps
-    clearTimeout(renderTimeout)
+    if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
+      clearTimeout(portalNodes[this.props.group].timeout)
+    }
 
-    if (!nextProps.active) {
+    if (this.props.active && !nextProps.active) {
       newProps.active = true
-      renderTimeout = setTimeout(() => {
+      portalNodes[this.props.group].timeout = setTimeout(() => {
         nextProps.active = false
         this.renderPortal(nextProps)
       }, 500)
@@ -197,18 +204,24 @@ export default class ToolTip extends React.Component {
 
     this.renderPortal(newProps)
   }
+  componentWillUnmount() {
+    portalNodes[this.props.group] && React.unmountComponentAtNode(portalNodes[this.props.group].el)
+  }
   createPortal() {
-    portalNode = document.createElement('div')
-    portalNode.className = 'ToolTipPortal'
-    document.body.appendChild(portalNode)
+    portalNodes[this.props.group] = {
+      el: document.createElement('div'),
+      timeout: false
+    }
+    portalNodes[this.props.group].el.className = 'ToolTipPortal'
+    document.body.appendChild(portalNodes[this.props.group].el)
   }
   renderPortal(props) {
-    if (!portalNode) {
+    if (!portalNodes[this.props.group]) {
       this.createPortal()
     }
     let {parent, ...other} = props
     let parentEl = document.querySelector(parent)
-    React.render(<Card parentEl={parentEl} {...other}/>, portalNode)
+    React.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].el)
   }
   shouldComponentUpdate() {
     return false
