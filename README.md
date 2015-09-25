@@ -2,6 +2,8 @@
 
 Awesome tooltips.
 
+![react tooltip](https://raw.githubusercontent.com/romainberger/react-portal-tooltip/master/react-portal-tooltip.gif)
+
 [Live demo](http://romainberger.github.io/react-portal-tooltip/)
 
 ## Installation
