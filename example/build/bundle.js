@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c9d1e909420a6a765a19"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8b01d691967cb4487d66"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -21625,8 +21625,20 @@
 	        value: function handleOnChange() {
 	            this.setState({
 	                placement: _react2['default'].findDOMNode(this.refs.placement).value,
-	                arrow: !this.state.arrow
+	                arrow: _react2['default'].findDOMNode(this.refs.arrow).checked
 	            });
+	        }
+	    }, {
+	        key: 'escape',
+	        value: function escape(html) {
+	            return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML;
+	        }
+	    }, {
+	        key: 'getCode',
+	        value: function getCode() {
+	            return {
+	                __html: this.escape('<ToolTip active={' + this.state.isTooltipActive + '} parent="#user" placement="' + this.state.placement + '"" arrow={' + this.state.arrow + '}>\n    <div className="row" style={User.coverWrapperStyle}>\n        <img src={this.props.cover_250_url} style={User.coverStyle}/>\n        <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>\n    </div>\n    <div className="row">\n        <div className="col-sm-12">\n            <div style={{padding: \'30px 10px 10px 10px\'}}>\n                <a href="#">{this.props.screenname}</a>\n                <span className="text-muted pull-right">\n                    {this.props.videos_total} videos\n                    &nbsp;&nbsp;\n                    {this.props.fans_total} followers\n                </span>\n            </div>\n        </div>\n    </div>\n</ToolTip>')
+	            };
 	        }
 	    }, {
 	        key: 'render',
@@ -21681,7 +21693,7 @@
 	                                { htmlFor: 'arrow', style: { marginRight: 10 } },
 	                                'Display arrow'
 	                            ),
-	                            _react2['default'].createElement('input', { type: 'checkbox', onChange: this.handleOnChange.bind(this), checked: this.state.arrow })
+	                            _react2['default'].createElement('input', { type: 'checkbox', onChange: this.handleOnChange.bind(this), checked: this.state.arrow, ref: 'arrow' })
 	                        )
 	                    ),
 	                    _react2['default'].createElement(
@@ -21693,7 +21705,16 @@
 	                            'Hover the usernames to display the tooltips'
 	                        )
 	                    ),
-	                    _react2['default'].createElement(List, { data: this.state.users.list, placement: this.state.placement, arrow: this.state.arrow })
+	                    _react2['default'].createElement(List, { data: this.state.users.list, placement: this.state.placement, arrow: this.state.arrow }),
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        _react2['default'].createElement(
+	                            'div',
+	                            { className: 'col-lg-12' },
+	                            _react2['default'].createElement('pre', { dangerouslySetInnerHTML: this.getCode() })
+	                        )
+	                    )
 	                )
 	            );
 	        }
@@ -21792,8 +21813,8 @@
 	        this.props.arrow ? _react2['default'].createElement(
 	          'div',
 	          null,
-	          _react2['default'].createElement('span', { style: this.arrowStyle }),
-	          _react2['default'].createElement('span', { style: this.bgArrowStyle })
+	          _react2['default'].createElement('span', { style: this.arrowStyle.fgStyle }),
+	          _react2['default'].createElement('span', { style: this.arrowStyle.bgStyle })
 	        ) : null,
 	        this.props.children
 	      );
@@ -21814,7 +21835,7 @@
 	        borderRadius: '3px',
 	        transition: this.state.transition + ' .3s ease-in-out, visibility .3s ease-in-out',
 	        opacity: this.state.hover || this.props.active ? 1 : 0,
-	        visibilty: this.state.hover || this.props.active ? 'visible' : 'hidden',
+	        visibility: this.state.hover || this.props.active ? 'visible' : 'hidden',
 	        zIndex: 50
 	      };
 
@@ -21853,94 +21874,62 @@
 	  }, {
 	    key: 'arrowStyle',
 	    get: function get() {
-	      var style = this.baseArrowStyle;
-	      style.zIndex = 60;
+	      var fgStyle = this.baseArrowStyle;
+	      var bgStyle = this.baseArrowStyle;
+	      fgStyle.zIndex = 60;
+	      bgStyle.zIndex = 55;
 
-	      switch (this.props.placement) {
-	        case 'left':
-	          style.right = -10;
-	          style.top = '50%';
-	          style.marginTop = -7;
-	          style.borderLeft = '10px solid #fff';
-	          style.borderTop = '8px solid transparent';
-	          style.borderBottom = '8px solid transparent';
-	          break;
+	      var fgColorBorder = '10px solid #fff';
+	      var fgTransBorder = '8px solid transparent';
+	      var bgColorBorder = '11px solid rgba(0,0,0,.4)';
+	      var bgTransBorder = '9px solid transparent';
 
-	        case 'right':
-	          style.left = -10;
-	          style.top = '50%';
-	          style.marginTop = -7;
-	          style.borderRight = '10px solid #fff';
-	          style.borderTop = '8px solid transparent';
-	          style.borderBottom = '8px solid transparent';
-	          break;
+	      if (this.props.placement === 'left' || this.props.placement === 'right') {
+	        fgStyle.top = '50%';
+	        fgStyle.borderTop = fgTransBorder;
+	        fgStyle.borderBottom = fgTransBorder;
+	        fgStyle.marginTop = -7;
 
-	        case 'top':
-	          style.bottom = -10;
-	          style.left = '50%';
-	          style.marginLeft = -10;
-	          style.borderTop = '10px solid #fff';
-	          style.borderLeft = '8px solid transparent';
-	          style.borderRight = '8px solid transparent';
-	          break;
+	        bgStyle.borderTop = bgTransBorder;
+	        bgStyle.borderBottom = bgTransBorder;
+	        bgStyle.top = '50%';
+	        bgStyle.marginTop = -8;
 
-	        case 'bottom':
-	          style.top = -10;
-	          style.left = '50%';
-	          style.marginLeft = -10;
-	          style.borderBottom = '10px solid #fff';
-	          style.borderLeft = '8px solid transparent';
-	          style.borderRight = '8px solid transparent';
-	          break;
+	        if (this.props.placement === 'left') {
+	          fgStyle.right = -10;
+	          fgStyle.borderLeft = fgColorBorder;
+	          bgStyle.right = -11;
+	          bgStyle.borderLeft = bgColorBorder;
+	        } else {
+	          fgStyle.left = -10;
+	          fgStyle.borderRight = fgColorBorder;
+	          bgStyle.left = -11;
+	          bgStyle.borderRight = bgColorBorder;
+	        }
+	      } else {
+	        fgStyle.left = '50%';
+	        fgStyle.marginLeft = -10;
+	        fgStyle.borderLeft = fgTransBorder;
+	        fgStyle.borderRight = fgTransBorder;
+	        bgStyle.left = '50%';
+	        bgStyle.marginLeft = -11;
+	        bgStyle.borderLeft = bgTransBorder;
+	        bgStyle.borderRight = bgTransBorder;
+
+	        if (this.props.placement === 'top') {
+	          fgStyle.bottom = -10;
+	          fgStyle.borderTop = fgColorBorder;
+	          bgStyle.bottom = -11;
+	          bgStyle.borderTop = bgColorBorder;
+	        } else {
+	          fgStyle.top = -10;
+	          fgStyle.borderBottom = fgColorBorder;
+	          bgStyle.top = -11;
+	          bgStyle.borderBottom = bgColorBorder;
+	        }
 	      }
 
-	      return style;
-	    }
-	  }, {
-	    key: 'bgArrowStyle',
-	    get: function get() {
-	      var style = this.baseArrowStyle;
-	      style.zIndex = 55;
-
-	      switch (this.props.placement) {
-	        case 'left':
-	          style.right = -11;
-	          style.top = '50%';
-	          style.marginTop = -8;
-	          style.borderLeft = '11px solid rgba(0,0,0,.4)';
-	          style.borderTop = '9px solid transparent';
-	          style.borderBottom = '9px solid transparent';
-	          break;
-
-	        case 'right':
-	          style.left = -11;
-	          style.top = '50%';
-	          style.marginTop = -8;
-	          style.borderRight = '11px solid rgba(0,0,0,.4)';
-	          style.borderTop = '9px solid transparent';
-	          style.borderBottom = '9px solid transparent';
-	          break;
-
-	        case 'top':
-	          style.bottom = -11;
-	          style.left = '50%';
-	          style.marginLeft = -11;
-	          style.borderTop = '11px solid rgba(0,0,0,.4)';
-	          style.borderLeft = '9px solid transparent';
-	          style.borderRight = '9px solid transparent';
-	          break;
-
-	        case 'bottom':
-	          style.top = -11;
-	          style.left = '50%';
-	          style.marginLeft = -11;
-	          style.borderBottom = '11px solid rgba(0,0,0,.4)';
-	          style.borderLeft = '9px solid transparent';
-	          style.borderRight = '9px solid transparent';
-	          break;
-	      }
-
-	      return style;
+	      return { fgStyle: fgStyle, bgStyle: bgStyle };
 	    }
 	  }], [{
 	    key: 'PropTypes',
@@ -21978,13 +21967,11 @@
 	  _createClass(ToolTip, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      if (portalNode) {
-	        this.renderPortal(this.props);
+	      if (!this.props.active) {
+	        return;
 	      }
-	      if ((0, _isClient2['default'])() && !portalNode) {
-	        portalNode = document.createElement('div');
-	        portalNode.className = 'ToolTipPortal';
-	        document.body.appendChild(portalNode);
+
+	      if ((0, _isClient2['default'])()) {
 	        this.renderPortal(this.props);
 	      }
 	    }
@@ -21992,6 +21979,10 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      var _this = this;
+
+	      if (!portalNode && !nextProps.active) {
+	        return;
+	      }
 
 	      var newProps = nextProps;
 	      clearTimeout(renderTimeout);
@@ -22007,8 +21998,18 @@
 	      this.renderPortal(newProps);
 	    }
 	  }, {
+	    key: 'createPortal',
+	    value: function createPortal() {
+	      portalNode = document.createElement('div');
+	      portalNode.className = 'ToolTipPortal';
+	      document.body.appendChild(portalNode);
+	    }
+	  }, {
 	    key: 'renderPortal',
 	    value: function renderPortal(props) {
+	      if (!portalNode) {
+	        this.createPortal();
+	      }
 	      var parent = props.parent;
 
 	      var other = _objectWithoutProperties(props, ['parent']);
