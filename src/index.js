@@ -187,7 +187,7 @@ export default class ToolTip extends React.Component {
     let newProps = nextProps
     clearTimeout(renderTimeout)
 
-    if (!nextProps.active) {
+    if (this.props.active && !nextProps.active) {
       newProps.active = true
       renderTimeout = setTimeout(() => {
         nextProps.active = false
