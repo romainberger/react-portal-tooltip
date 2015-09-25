@@ -122,6 +122,31 @@ export default class App extends React.Component {
             arrow: !this.state.arrow
         })
     }
+    escape(html) {
+        return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
+    }
+    getCode() {
+        return {
+            __html: this.escape(`<ToolTip active={${this.state.isTooltipActive}} parent="#user" placement="${this.state.placement}"" arrow={${this.state.arrow}}>
+    <div className="row" style={User.coverWrapperStyle}>
+        <img src={this.props.cover_250_url} style={User.coverStyle}/>
+        <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>
+    </div>
+    <div className="row">
+        <div className="col-sm-12">
+            <div style={{padding: '30px 10px 10px 10px'}}>
+                <a href="#">{this.props.screenname}</a>
+                <span className="text-muted pull-right">
+                    {this.props.videos_total} videos
+                    &nbsp;&nbsp;
+                    {this.props.fans_total} followers
+                </span>
+            </div>
+        </div>
+    </div>
+</ToolTip>`)
+        }
+    }
     render() {
         return (
             <div className="row" style={{marginTop: 20}}>
@@ -145,6 +170,11 @@ export default class App extends React.Component {
                         <h4 className="col-lg-12">Hover the usernames to display the tooltips</h4>
                     </div>
                     <List data={this.state.users.list} placement={this.state.placement} arrow={this.state.arrow}/>
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <pre dangerouslySetInnerHTML={this.getCode()}/>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

@@ -32,7 +32,7 @@ class Card extends React.Component {
       borderRadius: '3px',
       transition: `${this.state.transition} .3s ease-in-out, visibility .3s ease-in-out`,
       opacity: this.state.hover || this.props.active ? 1 : 0,
-      visibilty: this.state.hover || this.props.active ? 'visible' : 'hidden',
+      visibility: this.state.hover || this.props.active ? 'visible' : 'hidden',
       zIndex: 50
     }
 
@@ -198,17 +198,19 @@ export default class ToolTip extends React.Component {
     active: PropTypes.bool
   }
   componentDidMount() {
-    if (portalNode) {
-      this.renderPortal(this.props)
+    if (!this.props.active) {
+      return
     }
-    if (isClient() && !portalNode) {
-      portalNode = document.createElement('div')
-      portalNode.className = 'ToolTipPortal'
-      document.body.appendChild(portalNode)
+
+    if (isClient()) {
       this.renderPortal(this.props)
     }
   }
   componentWillReceiveProps(nextProps) {
+    if (!portalNode && !nextProps.active) {
+      return
+    }
+
     let newProps = nextProps
     clearTimeout(renderTimeout)
 
@@ -222,7 +224,15 @@ export default class ToolTip extends React.Component {
 
     this.renderPortal(newProps)
   }
+  createPortal() {
+    portalNode = document.createElement('div')
+    portalNode.className = 'ToolTipPortal'
+    document.body.appendChild(portalNode)
+  }
   renderPortal(props) {
+    if (!portalNode) {
+      this.createPortal()
+    }
     let {parent, ...other} = props
     let parentEl = document.querySelector(parent)
     React.render(<Card parentEl={parentEl} {...other}/>, portalNode)
