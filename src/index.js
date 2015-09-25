@@ -67,92 +67,65 @@ class Card extends React.Component {
     }
   }
   get arrowStyle() {
-    let style = this.baseArrowStyle
-    style.zIndex = 60
+    let fgStyle = this.baseArrowStyle
+    let bgStyle = this.baseArrowStyle
+    fgStyle.zIndex = 60
+    bgStyle.zIndex = 55
 
-    switch (this.props.placement) {
-      case 'left':
-        style.right = -10
-        style.top = '50%'
-        style.marginTop = -7
-        style.borderLeft = '10px solid #fff'
-        style.borderTop = '8px solid transparent'
-        style.borderBottom = '8px solid transparent'
-        break
+    let fgColorBorder = '10px solid #fff'
+    let fgTransBorder = '8px solid transparent'
+    let bgColorBorder = '11px solid rgba(0,0,0,.4)'
+    let bgTransBorder = '9px solid transparent'
 
-      case 'right':
-        style.left = -10
-        style.top = '50%'
-        style.marginTop = -7
-        style.borderRight = '10px solid #fff'
-        style.borderTop = '8px solid transparent'
-        style.borderBottom = '8px solid transparent'
-        break
+    if (this.props.placement === 'left' || this.props.placement === 'right') {
+      fgStyle.top = '50%'
+      fgStyle.borderTop = fgTransBorder
+      fgStyle.borderBottom = fgTransBorder
+      fgStyle.marginTop = -7
 
-      case 'top':
-        style.bottom = -10
-        style.left = '50%'
-        style.marginLeft = -10
-        style.borderTop = '10px solid #fff'
-        style.borderLeft = '8px solid transparent'
-        style.borderRight = '8px solid transparent'
-        break
+      bgStyle.borderTop = bgTransBorder
+      bgStyle.borderBottom = bgTransBorder
+      bgStyle.top = '50%'
+      bgStyle.marginTop = -8
 
-      case 'bottom':
-        style.top = -10
-        style.left = '50%'
-        style.marginLeft = -10
-        style.borderBottom = '10px solid #fff'
-        style.borderLeft = '8px solid transparent'
-        style.borderRight = '8px solid transparent'
-        break
+      if (this.props.placement === 'left') {
+        fgStyle.right = -10
+        fgStyle.borderLeft = fgColorBorder
+        bgStyle.right = -11
+        bgStyle.borderLeft = bgColorBorder
+      }
+      else {
+        fgStyle.left = -10
+        fgStyle.borderRight = fgColorBorder
+        bgStyle.left = -11
+        bgStyle.borderRight = bgColorBorder
+      }
+    }
+    else {
+      fgStyle.left = '50%'
+      fgStyle.marginLeft = -10
+      fgStyle.borderLeft = fgTransBorder
+      fgStyle.borderRight = fgTransBorder
+      bgStyle.left = '50%'
+      bgStyle.marginLeft = -11
+      bgStyle.borderLeft = bgTransBorder
+      bgStyle.borderRight = bgTransBorder
+
+      if (this.props.placement === 'top') {
+        fgStyle.bottom = -10
+        fgStyle.borderTop = fgColorBorder
+        bgStyle.bottom = -11
+        bgStyle.borderTop = bgColorBorder
+      }
+      else {
+        fgStyle.top = -10
+        fgStyle.borderBottom = fgColorBorder
+        bgStyle.top = -11
+        bgStyle.borderBottom = bgColorBorder
+      }
     }
 
-    return style
-  }
-  get bgArrowStyle() {
-    let style = this.baseArrowStyle
-    style.zIndex = 55
-
-    switch (this.props.placement) {
-      case 'left':
-        style.right = -11
-        style.top = '50%'
-        style.marginTop = -8
-        style.borderLeft = '11px solid rgba(0,0,0,.4)'
-        style.borderTop = '9px solid transparent'
-        style.borderBottom = '9px solid transparent'
-        break
-
-      case 'right':
-        style.left = -11
-        style.top = '50%'
-        style.marginTop = -8
-        style.borderRight = '11px solid rgba(0,0,0,.4)'
-        style.borderTop = '9px solid transparent'
-        style.borderBottom = '9px solid transparent'
-        break
-
-      case 'top':
-        style.bottom = -11
-        style.left = '50%'
-        style.marginLeft = -11
-        style.borderTop = '11px solid rgba(0,0,0,.4)'
-        style.borderLeft = '9px solid transparent'
-        style.borderRight = '9px solid transparent'
-        break
-
-      case 'bottom':
-        style.top = -11
-        style.left = '50%'
-        style.marginLeft = -11
-        style.borderBottom = '11px solid rgba(0,0,0,.4)'
-        style.borderLeft = '9px solid transparent'
-        style.borderRight = '9px solid transparent'
-        break
-    }
-
-    return style
+    return {fgStyle, bgStyle}
   }
   handleMouseEnter() {
     this.props.active && this.setState({hover: true})
@@ -176,8 +149,8 @@ class Card extends React.Component {
       <div style={this.style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
         {this.props.arrow ? (
           <div>
-            <span style={this.arrowStyle}/>
-            <span style={this.bgArrowStyle}/>
+            <span style={this.arrowStyle.fgStyle}/>
+            <span style={this.arrowStyle.bgStyle}/>
           </div>)
           : null
         }
