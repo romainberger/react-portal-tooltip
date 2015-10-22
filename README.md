@@ -47,7 +47,11 @@ class MyComponent extends React.Component {
 ### Props
 
 * `active`: boolean, the tooltip will be visible if true
-* `placement`: top, right, bottom or let. default to right
+* `placement`: default to right
+  * top, top-right, top-left
+  * right, right-top, right-bottom
+  * bottom, bottom-right, bottom-left
+  * left, left-top, left-bottom
 * `parent`: the tooltip will be placed next to this element
 * `arrow`: boolean, display an arrow pointing to the parent or not
 * `group`: string, necessary if you want several independant tooltips

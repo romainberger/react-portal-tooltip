@@ -75,10 +75,26 @@ export default class Home extends React.Component {
             <div className="col-lg-4">
               <label htmlFor="placement-select" style={{marginRight: 10}}>Position:</label>
               <select id="placement-select" onChange={::this.handleOnChange} ref="placement" defaultValue="right">
-                <option value="top">top</option>
-                <option value="right">right</option>
-                <option value="bottom">bottom</option>
-                <option value="left">left</option>
+                <optgroup label="top">
+                  <option value="top">top</option>
+                  <option value="top-left">top-left</option>
+                  <option value="top-right">top-right</option>
+                </optgroup>
+                <optgroup label="right">
+                  <option value="right">right</option>
+                  <option value="right-top">right-top</option>
+                  <option value="right-bottom">right-bottom</option>
+                </optgroup>
+                <optgroup label="bottom">
+                  <option value="bottom">bottom</option>
+                  <option value="bottom-left">bottom-left</option>
+                  <option value="bottom-right">bottom-right</option>
+                </optgroup>
+                <optgroup label="left">
+                  <option value="left">left</option>
+                  <option value="left-top">left-top</option>
+                  <option value="left-bottom">left-bottom</option>
+                </optgroup>
               </select>
             </div>
             <div className="col-lg-4">

@@ -4,7 +4,20 @@ import isClient from 'is-client'
 class Card extends React.Component {
   static PropTypes = {
     active: PropTypes.bool,
-    placement: PropTypes.string,
+    placement: PropTypes.oneOf([
+      'top',
+      'top-left',
+      'top-right',
+      'right',
+      'right-top',
+      'right-bottom',
+      'bottom',
+      'bottom-left',
+      'bottom-right',
+      'left',
+      'left-top',
+      'left-bottom'
+    ]),
     arrow: PropTypes.bool
   }
   static defaultProps = {
@@ -46,8 +59,28 @@ class Card extends React.Component {
         style.left = left - this.state.width - 15
         break
 
+      case 'left-top':
+        style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
+        style.left = left - this.state.width - 15
+        break
+
+      case 'left-bottom':
+        style.top = (top + parent.offsetHeight / 2) - 15
+        style.left = left - this.state.width - 15
+        break
+
       case 'right':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left + parent.offsetWidth + 15
+        break
+
+      case 'right-top':
+        style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
+        style.left = left + parent.offsetWidth + 15
+        break
+
+      case 'right-bottom':
+        style.top = (top + parent.offsetHeight / 2) - 15
         style.left = left + parent.offsetWidth + 15
         break
 
@@ -56,8 +89,28 @@ class Card extends React.Component {
         style.top = top - this.state.height - 15
         break
 
+      case 'top-right':
+        style.left = left + parent.offsetWidth / 2 - 15
+        style.top = top - this.state.height - 15
+        break
+
+      case 'top-left':
+        style.left = left - this.state.width + parent.offsetWidth / 2 + 15
+        style.top = top - this.state.height - 15
+        break
+
       case 'bottom':
         style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top + parent.offsetHeight + 15
+        break
+
+      case 'bottom-right':
+        style.left = left + parent.offsetWidth / 2 - 15
+        style.top = top + parent.offsetHeight + 15
+        break
+
+      case 'bottom-left':
+        style.left = left - this.state.width + parent.offsetWidth / 2 + 15
         style.top = top + parent.offsetHeight + 15
         break
     }
@@ -81,7 +134,9 @@ class Card extends React.Component {
     let bgColorBorder = '11px solid rgba(0,0,0,.4)'
     let bgTransBorder = '9px solid transparent'
 
-    if (this.props.placement === 'left' || this.props.placement === 'right') {
+    let [main, secondary] = this.props.placement.split('-')
+
+    if (main === 'left' || main === 'right') {
       fgStyle.top = '50%'
       fgStyle.borderTop = fgTransBorder
       fgStyle.borderBottom = fgTransBorder
@@ -92,7 +147,7 @@ class Card extends React.Component {
       bgStyle.top = '50%'
       bgStyle.marginTop = -8
 
-      if (this.props.placement === 'left') {
+      if (main === 'left') {
         fgStyle.right = -10
         fgStyle.borderLeft = fgColorBorder
         bgStyle.right = -11
@@ -103,6 +158,17 @@ class Card extends React.Component {
         fgStyle.borderRight = fgColorBorder
         bgStyle.left = -11
         bgStyle.borderRight = bgColorBorder
+      }
+
+      if (secondary === 'top') {
+        fgStyle.top = null
+        fgStyle.bottom = 16
+        bgStyle.top = null
+        bgStyle.bottom = 15
+      }
+      if (secondary === 'bottom') {
+        fgStyle.top = 15
+        bgStyle.top = 15
       }
     }
     else {
@@ -115,7 +181,7 @@ class Card extends React.Component {
       bgStyle.borderLeft = bgTransBorder
       bgStyle.borderRight = bgTransBorder
 
-      if (this.props.placement === 'top') {
+      if (main === 'top') {
         fgStyle.bottom = -10
         fgStyle.borderTop = fgColorBorder
         bgStyle.bottom = -11
@@ -126,6 +192,21 @@ class Card extends React.Component {
         fgStyle.borderBottom = fgColorBorder
         bgStyle.top = -11
         bgStyle.borderBottom = bgColorBorder
+      }
+
+      if (secondary === 'right') {
+        fgStyle.left = 16
+        fgStyle.marginLeft = 0
+        bgStyle.left = 15
+        bgStyle.marginLeft = 0
+      }
+      if (secondary === 'left') {
+        fgStyle.left = null
+        fgStyle.right = 16
+        fgStyle.marginLeft = 0
+        bgStyle.left = null
+        bgStyle.right = 15
+        bgStyle.marginLeft = 0
       }
     }
 
