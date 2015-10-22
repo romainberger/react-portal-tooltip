@@ -6,7 +6,7 @@
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --progress --colors --display-error-details"
+    "build": "BUILD=true webpack --progress --colors --display-error-details"
   },
   "dependencies": {
     "babel-core": "^5.8.21",
