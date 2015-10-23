@@ -32,7 +32,7 @@ class MyComponent extends React.Component {
         return (
             <div>
                 <p id="text" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>This is a cool component</p>
-                <ToolTip active={this.state.isTooltipActive} placement="top" parent="#text">
+                <ToolTip active={this.state.isTooltipActive} placement="top" arrow="center" parent="#text">
                     <div>
                         <p>This is the content of the tooltip</p>
                         <img src="image.png"/>
@@ -47,13 +47,9 @@ class MyComponent extends React.Component {
 ### Props
 
 * `active`: boolean, the tooltip will be visible if true
-* `placement`: default to right
-  * top, top-right, top-left
-  * right, right-top, right-bottom
-  * bottom, bottom-right, bottom-left
-  * left, left-top, left-bottom
+* `placement`: top, right, bottom or left. Default to right
+* `arrow`: center, right, left, top or bottom (depending on the placement prop). No arrow when the prop is not sepecified
 * `parent`: the tooltip will be placed next to this element
-* `arrow`: boolean, display an arrow pointing to the parent or not
 * `group`: string, necessary if you want several independant tooltips
 
 ## License
