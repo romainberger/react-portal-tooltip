@@ -26292,9 +26292,10 @@
 	  }, {
 	    key: 'handleOnChange',
 	    value: function handleOnChange() {
+	      var arrow = _react2['default'].findDOMNode(this.refs.arrow).value === 'disable' ? null : _react2['default'].findDOMNode(this.refs.arrow).value;
 	      this.setState({
 	        placement: _react2['default'].findDOMNode(this.refs.placement).value,
-	        arrow: _react2['default'].findDOMNode(this.refs.arrow).checked
+	        arrow: arrow
 	      });
 	    }
 	  }, {
@@ -26306,15 +26307,47 @@
 	    key: 'getBasicExample',
 	    value: function getBasicExample() {
 	      return {
-	        __html: this.escape('<ToolTip active={true} parent="#parent" placement="right" arrow={true}>\n  ToolTip content here\n</ToolTip>')
+	        __html: this.escape('<ToolTip active={true} parent="#parent" placement="right" arrow="center">\n  ToolTip content here\n</ToolTip>')
 	      };
 	    }
 	  }, {
-	    key: 'getCode',
-	    value: function getCode() {
-	      return {
-	        __html: this.escape('<ToolTip active={this.state.isTooltipActive} parent="#user" placement="' + this.state.placement + '"" arrow={' + this.state.arrow + '}>\n    <div className="row" style={User.coverWrapperStyle}>\n        <img src={this.props.cover_250_url} style={User.coverStyle}/>\n        <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>\n    </div>\n    <div className="row">\n        <div className="col-sm-12">\n            <div style={{padding: \'30px 10px 10px 10px\'}}>\n                <a href="#">{this.props.screenname}</a>\n                <span className="text-muted pull-right">\n                    {this.props.videos_total} videos\n                    &nbsp;&nbsp;\n                    {this.props.fans_total} followers\n                </span>\n            </div>\n        </div>\n    </div>\n</ToolTip>')
-	      };
+	    key: 'getArrowOptions',
+	    value: function getArrowOptions() {
+	      var node = _react2['default'].findDOMNode(this.refs.placement);
+	      var value = node ? node.value : 'right';
+	      var options = [_react2['default'].createElement(
+	        'option',
+	        { value: null, key: 'arrow-null' },
+	        'disable'
+	      ), _react2['default'].createElement(
+	        'option',
+	        { value: 'center', key: 'arrow-center' },
+	        'center'
+	      )];
+
+	      if (value === 'top' || value === 'bottom') {
+	        options = options.concat([_react2['default'].createElement(
+	          'option',
+	          { value: 'right', key: 'arrow-right' },
+	          'right'
+	        ), _react2['default'].createElement(
+	          'option',
+	          { value: 'left', key: 'arrow-left' },
+	          'left'
+	        )]);
+	      } else {
+	        options = options.concat([_react2['default'].createElement(
+	          'option',
+	          { value: 'top', key: 'arrow-top' },
+	          'top'
+	        ), _react2['default'].createElement(
+	          'option',
+	          { value: 'bottom', key: 'arrow-bottom' },
+	          'bottom'
+	        )]);
+	      }
+
+	      return options;
 	    }
 	  }, {
 	    key: 'render',
@@ -26348,7 +26381,7 @@
 	                ),
 	                _react2['default'].createElement(
 	                  _src2['default'],
-	                  { active: this.state.isTooltipActive, parent: '#result', placement: 'right', arrow: true, group: 'result' },
+	                  { active: this.state.isTooltipActive, parent: '#result', placement: 'right', arrow: 'center', group: 'result' },
 	                  'Tooltip content here'
 	                )
 	              )
@@ -26359,7 +26392,7 @@
 	            { className: 'row' },
 	            _react2['default'].createElement(
 	              'div',
-	              { className: 'col-lg-4' },
+	              { className: 'col-lg-3' },
 	              _react2['default'].createElement(
 	                'label',
 	                { htmlFor: 'placement-select', style: { marginRight: 10 } },
@@ -26369,92 +26402,40 @@
 	                'select',
 	                { id: 'placement-select', onChange: this.handleOnChange.bind(this), ref: 'placement', defaultValue: 'right' },
 	                _react2['default'].createElement(
-	                  'optgroup',
-	                  { label: 'top' },
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'top' },
-	                    'top'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'top-left' },
-	                    'top-left'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'top-right' },
-	                    'top-right'
-	                  )
+	                  'option',
+	                  { value: 'top' },
+	                  'top'
 	                ),
 	                _react2['default'].createElement(
-	                  'optgroup',
-	                  { label: 'right' },
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'right' },
-	                    'right'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'right-top' },
-	                    'right-top'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'right-bottom' },
-	                    'right-bottom'
-	                  )
+	                  'option',
+	                  { value: 'right' },
+	                  'right'
 	                ),
 	                _react2['default'].createElement(
-	                  'optgroup',
-	                  { label: 'bottom' },
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'bottom' },
-	                    'bottom'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'bottom-left' },
-	                    'bottom-left'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'bottom-right' },
-	                    'bottom-right'
-	                  )
+	                  'option',
+	                  { value: 'bottom' },
+	                  'bottom'
 	                ),
 	                _react2['default'].createElement(
-	                  'optgroup',
-	                  { label: 'left' },
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'left' },
-	                    'left'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'left-top' },
-	                    'left-top'
-	                  ),
-	                  _react2['default'].createElement(
-	                    'option',
-	                    { value: 'left-bottom' },
-	                    'left-bottom'
-	                  )
+	                  'option',
+	                  { value: 'left' },
+	                  'left'
 	                )
 	              )
 	            ),
 	            _react2['default'].createElement(
 	              'div',
-	              { className: 'col-lg-4' },
+	              { className: 'col-lg-3' },
 	              _react2['default'].createElement(
 	                'label',
 	                { htmlFor: 'arrow', style: { marginRight: 10 } },
-	                'Display arrow'
+	                'Arrow:'
 	              ),
-	              _react2['default'].createElement('input', { id: 'arrow', type: 'checkbox', onChange: this.handleOnChange.bind(this), checked: this.state.arrow, ref: 'arrow' })
+	              _react2['default'].createElement(
+	                'select',
+	                { id: 'arrow', onChange: this.handleOnChange.bind(this), ref: 'arrow', defaultValue: 'center' },
+	                this.getArrowOptions()
+	              )
 	            )
 	          ),
 	          _react2['default'].createElement(
@@ -26466,16 +26447,7 @@
 	              'Hover the usernames to display the tooltips'
 	            )
 	          ),
-	          _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(0, 12), placement: this.state.placement, arrow: this.state.arrow }),
-	          _react2['default'].createElement(
-	            'div',
-	            { className: 'row' },
-	            _react2['default'].createElement(
-	              'div',
-	              { className: 'col-lg-12' },
-	              _react2['default'].createElement('pre', { dangerouslySetInnerHTML: this.getCode() })
-	            )
-	          )
+	          _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(0, 12), placement: this.state.placement, arrow: this.state.arrow })
 	        )
 	      );
 	    }
@@ -26749,8 +26721,6 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -26855,61 +26825,77 @@
 	        case 'left':
 	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
 	          style.left = left - this.state.width - 15;
-	          break;
 
-	        case 'left-top':
-	          style.top = top + parent.offsetHeight / 2 - this.state.height + 15;
-	          style.left = left - this.state.width - 15;
-	          break;
+	          if (this.props.arrow) {
+	            switch (this.props.arrow) {
+	              case 'top':
+	                style.top = top + parent.offsetHeight / 2 - 15;
+	                style.left = left - this.state.width - 15;
+	                break;
 
-	        case 'left-bottom':
-	          style.top = top + parent.offsetHeight / 2 - 15;
-	          style.left = left - this.state.width - 15;
+	              case 'bottom':
+	                style.top = top + parent.offsetHeight / 2 - this.state.height + 15;
+	                style.left = left - this.state.width - 15;
+	                break;
+	            }
+	          }
 	          break;
 
 	        case 'right':
 	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
 	          style.left = left + parent.offsetWidth + 15;
-	          break;
 
-	        case 'right-top':
-	          style.top = top + parent.offsetHeight / 2 - this.state.height + 15;
-	          style.left = left + parent.offsetWidth + 15;
-	          break;
+	          if (this.props.arrow) {
+	            switch (this.props.arrow) {
+	              case 'top':
+	                style.top = top + parent.offsetHeight / 2 - 15;
+	                style.left = left + parent.offsetWidth + 15;
+	                break;
 
-	        case 'right-bottom':
-	          style.top = top + parent.offsetHeight / 2 - 15;
-	          style.left = left + parent.offsetWidth + 15;
+	              case 'bottom':
+	                style.top = top + parent.offsetHeight / 2 - this.state.height + 15;
+	                style.left = left + parent.offsetWidth + 15;
+	                break;
+	            }
+	          }
 	          break;
 
 	        case 'top':
 	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
 	          style.top = top - this.state.height - 15;
-	          break;
 
-	        case 'top-right':
-	          style.left = left + parent.offsetWidth / 2 - 15;
-	          style.top = top - this.state.height - 15;
-	          break;
+	          if (this.props.arrow) {
+	            switch (this.props.arrow) {
+	              case 'right':
+	                style.left = left - this.state.width + parent.offsetWidth / 2 + 15;
+	                style.top = top - this.state.height - 15;
+	                break;
 
-	        case 'top-left':
-	          style.left = left - this.state.width + parent.offsetWidth / 2 + 15;
-	          style.top = top - this.state.height - 15;
+	              case 'left':
+	                style.left = left + parent.offsetWidth / 2 - 15;
+	                style.top = top - this.state.height - 15;
+	                break;
+	            }
+	          }
 	          break;
 
 	        case 'bottom':
 	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
 	          style.top = top + parent.offsetHeight + 15;
-	          break;
 
-	        case 'bottom-right':
-	          style.left = left + parent.offsetWidth / 2 - 15;
-	          style.top = top + parent.offsetHeight + 15;
-	          break;
+	          if (this.props.arrow) {
+	            switch (this.props.arrow) {
+	              case 'right':
+	                style.left = left - this.state.width + parent.offsetWidth / 2 + 15;
+	                style.top = top + parent.offsetHeight + 15;
+	                break;
 
-	        case 'bottom-left':
-	          style.left = left - this.state.width + parent.offsetWidth / 2 + 15;
-	          style.top = top + parent.offsetHeight + 15;
+	              case 'left':
+	                style.left = left + parent.offsetWidth / 2 - 15;
+	                style.top = top + parent.offsetHeight + 15;
+	                break;
+	            }
+	          }
 	          break;
 	      }
 
@@ -26936,14 +26922,11 @@
 	      var bgColorBorder = '11px solid rgba(0,0,0,.4)';
 	      var bgTransBorder = '9px solid transparent';
 
-	      var _props$placement$split = this.props.placement.split('-');
+	      var _props = this.props;
+	      var placement = _props.placement;
+	      var arrow = _props.arrow;
 
-	      var _props$placement$split2 = _slicedToArray(_props$placement$split, 2);
-
-	      var main = _props$placement$split2[0];
-	      var secondary = _props$placement$split2[1];
-
-	      if (main === 'left' || main === 'right') {
+	      if (placement === 'left' || placement === 'right') {
 	        fgStyle.top = '50%';
 	        fgStyle.borderTop = fgTransBorder;
 	        fgStyle.borderBottom = fgTransBorder;
@@ -26954,7 +26937,7 @@
 	        bgStyle.top = '50%';
 	        bgStyle.marginTop = -8;
 
-	        if (main === 'left') {
+	        if (placement === 'left') {
 	          fgStyle.right = -10;
 	          fgStyle.borderLeft = fgColorBorder;
 	          bgStyle.right = -11;
@@ -26966,15 +26949,15 @@
 	          bgStyle.borderRight = bgColorBorder;
 	        }
 
-	        if (secondary === 'top') {
+	        if (arrow === 'top') {
+	          fgStyle.top = 15;
+	          bgStyle.top = 15;
+	        }
+	        if (arrow === 'bottom') {
 	          fgStyle.top = null;
 	          fgStyle.bottom = 16;
 	          bgStyle.top = null;
 	          bgStyle.bottom = 15;
-	        }
-	        if (secondary === 'bottom') {
-	          fgStyle.top = 15;
-	          bgStyle.top = 15;
 	        }
 	      } else {
 	        fgStyle.left = '50%';
@@ -26986,7 +26969,7 @@
 	        bgStyle.borderLeft = bgTransBorder;
 	        bgStyle.borderRight = bgTransBorder;
 
-	        if (main === 'top') {
+	        if (placement === 'top') {
 	          fgStyle.bottom = -10;
 	          fgStyle.borderTop = fgColorBorder;
 	          bgStyle.bottom = -11;
@@ -26998,18 +26981,18 @@
 	          bgStyle.borderBottom = bgColorBorder;
 	        }
 
-	        if (secondary === 'right') {
-	          fgStyle.left = 16;
-	          fgStyle.marginLeft = 0;
-	          bgStyle.left = 15;
-	          bgStyle.marginLeft = 0;
-	        }
-	        if (secondary === 'left') {
+	        if (arrow === 'right') {
 	          fgStyle.left = null;
 	          fgStyle.right = 16;
 	          fgStyle.marginLeft = 0;
 	          bgStyle.left = null;
 	          bgStyle.right = 15;
+	          bgStyle.marginLeft = 0;
+	        }
+	        if (arrow === 'left') {
+	          fgStyle.left = 16;
+	          fgStyle.marginLeft = 0;
+	          bgStyle.left = 15;
 	          bgStyle.marginLeft = 0;
 	        }
 	      }
@@ -27020,8 +27003,8 @@
 	    key: 'PropTypes',
 	    value: {
 	      active: _react.PropTypes.bool,
-	      placement: _react.PropTypes.oneOf(['top', 'top-left', 'top-right', 'right', 'right-top', 'right-bottom', 'bottom', 'bottom-left', 'bottom-right', 'left', 'left-top', 'left-bottom']),
-	      arrow: _react.PropTypes.bool
+	      placement: _react.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+	      arrow: _react.PropTypes.oneOf([null, 'center', 'top', 'right', 'bottom', 'left'])
 	    },
 	    enumerable: true
 	  }, {
@@ -27029,7 +27012,7 @@
 	    value: {
 	      active: false,
 	      placement: 'right',
-	      arrow: true
+	      arrow: null
 	    },
 	    enumerable: true
 	  }]);
@@ -47520,7 +47503,7 @@
 	            _react2['default'].createElement(
 	              'div',
 	              { className: 'col-lg-12' },
-	              _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(0, 10), group: 'first' })
+	              _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(0, 10), group: 'first', arrow: 'center' })
 	            )
 	          ),
 	          _react2['default'].createElement(
@@ -47534,7 +47517,7 @@
 	            _react2['default'].createElement(
 	              'div',
 	              { className: 'col-lg-12' },
-	              _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(10, 20), group: 'second' })
+	              _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(10, 20), group: 'second', arrow: 'center' })
 	            )
 	          )
 	        )
