@@ -6,24 +6,23 @@ class Card extends React.Component {
     active: PropTypes.bool,
     placement: PropTypes.oneOf([
       'top',
-      'top-left',
-      'top-right',
       'right',
-      'right-top',
-      'right-bottom',
       'bottom',
-      'bottom-left',
-      'bottom-right',
-      'left',
-      'left-top',
-      'left-bottom'
+      'left'
     ]),
-    arrow: PropTypes.bool
+    arrow: PropTypes.oneOf([
+      null,
+      'center',
+      'top',
+      'right',
+      'bottom',
+      'left'
+    ])
   }
   static defaultProps = {
     active: false,
     placement: 'right',
-    arrow: true
+    arrow: null
   }
   state = {
     hover: false,
@@ -57,61 +56,77 @@ class Card extends React.Component {
       case 'left':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
         style.left = left - this.state.width - 15
-        break
 
-      case 'left-top':
-        style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-        style.left = left - this.state.width - 15
-        break
+        if (this.props.arrow) {
+          switch (this.props.arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - 15
+              style.left = left - this.state.width - 15
+              break
 
-      case 'left-bottom':
-        style.top = (top + parent.offsetHeight / 2) - 15
-        style.left = left - this.state.width - 15
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
+              style.left = left - this.state.width - 15
+              break
+          }
+        }
         break
 
       case 'right':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
         style.left = left + parent.offsetWidth + 15
-        break
 
-      case 'right-top':
-        style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-        style.left = left + parent.offsetWidth + 15
-        break
+        if (this.props.arrow) {
+          switch (this.props.arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - 15
+              style.left = left + parent.offsetWidth + 15
+              break
 
-      case 'right-bottom':
-        style.top = (top + parent.offsetHeight / 2) - 15
-        style.left = left + parent.offsetWidth + 15
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
+              style.left = left + parent.offsetWidth + 15
+              break
+          }
+        }
         break
 
       case 'top':
         style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
         style.top = top - this.state.height - 15
-        break
 
-      case 'top-right':
-        style.left = left + parent.offsetWidth / 2 - 15
-        style.top = top - this.state.height - 15
-        break
+        if (this.props.arrow) {
+          switch(this.props.arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
+              style.top = top - this.state.height - 15
+              break
 
-      case 'top-left':
-        style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-        style.top = top - this.state.height - 15
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - 15
+              style.top = top - this.state.height - 15
+              break
+          }
+        }
         break
 
       case 'bottom':
         style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
         style.top = top + parent.offsetHeight + 15
-        break
 
-      case 'bottom-right':
-        style.left = left + parent.offsetWidth / 2 - 15
-        style.top = top + parent.offsetHeight + 15
-        break
+        if (this.props.arrow){
+          switch (this.props.arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
+              style.top = top + parent.offsetHeight + 15
+              break
 
-      case 'bottom-left':
-        style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-        style.top = top + parent.offsetHeight + 15
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - 15
+              style.top = top + parent.offsetHeight + 15
+              break
+          }
+        }
         break
     }
 
@@ -134,9 +149,9 @@ class Card extends React.Component {
     let bgColorBorder = '11px solid rgba(0,0,0,.4)'
     let bgTransBorder = '9px solid transparent'
 
-    let [main, secondary] = this.props.placement.split('-')
+    let {placement, arrow} = this.props
 
-    if (main === 'left' || main === 'right') {
+    if (placement === 'left' || placement === 'right') {
       fgStyle.top = '50%'
       fgStyle.borderTop = fgTransBorder
       fgStyle.borderBottom = fgTransBorder
@@ -147,7 +162,7 @@ class Card extends React.Component {
       bgStyle.top = '50%'
       bgStyle.marginTop = -8
 
-      if (main === 'left') {
+      if (placement === 'left') {
         fgStyle.right = -10
         fgStyle.borderLeft = fgColorBorder
         bgStyle.right = -11
@@ -160,15 +175,15 @@ class Card extends React.Component {
         bgStyle.borderRight = bgColorBorder
       }
 
-      if (secondary === 'top') {
+      if (arrow === 'top') {
+        fgStyle.top = 15
+        bgStyle.top = 15
+      }
+      if (arrow === 'bottom') {
         fgStyle.top = null
         fgStyle.bottom = 16
         bgStyle.top = null
         bgStyle.bottom = 15
-      }
-      if (secondary === 'bottom') {
-        fgStyle.top = 15
-        bgStyle.top = 15
       }
     }
     else {
@@ -181,7 +196,7 @@ class Card extends React.Component {
       bgStyle.borderLeft = bgTransBorder
       bgStyle.borderRight = bgTransBorder
 
-      if (main === 'top') {
+      if (placement === 'top') {
         fgStyle.bottom = -10
         fgStyle.borderTop = fgColorBorder
         bgStyle.bottom = -11
@@ -194,18 +209,18 @@ class Card extends React.Component {
         bgStyle.borderBottom = bgColorBorder
       }
 
-      if (secondary === 'right') {
-        fgStyle.left = 16
-        fgStyle.marginLeft = 0
-        bgStyle.left = 15
-        bgStyle.marginLeft = 0
-      }
-      if (secondary === 'left') {
+      if (arrow === 'right') {
         fgStyle.left = null
         fgStyle.right = 16
         fgStyle.marginLeft = 0
         bgStyle.left = null
         bgStyle.right = 15
+        bgStyle.marginLeft = 0
+      }
+      if (arrow === 'left') {
+        fgStyle.left = 16
+        fgStyle.marginLeft = 0
+        bgStyle.left = 15
         bgStyle.marginLeft = 0
       }
     }
