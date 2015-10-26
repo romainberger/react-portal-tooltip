@@ -1,4 +1,4 @@
-# React Portal Tooltip
+# React Portal Tooltip [![Build Status](https://travis-ci.org/romainberger/react-portal-tooltip.png?branch=master)](https://travis-ci.org/romainberger/react-portal-tooltip)
 
 Awesome tooltips.
 
