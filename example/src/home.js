@@ -6,7 +6,11 @@ export default class Home extends React.Component {
   state = {
     isTooltipActive: false,
     placement: 'right',
-    arrow: true
+    arrow: true,
+    arrowOptions: null
+  }
+  componentDidMount() {
+    this.getArrowOptions()
   }
   showTooltip() {
     this.setState({isTooltipActive: true})
@@ -19,7 +23,7 @@ export default class Home extends React.Component {
     this.setState({
       placement: React.findDOMNode(this.refs.placement).value,
       arrow
-    })
+    }, this.getArrowOptions)
   }
   escape(html) {
     return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
@@ -34,25 +38,25 @@ export default class Home extends React.Component {
   getArrowOptions() {
     let node = React.findDOMNode(this.refs.placement)
     let value = node ? node.value : 'right'
-    let options = [
-      <option value={null} key="arrow-null">disable</option>,
-      <option value="center" key="arrow-center">center</option>
+    let arrowOptions = [
+      <option value="center" key="arrow-center">center</option>,
+      <option value={null} key="arrow-null">disable</option>
     ]
 
     if (value === 'top' || value === 'bottom') {
-      options = options.concat([
+      arrowOptions = arrowOptions.concat([
         <option value="right" key="arrow-right">right</option>,
         <option value="left" key="arrow-left">left</option>
       ])
     }
     else {
-      options = options.concat([
+      arrowOptions = arrowOptions.concat([
         <option value="top" key="arrow-top">top</option>,
         <option value="bottom" key="arrow-bottom">bottom</option>
       ])
     }
 
-    return options
+    this.setState({arrowOptions})
   }
   render() {
     return (
@@ -86,7 +90,7 @@ export default class Home extends React.Component {
             <div className="col-lg-3">
               <label htmlFor="arrow" style={{marginRight: 10}}>Arrow:</label>
               <select id="arrow" onChange={::this.handleOnChange} ref="arrow" defaultValue="center">
-                {this.getArrowOptions()}
+                {this.state.arrowOptions}
               </select>
             </div>
           </div>
