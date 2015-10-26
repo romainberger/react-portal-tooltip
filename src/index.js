@@ -233,6 +233,9 @@ class Card extends React.Component {
   handleMouseLeave() {
     this.setState({hover: false})
   }
+  componentDidMount() {
+    this.updateSize()
+  }
   componentWillReceiveProps() {
     this.updateSize()
     this.setState({transition: this.state.hover || this.props.active ? 'all' : 'opacity'})
