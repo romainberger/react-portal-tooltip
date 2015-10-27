@@ -27,6 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "is-client": "0.0.2",
+    "object-assign": "^4.0.1",
     "react": "^0.13.3"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
 import isClient from 'is-client'
+import assign from 'object-assign'
 
 class Card extends React.Component {
   static PropTypes = {
@@ -35,11 +36,6 @@ class Card extends React.Component {
       return {display: 'none'}
     }
 
-    let parent = this.props.parentEl
-    let position = parent.getBoundingClientRect()
-    let top = window.scrollY + position.top
-    let left = window.scrollX + position.left
-
     let style = {
       position: 'absolute',
       padding: '5px',
@@ -52,83 +48,7 @@ class Card extends React.Component {
       zIndex: 50
     }
 
-    switch (this.props.placement) {
-      case 'left':
-        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
-        style.left = left - this.state.width - 15
-
-        if (this.props.arrow) {
-          switch (this.props.arrow) {
-            case 'top':
-              style.top = (top + parent.offsetHeight / 2) - 15
-              style.left = left - this.state.width - 15
-              break
-
-            case 'bottom':
-              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-              style.left = left - this.state.width - 15
-              break
-          }
-        }
-        break
-
-      case 'right':
-        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
-        style.left = left + parent.offsetWidth + 15
-
-        if (this.props.arrow) {
-          switch (this.props.arrow) {
-            case 'top':
-              style.top = (top + parent.offsetHeight / 2) - 15
-              style.left = left + parent.offsetWidth + 15
-              break
-
-            case 'bottom':
-              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-              style.left = left + parent.offsetWidth + 15
-              break
-          }
-        }
-        break
-
-      case 'top':
-        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
-        style.top = top - this.state.height - 15
-
-        if (this.props.arrow) {
-          switch(this.props.arrow) {
-            case 'right':
-              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-              style.top = top - this.state.height - 15
-              break
-
-            case 'left':
-              style.left = left + parent.offsetWidth / 2 - 15
-              style.top = top - this.state.height - 15
-              break
-          }
-        }
-        break
-
-      case 'bottom':
-        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
-        style.top = top + parent.offsetHeight + 15
-
-        if (this.props.arrow){
-          switch (this.props.arrow) {
-            case 'right':
-              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-              style.top = top + parent.offsetHeight + 15
-              break
-
-            case 'left':
-              style.left = left + parent.offsetWidth / 2 - 15
-              style.top = top + parent.offsetHeight + 15
-              break
-          }
-        }
-        break
-    }
+    assign(style, this.getStyle(this.props.placement, this.props.arrow))
 
     return style
   }
@@ -227,6 +147,114 @@ class Card extends React.Component {
 
     return {fgStyle, bgStyle}
   }
+  getStyle(placement, arrow) {
+    let parent = this.props.parentEl
+    let position = parent.getBoundingClientRect()
+    let top = window.scrollY + position.top
+    let left = window.scrollX + position.left
+    let style = {}
+
+    switch (placement) {
+      case 'left':
+        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left - this.state.width - 15
+
+        if (arrow) {
+          switch (arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - 15
+              style.left = left - this.state.width - 15
+              break
+
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
+              style.left = left - this.state.width - 15
+              break
+          }
+        }
+        break
+
+      case 'right':
+        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left + parent.offsetWidth + 15
+
+        if (arrow) {
+          switch (arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - 15
+              style.left = left + parent.offsetWidth + 15
+              break
+
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
+              style.left = left + parent.offsetWidth + 15
+              break
+          }
+        }
+        break
+
+      case 'top':
+        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top - this.state.height - 15
+
+        if (arrow) {
+          switch(arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
+              style.top = top - this.state.height - 15
+              break
+
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - 15
+              style.top = top - this.state.height - 15
+              break
+          }
+        }
+        break
+
+      case 'bottom':
+        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top + parent.offsetHeight + 15
+
+        if (arrow){
+          switch (arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
+              style.top = top + parent.offsetHeight + 15
+              break
+
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - 15
+              style.top = top + parent.offsetHeight + 15
+              break
+          }
+        }
+        break
+    }
+
+    return style
+  }
+  checkWindowPosition(style, arrowStyle) {
+    if (this.props.placement === 'top' || this.props.placement === 'bottom') {
+      if (style.left < 0) {
+        let offset = style.left
+        style.left = 15
+        arrowStyle.fgStyle.marginLeft += offset
+        arrowStyle.bgStyle.marginLeft += offset
+      }
+      else {
+        let rightOffset = style.left + this.state.width - window.innerWidth
+        if (rightOffset > 0) {
+          let originalLeft = style.left
+          style.left = window.innerWidth - this.state.width - 15
+          arrowStyle.fgStyle.marginLeft += originalLeft - style.left
+          arrowStyle.bgStyle.marginLeft += originalLeft - style.left
+        }
+      }
+    }
+
+    return {style, arrowStyle}
+  }
   handleMouseEnter() {
     this.props.active && this.setState({hover: true})
   }
@@ -248,12 +276,14 @@ class Card extends React.Component {
     })
   }
   render() {
+    let {style, arrowStyle} = this.checkWindowPosition(this.style, this.arrowStyle)
+
     return (
-      <div style={this.style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
+      <div style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
         {this.props.arrow ? (
           <div>
-            <span style={this.arrowStyle.fgStyle}/>
-            <span style={this.arrowStyle.bgStyle}/>
+            <span style={arrowStyle.fgStyle}/>
+            <span style={arrowStyle.bgStyle}/>
           </div>)
           : null
         }
