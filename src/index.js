@@ -31,6 +31,7 @@ class Card extends React.Component {
     width: 0,
     height: 0
   }
+  margin = 15
   get style() {
     if (!this.props.parentEl) {
       return {display: 'none'}
@@ -96,14 +97,14 @@ class Card extends React.Component {
       }
 
       if (arrow === 'top') {
-        fgStyle.top = 15
-        bgStyle.top = 15
+        fgStyle.top = this.margin
+        bgStyle.top = this.margin
       }
       if (arrow === 'bottom') {
         fgStyle.top = null
-        fgStyle.bottom = 16
+        fgStyle.bottom = this.margin + 1
         bgStyle.top = null
-        bgStyle.bottom = 15
+        bgStyle.bottom = this.margin
       }
     }
     else {
@@ -131,16 +132,16 @@ class Card extends React.Component {
 
       if (arrow === 'right') {
         fgStyle.left = null
-        fgStyle.right = 16
+        fgStyle.right = this.margin + 1
         fgStyle.marginLeft = 0
         bgStyle.left = null
-        bgStyle.right = 15
+        bgStyle.right = this.margin
         bgStyle.marginLeft = 0
       }
       if (arrow === 'left') {
-        fgStyle.left = 16
+        fgStyle.left = this.margin + 1
         fgStyle.marginLeft = 0
-        bgStyle.left = 15
+        bgStyle.left = this.margin
         bgStyle.marginLeft = 0
       }
     }
@@ -157,18 +158,18 @@ class Card extends React.Component {
     switch (placement) {
       case 'left':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
-        style.left = left - this.state.width - 15
+        style.left = left - this.state.width - this.margin
 
         if (arrow) {
           switch (arrow) {
             case 'top':
-              style.top = (top + parent.offsetHeight / 2) - 15
-              style.left = left - this.state.width - 15
+              style.top = (top + parent.offsetHeight / 2) - this.margin
+              style.left = left - this.state.width - this.margin
               break
 
             case 'bottom':
-              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-              style.left = left - this.state.width - 15
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + this.margin
+              style.left = left - this.state.width - this.margin
               break
           }
         }
@@ -176,18 +177,18 @@ class Card extends React.Component {
 
       case 'right':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
-        style.left = left + parent.offsetWidth + 15
+        style.left = left + parent.offsetWidth + this.margin
 
         if (arrow) {
           switch (arrow) {
             case 'top':
-              style.top = (top + parent.offsetHeight / 2) - 15
-              style.left = left + parent.offsetWidth + 15
+              style.top = (top + parent.offsetHeight / 2) - this.margin
+              style.left = left + parent.offsetWidth + this.margin
               break
 
             case 'bottom':
-              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-              style.left = left + parent.offsetWidth + 15
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + this.margin
+              style.left = left + parent.offsetWidth + this.margin
               break
           }
         }
@@ -195,18 +196,18 @@ class Card extends React.Component {
 
       case 'top':
         style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
-        style.top = top - this.state.height - 15
+        style.top = top - this.state.height - this.margin
 
         if (arrow) {
           switch(arrow) {
             case 'right':
-              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-              style.top = top - this.state.height - 15
+              style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+              style.top = top - this.state.height - this.margin
               break
 
             case 'left':
-              style.left = left + parent.offsetWidth / 2 - 15
-              style.top = top - this.state.height - 15
+              style.left = left + parent.offsetWidth / 2 - this.margin
+              style.top = top - this.state.height - this.margin
               break
           }
         }
@@ -214,18 +215,18 @@ class Card extends React.Component {
 
       case 'bottom':
         style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
-        style.top = top + parent.offsetHeight + 15
+        style.top = top + parent.offsetHeight + this.margin
 
         if (arrow){
           switch (arrow) {
             case 'right':
-              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-              style.top = top + parent.offsetHeight + 15
+              style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+              style.top = top + parent.offsetHeight + this.margin
               break
 
             case 'left':
-              style.left = left + parent.offsetWidth / 2 - 15
-              style.top = top + parent.offsetHeight + 15
+              style.left = left + parent.offsetWidth / 2 - this.margin
+              style.top = top + parent.offsetHeight + this.margin
               break
           }
         }
@@ -238,7 +239,7 @@ class Card extends React.Component {
     if (this.props.placement === 'top' || this.props.placement === 'bottom') {
       if (style.left < 0) {
         let offset = style.left
-        style.left = 15
+        style.left = this.margin
         arrowStyle.fgStyle.marginLeft += offset
         arrowStyle.bgStyle.marginLeft += offset
       }
@@ -246,7 +247,7 @@ class Card extends React.Component {
         let rightOffset = style.left + this.state.width - window.innerWidth
         if (rightOffset > 0) {
           let originalLeft = style.left
-          style.left = window.innerWidth - this.state.width - 15
+          style.left = window.innerWidth - this.state.width - this.margin
           arrowStyle.fgStyle.marginLeft += originalLeft - style.left
           arrowStyle.bgStyle.marginLeft += originalLeft - style.left
         }
