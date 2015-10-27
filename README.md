@@ -52,6 +52,24 @@ class MyComponent extends React.Component {
 * `parent`: the tooltip will be placed next to this element
 * `group`: string, necessary if you want several independant tooltips
 
+## Development
+
+```shell
+# clone
+$ git clone git@github.com:romainberger/react-portal-tooltip.git
+
+# install the dependencies
+$ npm install
+
+# go to the example folder, then install more dependencies
+$ cd example && npm install
+
+# start the development server with hot reloading
+$ npm start
+
+# to build run this command from the root directory
+$ npm build
+
 ## License
 
 MIT
