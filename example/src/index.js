@@ -1,10 +1,11 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Router, {Route} from 'react-router'
 import App from './app'
 import Home from './home'
 import Groups from './groups'
 
-React.render((
+ReactDOM.render((
   <Router>
     <Route component={App}>
       <Route path="/" component={Home}/>

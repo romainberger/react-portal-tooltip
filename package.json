@@ -28,7 +28,8 @@
   "dependencies": {
     "is-client": "0.0.2",
     "object-assign": "^4.0.1",
-    "react": "^0.13.3"
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "devDependencies": {
     "babel": "^5.8.21",
