@@ -1,10 +1,11 @@
 import React, {PropTypes} from 'react'
 import isClient from 'is-client'
+import assign from 'object-assign'
 
 class Card extends React.Component {
   static PropTypes = {
     active: PropTypes.bool,
-    placement: PropTypes.oneOf([
+    position: PropTypes.oneOf([
       'top',
       'right',
       'bottom',
@@ -21,7 +22,7 @@ class Card extends React.Component {
   }
   static defaultProps = {
     active: false,
-    placement: 'right',
+    position: 'right',
     arrow: null
   }
   state = {
@@ -30,15 +31,11 @@ class Card extends React.Component {
     width: 0,
     height: 0
   }
+  margin = 15
   get style() {
     if (!this.props.parentEl) {
       return {display: 'none'}
     }
-
-    let parent = this.props.parentEl
-    let position = parent.getBoundingClientRect()
-    let top = window.scrollY + position.top
-    let left = window.scrollX + position.left
 
     let style = {
       position: 'absolute',
@@ -52,83 +49,7 @@ class Card extends React.Component {
       zIndex: 50
     }
 
-    switch (this.props.placement) {
-      case 'left':
-        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
-        style.left = left - this.state.width - 15
-
-        if (this.props.arrow) {
-          switch (this.props.arrow) {
-            case 'top':
-              style.top = (top + parent.offsetHeight / 2) - 15
-              style.left = left - this.state.width - 15
-              break
-
-            case 'bottom':
-              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-              style.left = left - this.state.width - 15
-              break
-          }
-        }
-        break
-
-      case 'right':
-        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
-        style.left = left + parent.offsetWidth + 15
-
-        if (this.props.arrow) {
-          switch (this.props.arrow) {
-            case 'top':
-              style.top = (top + parent.offsetHeight / 2) - 15
-              style.left = left + parent.offsetWidth + 15
-              break
-
-            case 'bottom':
-              style.top = (top + parent.offsetHeight / 2) - this.state.height + 15
-              style.left = left + parent.offsetWidth + 15
-              break
-          }
-        }
-        break
-
-      case 'top':
-        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
-        style.top = top - this.state.height - 15
-
-        if (this.props.arrow) {
-          switch(this.props.arrow) {
-            case 'right':
-              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-              style.top = top - this.state.height - 15
-              break
-
-            case 'left':
-              style.left = left + parent.offsetWidth / 2 - 15
-              style.top = top - this.state.height - 15
-              break
-          }
-        }
-        break
-
-      case 'bottom':
-        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
-        style.top = top + parent.offsetHeight + 15
-
-        if (this.props.arrow){
-          switch (this.props.arrow) {
-            case 'right':
-              style.left = left - this.state.width + parent.offsetWidth / 2 + 15
-              style.top = top + parent.offsetHeight + 15
-              break
-
-            case 'left':
-              style.left = left + parent.offsetWidth / 2 - 15
-              style.top = top + parent.offsetHeight + 15
-              break
-          }
-        }
-        break
-    }
+    assign(style, this.getStyle(this.props.position, this.props.arrow))
 
     return style
   }
@@ -149,9 +70,9 @@ class Card extends React.Component {
     let bgColorBorder = '11px solid rgba(0,0,0,.4)'
     let bgTransBorder = '9px solid transparent'
 
-    let {placement, arrow} = this.props
+    let {position, arrow} = this.props
 
-    if (placement === 'left' || placement === 'right') {
+    if (position === 'left' || position === 'right') {
       fgStyle.top = '50%'
       fgStyle.borderTop = fgTransBorder
       fgStyle.borderBottom = fgTransBorder
@@ -162,7 +83,7 @@ class Card extends React.Component {
       bgStyle.top = '50%'
       bgStyle.marginTop = -8
 
-      if (placement === 'left') {
+      if (position === 'left') {
         fgStyle.right = -10
         fgStyle.borderLeft = fgColorBorder
         bgStyle.right = -11
@@ -176,14 +97,14 @@ class Card extends React.Component {
       }
 
       if (arrow === 'top') {
-        fgStyle.top = 15
-        bgStyle.top = 15
+        fgStyle.top = this.margin
+        bgStyle.top = this.margin
       }
       if (arrow === 'bottom') {
         fgStyle.top = null
-        fgStyle.bottom = 16
+        fgStyle.bottom = this.margin + 1
         bgStyle.top = null
-        bgStyle.bottom = 15
+        bgStyle.bottom = this.margin
       }
     }
     else {
@@ -196,7 +117,7 @@ class Card extends React.Component {
       bgStyle.borderLeft = bgTransBorder
       bgStyle.borderRight = bgTransBorder
 
-      if (placement === 'top') {
+      if (position === 'top') {
         fgStyle.bottom = -10
         fgStyle.borderTop = fgColorBorder
         bgStyle.bottom = -11
@@ -211,27 +132,138 @@ class Card extends React.Component {
 
       if (arrow === 'right') {
         fgStyle.left = null
-        fgStyle.right = 16
+        fgStyle.right = this.margin + 1
         fgStyle.marginLeft = 0
         bgStyle.left = null
-        bgStyle.right = 15
+        bgStyle.right = this.margin
         bgStyle.marginLeft = 0
       }
       if (arrow === 'left') {
-        fgStyle.left = 16
+        fgStyle.left = this.margin + 1
         fgStyle.marginLeft = 0
-        bgStyle.left = 15
+        bgStyle.left = this.margin
         bgStyle.marginLeft = 0
       }
     }
 
     return {fgStyle, bgStyle}
   }
+  getStyle(position, arrow) {
+    let parent = this.props.parentEl
+    let tooltipPosition = parent.getBoundingClientRect()
+    let top = window.scrollY + tooltipPosition.top
+    let left = window.scrollX + tooltipPosition.left
+    let style = {}
+
+    switch (position) {
+      case 'left':
+        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left - this.state.width - this.margin
+
+        if (arrow) {
+          switch (arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - this.margin
+              style.left = left - this.state.width - this.margin
+              break
+
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + this.margin
+              style.left = left - this.state.width - this.margin
+              break
+          }
+        }
+        break
+
+      case 'right':
+        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left + parent.offsetWidth + this.margin
+
+        if (arrow) {
+          switch (arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - this.margin
+              style.left = left + parent.offsetWidth + this.margin
+              break
+
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + this.margin
+              style.left = left + parent.offsetWidth + this.margin
+              break
+          }
+        }
+        break
+
+      case 'top':
+        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top - this.state.height - this.margin
+
+        if (arrow) {
+          switch(arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+              style.top = top - this.state.height - this.margin
+              break
+
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - this.margin
+              style.top = top - this.state.height - this.margin
+              break
+          }
+        }
+        break
+
+      case 'bottom':
+        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top + parent.offsetHeight + this.margin
+
+        if (arrow){
+          switch (arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+              style.top = top + parent.offsetHeight + this.margin
+              break
+
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - this.margin
+              style.top = top + parent.offsetHeight + this.margin
+              break
+          }
+        }
+        break
+    }
+
+    return style
+  }
+  checkWindowPosition(style, arrowStyle) {
+    if (this.props.position === 'top' || this.props.position === 'bottom') {
+      if (style.left < 0) {
+        let offset = style.left
+        style.left = this.margin
+        arrowStyle.fgStyle.marginLeft += offset
+        arrowStyle.bgStyle.marginLeft += offset
+      }
+      else {
+        let rightOffset = style.left + this.state.width - window.innerWidth
+        if (rightOffset > 0) {
+          let originalLeft = style.left
+          style.left = window.innerWidth - this.state.width - this.margin
+          arrowStyle.fgStyle.marginLeft += originalLeft - style.left
+          arrowStyle.bgStyle.marginLeft += originalLeft - style.left
+        }
+      }
+    }
+
+    return {style, arrowStyle}
+  }
   handleMouseEnter() {
     this.props.active && this.setState({hover: true})
   }
   handleMouseLeave() {
     this.setState({hover: false})
+  }
+  componentDidMount() {
+    this.updateSize()
   }
   componentWillReceiveProps() {
     this.updateSize()
@@ -245,12 +277,14 @@ class Card extends React.Component {
     })
   }
   render() {
+    let {style, arrowStyle} = this.checkWindowPosition(this.style, this.arrowStyle)
+
     return (
-      <div style={this.style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
+      <div style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
         {this.props.arrow ? (
           <div>
-            <span style={this.arrowStyle.fgStyle}/>
-            <span style={this.arrowStyle.bgStyle}/>
+            <span style={arrowStyle.fgStyle}/>
+            <span style={arrowStyle.bgStyle}/>
           </div>)
           : null
         }

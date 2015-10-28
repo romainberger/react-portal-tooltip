@@ -73,7 +73,7 @@
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _groups = __webpack_require__(368);
+	var _groups = __webpack_require__(369);
 
 	var _groups2 = _interopRequireDefault(_groups);
 
@@ -24825,7 +24825,7 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -26244,7 +26244,7 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -26274,12 +26274,18 @@
 
 	    this.state = {
 	      isTooltipActive: false,
-	      placement: 'right',
-	      arrow: true
+	      position: 'right',
+	      arrow: true,
+	      arrowOptions: null
 	    };
 	  }
 
 	  _createClass(Home, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.getArrowOptions();
+	    }
+	  }, {
 	    key: 'showTooltip',
 	    value: function showTooltip() {
 	      this.setState({ isTooltipActive: true });
@@ -26294,9 +26300,9 @@
 	    value: function handleOnChange() {
 	      var arrow = _react2['default'].findDOMNode(this.refs.arrow).value === 'disable' ? null : _react2['default'].findDOMNode(this.refs.arrow).value;
 	      this.setState({
-	        placement: _react2['default'].findDOMNode(this.refs.placement).value,
+	        position: _react2['default'].findDOMNode(this.refs.position).value,
 	        arrow: arrow
-	      });
+	      }, this.getArrowOptions);
 	    }
 	  }, {
 	    key: 'escape',
@@ -26307,26 +26313,26 @@
 	    key: 'getBasicExample',
 	    value: function getBasicExample() {
 	      return {
-	        __html: this.escape('<ToolTip active={true} parent="#parent" placement="right" arrow="center">\n  ToolTip content here\n</ToolTip>')
+	        __html: this.escape('<ToolTip active={true} parent="#parent" position="right" arrow="center">\n  ToolTip content here\n</ToolTip>')
 	      };
 	    }
 	  }, {
 	    key: 'getArrowOptions',
 	    value: function getArrowOptions() {
-	      var node = _react2['default'].findDOMNode(this.refs.placement);
+	      var node = _react2['default'].findDOMNode(this.refs.position);
 	      var value = node ? node.value : 'right';
-	      var options = [_react2['default'].createElement(
-	        'option',
-	        { value: null, key: 'arrow-null' },
-	        'disable'
-	      ), _react2['default'].createElement(
+	      var arrowOptions = [_react2['default'].createElement(
 	        'option',
 	        { value: 'center', key: 'arrow-center' },
 	        'center'
+	      ), _react2['default'].createElement(
+	        'option',
+	        { value: null, key: 'arrow-null' },
+	        'disable'
 	      )];
 
 	      if (value === 'top' || value === 'bottom') {
-	        options = options.concat([_react2['default'].createElement(
+	        arrowOptions = arrowOptions.concat([_react2['default'].createElement(
 	          'option',
 	          { value: 'right', key: 'arrow-right' },
 	          'right'
@@ -26336,7 +26342,7 @@
 	          'left'
 	        )]);
 	      } else {
-	        options = options.concat([_react2['default'].createElement(
+	        arrowOptions = arrowOptions.concat([_react2['default'].createElement(
 	          'option',
 	          { value: 'top', key: 'arrow-top' },
 	          'top'
@@ -26347,7 +26353,7 @@
 	        )]);
 	      }
 
-	      return options;
+	      this.setState({ arrowOptions: arrowOptions });
 	    }
 	  }, {
 	    key: 'render',
@@ -26381,7 +26387,7 @@
 	                ),
 	                _react2['default'].createElement(
 	                  _src2['default'],
-	                  { active: this.state.isTooltipActive, parent: '#result', placement: 'right', arrow: 'center', group: 'result' },
+	                  { active: this.state.isTooltipActive, parent: '#result', position: 'right', arrow: 'center', group: 'result' },
 	                  'Tooltip content here'
 	                )
 	              )
@@ -26395,12 +26401,12 @@
 	              { className: 'col-lg-3' },
 	              _react2['default'].createElement(
 	                'label',
-	                { htmlFor: 'placement-select', style: { marginRight: 10 } },
+	                { htmlFor: 'position-select', style: { marginRight: 10 } },
 	                'Position:'
 	              ),
 	              _react2['default'].createElement(
 	                'select',
-	                { id: 'placement-select', onChange: this.handleOnChange.bind(this), ref: 'placement', defaultValue: 'right' },
+	                { id: 'position-select', onChange: this.handleOnChange.bind(this), ref: 'position', defaultValue: 'right' },
 	                _react2['default'].createElement(
 	                  'option',
 	                  { value: 'top' },
@@ -26434,7 +26440,7 @@
 	              _react2['default'].createElement(
 	                'select',
 	                { id: 'arrow', onChange: this.handleOnChange.bind(this), ref: 'arrow', defaultValue: 'center' },
-	                this.getArrowOptions()
+	                this.state.arrowOptions
 	              )
 	            )
 	          ),
@@ -26447,7 +26453,7 @@
 	              'Hover the usernames to display the tooltips'
 	            )
 	          ),
-	          _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(0, 12), placement: this.state.placement, arrow: this.state.arrow })
+	          _react2['default'].createElement(_list2['default'], { data: this.props.users.list.slice(0, 12), position: this.state.position, arrow: this.state.arrow })
 	        )
 	      );
 	    }
@@ -26477,7 +26483,7 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -26526,7 +26532,7 @@
 	  }, {
 	    key: 'shouldComponentUpdate',
 	    value: function shouldComponentUpdate(nextProps) {
-	      return this.props.data !== nextProps.data || this.props.placement !== nextProps.placement || this.props.arrow !== nextProps.arrow;
+	      return this.props.data !== nextProps.data || this.props.position !== nextProps.position || this.props.arrow !== nextProps.arrow;
 	    }
 	  }, {
 	    key: 'getList',
@@ -26539,7 +26545,7 @@
 	          'div',
 	          { className: 'row', style: { marginBottom: 20 }, key: i },
 	          set.map(function (user, key) {
-	            return _react2['default'].createElement(_user2['default'], _extends({ className: 'col-lg-3' }, user, { key: key, placement: _this.props.placement, arrow: _this.props.arrow, group: _this.props.group }));
+	            return _react2['default'].createElement(_user2['default'], _extends({ className: 'col-lg-3' }, user, { key: key, position: _this.props.position, arrow: _this.props.arrow, group: _this.props.group }));
 	          })
 	        ));
 	      });
@@ -26579,7 +26585,7 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -26631,7 +26637,7 @@
 	        ),
 	        _react2['default'].createElement(
 	          _src2['default'],
-	          { active: this.state.isTooltipActive, parent: '#user-' + this.props.id, placement: this.props.placement, arrow: this.props.arrow, group: this.props.group },
+	          { active: this.state.isTooltipActive, parent: '#user-' + this.props.id, position: this.props.position, arrow: this.props.arrow, group: this.props.group },
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'row', style: User.coverWrapperStyle },
@@ -26723,7 +26729,7 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -26741,6 +26747,10 @@
 
 	var _isClient2 = _interopRequireDefault(_isClient);
 
+	var _objectAssign = __webpack_require__(368);
+
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
 	var Card = (function (_React$Component) {
 	  _inherits(Card, _React$Component);
 
@@ -26755,9 +26765,121 @@
 	      width: 0,
 	      height: 0
 	    };
+	    this.margin = 15;
 	  }
 
 	  _createClass(Card, [{
+	    key: 'getStyle',
+	    value: function getStyle(position, arrow) {
+	      var parent = this.props.parentEl;
+	      var tooltipPosition = parent.getBoundingClientRect();
+	      var top = window.scrollY + tooltipPosition.top;
+	      var left = window.scrollX + tooltipPosition.left;
+	      var style = {};
+
+	      switch (position) {
+	        case 'left':
+	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
+	          style.left = left - this.state.width - this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'top':
+	                style.top = top + parent.offsetHeight / 2 - this.margin;
+	                style.left = left - this.state.width - this.margin;
+	                break;
+
+	              case 'bottom':
+	                style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin;
+	                style.left = left - this.state.width - this.margin;
+	                break;
+	            }
+	          }
+	          break;
+
+	        case 'right':
+	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
+	          style.left = left + parent.offsetWidth + this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'top':
+	                style.top = top + parent.offsetHeight / 2 - this.margin;
+	                style.left = left + parent.offsetWidth + this.margin;
+	                break;
+
+	              case 'bottom':
+	                style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin;
+	                style.left = left + parent.offsetWidth + this.margin;
+	                break;
+	            }
+	          }
+	          break;
+
+	        case 'top':
+	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
+	          style.top = top - this.state.height - this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'right':
+	                style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin;
+	                style.top = top - this.state.height - this.margin;
+	                break;
+
+	              case 'left':
+	                style.left = left + parent.offsetWidth / 2 - this.margin;
+	                style.top = top - this.state.height - this.margin;
+	                break;
+	            }
+	          }
+	          break;
+
+	        case 'bottom':
+	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
+	          style.top = top + parent.offsetHeight + this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'right':
+	                style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin;
+	                style.top = top + parent.offsetHeight + this.margin;
+	                break;
+
+	              case 'left':
+	                style.left = left + parent.offsetWidth / 2 - this.margin;
+	                style.top = top + parent.offsetHeight + this.margin;
+	                break;
+	            }
+	          }
+	          break;
+	      }
+
+	      return style;
+	    }
+	  }, {
+	    key: 'checkWindowPosition',
+	    value: function checkWindowPosition(style, arrowStyle) {
+	      if (this.props.position === 'top' || this.props.position === 'bottom') {
+	        if (style.left < 0) {
+	          var offset = style.left;
+	          style.left = this.margin;
+	          arrowStyle.fgStyle.marginLeft += offset;
+	          arrowStyle.bgStyle.marginLeft += offset;
+	        } else {
+	          var rightOffset = style.left + this.state.width - window.innerWidth;
+	          if (rightOffset > 0) {
+	            var originalLeft = style.left;
+	            style.left = window.innerWidth - this.state.width - this.margin;
+	            arrowStyle.fgStyle.marginLeft += originalLeft - style.left;
+	            arrowStyle.bgStyle.marginLeft += originalLeft - style.left;
+	          }
+	        }
+	      }
+
+	      return { style: style, arrowStyle: arrowStyle };
+	    }
+	  }, {
 	    key: 'handleMouseEnter',
 	    value: function handleMouseEnter() {
 	      this.props.active && this.setState({ hover: true });
@@ -26766,6 +26888,11 @@
 	    key: 'handleMouseLeave',
 	    value: function handleMouseLeave() {
 	      this.setState({ hover: false });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.updateSize();
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -26785,14 +26912,19 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _checkWindowPosition = this.checkWindowPosition(this.style, this.arrowStyle);
+
+	      var style = _checkWindowPosition.style;
+	      var arrowStyle = _checkWindowPosition.arrowStyle;
+
 	      return _react2['default'].createElement(
 	        'div',
-	        { style: this.style, onMouseEnter: this.handleMouseEnter.bind(this), onMouseLeave: this.handleMouseLeave.bind(this) },
+	        { style: style, onMouseEnter: this.handleMouseEnter.bind(this), onMouseLeave: this.handleMouseLeave.bind(this) },
 	        this.props.arrow ? _react2['default'].createElement(
 	          'div',
 	          null,
-	          _react2['default'].createElement('span', { style: this.arrowStyle.fgStyle }),
-	          _react2['default'].createElement('span', { style: this.arrowStyle.bgStyle })
+	          _react2['default'].createElement('span', { style: arrowStyle.fgStyle }),
+	          _react2['default'].createElement('span', { style: arrowStyle.bgStyle })
 	        ) : null,
 	        this.props.children
 	      );
@@ -26803,11 +26935,6 @@
 	      if (!this.props.parentEl) {
 	        return { display: 'none' };
 	      }
-
-	      var parent = this.props.parentEl;
-	      var position = parent.getBoundingClientRect();
-	      var top = window.scrollY + position.top;
-	      var left = window.scrollX + position.left;
 
 	      var style = {
 	        position: 'absolute',
@@ -26821,83 +26948,7 @@
 	        zIndex: 50
 	      };
 
-	      switch (this.props.placement) {
-	        case 'left':
-	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
-	          style.left = left - this.state.width - 15;
-
-	          if (this.props.arrow) {
-	            switch (this.props.arrow) {
-	              case 'top':
-	                style.top = top + parent.offsetHeight / 2 - 15;
-	                style.left = left - this.state.width - 15;
-	                break;
-
-	              case 'bottom':
-	                style.top = top + parent.offsetHeight / 2 - this.state.height + 15;
-	                style.left = left - this.state.width - 15;
-	                break;
-	            }
-	          }
-	          break;
-
-	        case 'right':
-	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
-	          style.left = left + parent.offsetWidth + 15;
-
-	          if (this.props.arrow) {
-	            switch (this.props.arrow) {
-	              case 'top':
-	                style.top = top + parent.offsetHeight / 2 - 15;
-	                style.left = left + parent.offsetWidth + 15;
-	                break;
-
-	              case 'bottom':
-	                style.top = top + parent.offsetHeight / 2 - this.state.height + 15;
-	                style.left = left + parent.offsetWidth + 15;
-	                break;
-	            }
-	          }
-	          break;
-
-	        case 'top':
-	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
-	          style.top = top - this.state.height - 15;
-
-	          if (this.props.arrow) {
-	            switch (this.props.arrow) {
-	              case 'right':
-	                style.left = left - this.state.width + parent.offsetWidth / 2 + 15;
-	                style.top = top - this.state.height - 15;
-	                break;
-
-	              case 'left':
-	                style.left = left + parent.offsetWidth / 2 - 15;
-	                style.top = top - this.state.height - 15;
-	                break;
-	            }
-	          }
-	          break;
-
-	        case 'bottom':
-	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
-	          style.top = top + parent.offsetHeight + 15;
-
-	          if (this.props.arrow) {
-	            switch (this.props.arrow) {
-	              case 'right':
-	                style.left = left - this.state.width + parent.offsetWidth / 2 + 15;
-	                style.top = top + parent.offsetHeight + 15;
-	                break;
-
-	              case 'left':
-	                style.left = left + parent.offsetWidth / 2 - 15;
-	                style.top = top + parent.offsetHeight + 15;
-	                break;
-	            }
-	          }
-	          break;
-	      }
+	      (0, _objectAssign2['default'])(style, this.getStyle(this.props.position, this.props.arrow));
 
 	      return style;
 	    }
@@ -26923,10 +26974,10 @@
 	      var bgTransBorder = '9px solid transparent';
 
 	      var _props = this.props;
-	      var placement = _props.placement;
+	      var position = _props.position;
 	      var arrow = _props.arrow;
 
-	      if (placement === 'left' || placement === 'right') {
+	      if (position === 'left' || position === 'right') {
 	        fgStyle.top = '50%';
 	        fgStyle.borderTop = fgTransBorder;
 	        fgStyle.borderBottom = fgTransBorder;
@@ -26937,7 +26988,7 @@
 	        bgStyle.top = '50%';
 	        bgStyle.marginTop = -8;
 
-	        if (placement === 'left') {
+	        if (position === 'left') {
 	          fgStyle.right = -10;
 	          fgStyle.borderLeft = fgColorBorder;
 	          bgStyle.right = -11;
@@ -26950,14 +27001,14 @@
 	        }
 
 	        if (arrow === 'top') {
-	          fgStyle.top = 15;
-	          bgStyle.top = 15;
+	          fgStyle.top = this.margin;
+	          bgStyle.top = this.margin;
 	        }
 	        if (arrow === 'bottom') {
 	          fgStyle.top = null;
-	          fgStyle.bottom = 16;
+	          fgStyle.bottom = this.margin + 1;
 	          bgStyle.top = null;
-	          bgStyle.bottom = 15;
+	          bgStyle.bottom = this.margin;
 	        }
 	      } else {
 	        fgStyle.left = '50%';
@@ -26969,7 +27020,7 @@
 	        bgStyle.borderLeft = bgTransBorder;
 	        bgStyle.borderRight = bgTransBorder;
 
-	        if (placement === 'top') {
+	        if (position === 'top') {
 	          fgStyle.bottom = -10;
 	          fgStyle.borderTop = fgColorBorder;
 	          bgStyle.bottom = -11;
@@ -26983,16 +27034,16 @@
 
 	        if (arrow === 'right') {
 	          fgStyle.left = null;
-	          fgStyle.right = 16;
+	          fgStyle.right = this.margin + 1;
 	          fgStyle.marginLeft = 0;
 	          bgStyle.left = null;
-	          bgStyle.right = 15;
+	          bgStyle.right = this.margin;
 	          bgStyle.marginLeft = 0;
 	        }
 	        if (arrow === 'left') {
-	          fgStyle.left = 16;
+	          fgStyle.left = this.margin + 1;
 	          fgStyle.marginLeft = 0;
-	          bgStyle.left = 15;
+	          bgStyle.left = this.margin;
 	          bgStyle.marginLeft = 0;
 	        }
 	      }
@@ -27003,7 +27054,7 @@
 	    key: 'PropTypes',
 	    value: {
 	      active: _react.PropTypes.bool,
-	      placement: _react.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+	      position: _react.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
 	      arrow: _react.PropTypes.oneOf([null, 'center', 'top', 'right', 'bottom', 'left'])
 	    },
 	    enumerable: true
@@ -27011,7 +27062,7 @@
 	    key: 'defaultProps',
 	    value: {
 	      active: false,
-	      placement: 'right',
+	      position: 'right',
 	      arrow: null
 	    },
 	    enumerable: true
@@ -47431,6 +47482,51 @@
 
 /***/ },
 /* 368 */
+/***/ function(module, exports) {
+
+	/* eslint-disable no-unused-vars */
+	'use strict';
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 369 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/r.berger/Dev/fuck/react-portal-tooltip/example/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/r.berger/Dev/fuck/react-portal-tooltip/example/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -47443,7 +47539,7 @@
 
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 

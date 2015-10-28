@@ -1,6 +1,6 @@
 {
   "name": "react-portal-tooltip",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Awesome React tooltips",
   "main": "lib/index.js",
   "repository": {
@@ -13,7 +13,8 @@
   "homepage": "https://github.com/dailymotion/react-collider",
   "scripts": {
     "start": "./node_modules/.bin/babel src --watch --out-dir lib",
-    "build": "./node_modules/.bin/babel src --out-dir lib"
+    "build": "./node_modules/.bin/babel src --out-dir lib",
+    "test": "mocha --compilers js:babel/register"
   },
   "keywords": [
     "react",
@@ -26,9 +27,11 @@
   "license": "MIT",
   "dependencies": {
     "is-client": "0.0.2",
+    "object-assign": "^4.0.1",
     "react": "^0.13.3"
   },
   "devDependencies": {
-    "babel": "^5.8.21"
+    "babel": "^5.8.21",
+    "mocha": "^2.3.3"
   }
 }
