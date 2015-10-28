@@ -5,7 +5,7 @@ import assign from 'object-assign'
 class Card extends React.Component {
   static PropTypes = {
     active: PropTypes.bool,
-    placement: PropTypes.oneOf([
+    position: PropTypes.oneOf([
       'top',
       'right',
       'bottom',
@@ -22,7 +22,7 @@ class Card extends React.Component {
   }
   static defaultProps = {
     active: false,
-    placement: 'right',
+    position: 'right',
     arrow: null
   }
   state = {
@@ -49,7 +49,7 @@ class Card extends React.Component {
       zIndex: 50
     }
 
-    assign(style, this.getStyle(this.props.placement, this.props.arrow))
+    assign(style, this.getStyle(this.props.position, this.props.arrow))
 
     return style
   }
@@ -70,9 +70,9 @@ class Card extends React.Component {
     let bgColorBorder = '11px solid rgba(0,0,0,.4)'
     let bgTransBorder = '9px solid transparent'
 
-    let {placement, arrow} = this.props
+    let {position, arrow} = this.props
 
-    if (placement === 'left' || placement === 'right') {
+    if (position === 'left' || position === 'right') {
       fgStyle.top = '50%'
       fgStyle.borderTop = fgTransBorder
       fgStyle.borderBottom = fgTransBorder
@@ -83,7 +83,7 @@ class Card extends React.Component {
       bgStyle.top = '50%'
       bgStyle.marginTop = -8
 
-      if (placement === 'left') {
+      if (position === 'left') {
         fgStyle.right = -10
         fgStyle.borderLeft = fgColorBorder
         bgStyle.right = -11
@@ -117,7 +117,7 @@ class Card extends React.Component {
       bgStyle.borderLeft = bgTransBorder
       bgStyle.borderRight = bgTransBorder
 
-      if (placement === 'top') {
+      if (position === 'top') {
         fgStyle.bottom = -10
         fgStyle.borderTop = fgColorBorder
         bgStyle.bottom = -11
@@ -148,14 +148,14 @@ class Card extends React.Component {
 
     return {fgStyle, bgStyle}
   }
-  getStyle(placement, arrow) {
+  getStyle(position, arrow) {
     let parent = this.props.parentEl
-    let position = parent.getBoundingClientRect()
-    let top = window.scrollY + position.top
-    let left = window.scrollX + position.left
+    let tooltipPosition = parent.getBoundingClientRect()
+    let top = window.scrollY + tooltipPosition.top
+    let left = window.scrollX + tooltipPosition.left
     let style = {}
 
-    switch (placement) {
+    switch (position) {
       case 'left':
         style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
         style.left = left - this.state.width - this.margin
@@ -236,7 +236,7 @@ class Card extends React.Component {
     return style
   }
   checkWindowPosition(style, arrowStyle) {
-    if (this.props.placement === 'top' || this.props.placement === 'bottom') {
+    if (this.props.position === 'top' || this.props.position === 'bottom') {
       if (style.left < 0) {
         let offset = style.left
         style.left = this.margin

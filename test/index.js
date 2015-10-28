@@ -15,7 +15,7 @@ describe('React Portal Tooltip', () => {
   })
 
   it('should render null', () => {
-    let tooltip = renderer(<Tooltip parent="#hey" placement="top" arrow="center" active={false}><span>Hey this is a tooltip</span></Tooltip>)
+    let tooltip = renderer(<Tooltip parent="#hey" position="top" arrow="center" active={false}><span>Hey this is a tooltip</span></Tooltip>)
 
     assert.equal(tooltip, null)
   })
