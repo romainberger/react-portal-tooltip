@@ -56,7 +56,8 @@ class Card extends React.Component {
   get baseArrowStyle() {
     return {
       position: 'absolute',
-      content: '""'
+      content: '""',
+      transition: 'all .3s ease-in-out'
     }
   }
   get arrowStyle() {
@@ -240,8 +241,8 @@ class Card extends React.Component {
       if (style.left < 0) {
         let offset = style.left
         style.left = this.margin
-        arrowStyle.fgStyle.marginLeft += offset
-        arrowStyle.bgStyle.marginLeft += offset
+        arrowStyle.fgStyle.marginLeft += offset - this.margin
+        arrowStyle.bgStyle.marginLeft += offset - this.margin
       }
       else {
         let rightOffset = style.left + this.state.width - window.innerWidth
