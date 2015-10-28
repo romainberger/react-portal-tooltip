@@ -241,8 +241,15 @@ class Card extends React.Component {
       if (style.left < 0) {
         let offset = style.left
         style.left = this.margin
-        arrowStyle.fgStyle.marginLeft += offset - this.margin
-        arrowStyle.bgStyle.marginLeft += offset - this.margin
+
+        if (this.props.arrow === 'right') {
+          arrowStyle.fgStyle.marginRight = -(offset - this.margin + 10)
+          arrowStyle.bgStyle.marginRight = -(offset - this.margin + 10)
+        }
+        else {
+          arrowStyle.fgStyle.marginLeft += offset - this.margin
+          arrowStyle.bgStyle.marginLeft += offset - this.margin
+        }
       }
       else {
         let rightOffset = style.left + this.state.width - window.innerWidth
