@@ -272,7 +272,6 @@ class Card extends React.Component {
   mergeStyle(style, theme) {
     if (theme) {
       let {position, top, left, right, bottom, marginLeft, marginRight, ...validTheme} = theme
-      console.log(validTheme)
 
       return assign(style, validTheme)
     }
