@@ -47866,6 +47866,18 @@
 	      }, 0);
 	    }
 	  }, {
+	    key: 'escape',
+	    value: function escape(html) {
+	      return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML;
+	    }
+	  }, {
+	    key: 'getBasicExample',
+	    value: function getBasicExample() {
+	      return {
+	        __html: this.escape('let style = {\n  style: {\n    background: \'rgba(0,0,0,.8)\',\n    padding: 20,\n    boxShadow: \'5px 5px 3px rgba(0,0,0,.5)\'\n  },\n  arrowStyle: {\n    color: \'rgba(0,0,0,.8)\',\n    borderColor: false\n  }\n}\n\n<ToolTip parent="#style-btn" active={true} position="bottom" arrow="center" style={style}>\n  <NicolasCage/>\n</ToolTip>')
+	      };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var style = {
@@ -47876,7 +47888,7 @@
 	        },
 	        arrowStyle: {
 	          color: 'rgba(0,0,0,.8)',
-	          borderColor: null
+	          borderColor: false
 	        }
 	      };
 
@@ -47930,6 +47942,11 @@
 	              'Check out this example to see how this one is done'
 	            )
 	          )
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { marginBottom: 20 } },
+	          _react2['default'].createElement('pre', { dangerouslySetInnerHTML: this.getBasicExample() })
 	        ),
 	        _react2['default'].createElement(
 	          'div',
