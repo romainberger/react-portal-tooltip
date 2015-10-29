@@ -34,6 +34,10 @@ class Card extends React.Component {
     height: 0
   }
   margin = 15
+  defaultArrowStyle = {
+    color: '#fff',
+    borderColor: 'rgba(0,0,0,.4)'
+  }
   get style() {
     if (!this.props.parentEl) {
       return {display: 'none'}
@@ -68,9 +72,14 @@ class Card extends React.Component {
     fgStyle.zIndex = 60
     bgStyle.zIndex = 55
 
-    let fgColorBorder = '10px solid #fff'
+    let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
+    let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
+
+    console.log(arrowStyle)
+
+    let fgColorBorder = `10px solid ${arrowStyle.color}`
     let fgTransBorder = '8px solid transparent'
-    let bgColorBorder = '11px solid rgba(0,0,0,.4)'
+    let bgColorBorder = `11px solid ${bgBorderColor}`
     let bgTransBorder = '9px solid transparent'
 
     let {position, arrow} = this.props
@@ -149,9 +158,11 @@ class Card extends React.Component {
       }
     }
 
+    let {color, borderColor, ...propsArrowStyle} = this.props.style.arrowStyle
+
     return {
-      fgStyle: this.mergeStyle(fgStyle, this.props.style.arrowStyle),
-      bgStyle: this.mergeStyle(bgStyle, this.props.style.arrowStyle)
+      fgStyle: this.mergeStyle(fgStyle, propsArrowStyle),
+      bgStyle: this.mergeStyle(bgStyle, propsArrowStyle)
     }
   }
   getStyle(position, arrow) {

@@ -33,7 +33,8 @@ export default class Style extends React.Component {
         boxShadow: '5px 5px 3px rgba(0,0,0,.5)'
       },
       arrowStyle: {
-        borderBottom: '11px solid rgba(0,0,0,.4)'
+        color: 'rgba(0,0,0,.8)',
+        borderColor: null
       }
     }
 
