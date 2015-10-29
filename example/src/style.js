@@ -22,8 +22,8 @@ export default class Style extends React.Component {
 
     return text
   }
-  componentDidUpdate() {
-    this.state.display || this.setState({display: true})
+  componentDidMount() {
+    setTimeout(() => this.setState({display: true}), 0)
   }
   render() {
     let style = {
