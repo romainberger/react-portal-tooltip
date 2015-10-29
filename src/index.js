@@ -18,12 +18,14 @@ class Card extends React.Component {
       'right',
       'bottom',
       'left'
-    ])
+    ]),
+    style: PropTypes.object
   }
   static defaultProps = {
     active: false,
     position: 'right',
-    arrow: null
+    arrow: null,
+    style: {style: {}, arrowStyle: {}}
   }
   state = {
     hover: false,
@@ -51,7 +53,7 @@ class Card extends React.Component {
 
     assign(style, this.getStyle(this.props.position, this.props.arrow))
 
-    return style
+    return this.mergeStyle(style, this.props.style.style)
   }
   get baseArrowStyle() {
     return {
@@ -147,7 +149,10 @@ class Card extends React.Component {
       }
     }
 
-    return {fgStyle, bgStyle}
+    return {
+      fgStyle: this.mergeStyle(fgStyle, this.props.style.arrowStyle),
+      bgStyle: this.mergeStyle(bgStyle, this.props.style.arrowStyle)
+    }
   }
   getStyle(position, arrow) {
     let parent = this.props.parentEl
@@ -263,6 +268,16 @@ class Card extends React.Component {
     }
 
     return {style, arrowStyle}
+  }
+  mergeStyle(style, theme) {
+    if (theme) {
+      let {position, top, left, right, bottom, marginLeft, marginRight, ...validTheme} = theme
+      console.log(validTheme)
+
+      return assign(style, validTheme)
+    }
+
+    return style
   }
   handleMouseEnter() {
     this.props.active && this.setState({hover: true})
