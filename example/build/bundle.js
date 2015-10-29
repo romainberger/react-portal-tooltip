@@ -77,6 +77,10 @@
 
 	var _groups2 = _interopRequireDefault(_groups);
 
+	var _style = __webpack_require__(370);
+
+	var _style2 = _interopRequireDefault(_style);
+
 	_react2['default'].render(_react2['default'].createElement(
 	  _reactRouter2['default'],
 	  null,
@@ -84,7 +88,8 @@
 	    _reactRouter.Route,
 	    { component: _app2['default'] },
 	    _react2['default'].createElement(_reactRouter.Route, { path: '/', component: _home2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/groups', component: _groups2['default'] })
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/groups', component: _groups2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/style', component: _style2['default'] })
 	  )
 	), document.querySelector('#root'));
 
@@ -24897,6 +24902,15 @@
 	                                    { to: '/groups' },
 	                                    'Groups'
 	                                )
+	                            ),
+	                            _react2['default'].createElement(
+	                                'li',
+	                                null,
+	                                _react2['default'].createElement(
+	                                    _reactRouter.Link,
+	                                    { to: '/style' },
+	                                    'Style'
+	                                )
 	                            )
 	                        )
 	                    )
@@ -26864,6 +26878,144 @@
 	        if (style.left < 0) {
 	          var offset = style.left;
 	          style.left = this.margin;
+
+	          if (this.props.arrow === 'right') {
+	            arrowStyle.fgStyle.marginRight = -(offset - this.margin + 10);
+	            arrowStyle.bgStyle.marginRight = -(offset - this.margin + 10);
+	          } else {
+	            arrowStyle.fgStyle.marginLeft += offset - this.margin;
+	            arrowStyle.bgStyle.marginLeft += offset - this.margin;
+	          }
+	        } else {
+	          var rightOffset = style.left + this.state.width - window.innerWidth;
+	          if (rightOffset > 0) {
+	            var originalLeft = style.left;
+	            style.left = window.innerWidth - this.state.width - this.margin;
+	            arrowStyle.fgStyle.marginLeft += originalLeft - style.left;
+	            arrowStyle.bgStyle.marginLeft += originalLeft - style.left;
+	          }
+	        }
+	      }
+
+	      return { style: style, arrowStyle: arrowStyle };
+	    }
+	  }, {
+	    key: 'mergeStyle',
+	    value: function mergeStyle(style, theme) {
+	      if (theme) {
+	        var position = theme.position;
+	        var _top = theme.top;
+	        var left = theme.left;
+	        var right = theme.right;
+	        var bottom = theme.bottom;
+	        var marginLeft = theme.marginLeft;
+	        var marginRight = theme.marginRight;
+
+	        var validTheme = _objectWithoutProperties(theme, ['position', 'top', 'left', 'right', 'bottom', 'marginLeft', 'marginRight']);
+
+	        console.log(validTheme);
+
+	        return (0, _objectAssign2['default'])(style, validTheme);
+	      }
+
+	      return style;
+	    }
+	  }, {
+	    key: 'getStyle',
+	    value: function getStyle(position, arrow) {
+	      var parent = this.props.parentEl;
+	      var tooltipPosition = parent.getBoundingClientRect();
+	      var top = window.scrollY + tooltipPosition.top;
+	      var left = window.scrollX + tooltipPosition.left;
+	      var style = {};
+
+	      switch (position) {
+	        case 'left':
+	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
+	          style.left = left - this.state.width - this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'top':
+	                style.top = top + parent.offsetHeight / 2 - this.margin;
+	                style.left = left - this.state.width - this.margin;
+	                break;
+
+	              case 'bottom':
+	                style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin;
+	                style.left = left - this.state.width - this.margin;
+	                break;
+	            }
+	          }
+	          break;
+
+	        case 'right':
+	          style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
+	          style.left = left + parent.offsetWidth + this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'top':
+	                style.top = top + parent.offsetHeight / 2 - this.margin;
+	                style.left = left + parent.offsetWidth + this.margin;
+	                break;
+
+	              case 'bottom':
+	                style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin;
+	                style.left = left + parent.offsetWidth + this.margin;
+	                break;
+	            }
+	          }
+	          break;
+
+	        case 'top':
+	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
+	          style.top = top - this.state.height - this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'right':
+	                style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin;
+	                style.top = top - this.state.height - this.margin;
+	                break;
+
+	              case 'left':
+	                style.left = left + parent.offsetWidth / 2 - this.margin;
+	                style.top = top - this.state.height - this.margin;
+	                break;
+	            }
+	          }
+	          break;
+
+	        case 'bottom':
+	          style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
+	          style.top = top + parent.offsetHeight + this.margin;
+
+	          if (arrow) {
+	            switch (arrow) {
+	              case 'right':
+	                style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin;
+	                style.top = top + parent.offsetHeight + this.margin;
+	                break;
+
+	              case 'left':
+	                style.left = left + parent.offsetWidth / 2 - this.margin;
+	                style.top = top + parent.offsetHeight + this.margin;
+	                break;
+	            }
+	          }
+	          break;
+	      }
+
+	      return style;
+	    }
+	  }, {
+	    key: 'checkWindowPosition',
+	    value: function checkWindowPosition(style, arrowStyle) {
+	      if (this.props.position === 'top' || this.props.position === 'bottom') {
+	        if (style.left < 0) {
+	          var offset = style.left;
+	          style.left = this.margin;
 	          arrowStyle.fgStyle.marginLeft += offset;
 	          arrowStyle.bgStyle.marginLeft += offset;
 	        } else {
@@ -26950,14 +27102,15 @@
 
 	      (0, _objectAssign2['default'])(style, this.getStyle(this.props.position, this.props.arrow));
 
-	      return style;
+	      return this.mergeStyle(style, this.props.style.style);
 	    }
 	  }, {
 	    key: 'baseArrowStyle',
 	    get: function get() {
 	      return {
 	        position: 'absolute',
-	        content: '""'
+	        content: '""',
+	        transition: 'all .3s ease-in-out'
 	      };
 	    }
 	  }, {
@@ -27048,14 +27201,18 @@
 	        }
 	      }
 
-	      return { fgStyle: fgStyle, bgStyle: bgStyle };
+	      return {
+	        fgStyle: this.mergeStyle(fgStyle, this.props.style.arrowStyle),
+	        bgStyle: this.mergeStyle(bgStyle, this.props.style.arrowStyle)
+	      };
 	    }
 	  }], [{
 	    key: 'PropTypes',
 	    value: {
 	      active: _react.PropTypes.bool,
 	      position: _react.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-	      arrow: _react.PropTypes.oneOf([null, 'center', 'top', 'right', 'bottom', 'left'])
+	      arrow: _react.PropTypes.oneOf([null, 'center', 'top', 'right', 'bottom', 'left']),
+	      style: _react.PropTypes.object
 	    },
 	    enumerable: true
 	  }, {
@@ -27063,7 +27220,8 @@
 	    value: {
 	      active: false,
 	      position: 'right',
-	      arrow: null
+	      arrow: null,
+	      style: { style: {}, arrowStyle: {} }
 	    },
 	    enumerable: true
 	  }]);
@@ -47628,6 +47786,321 @@
 	module.exports = exports['default'];
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/r.berger/Dev/fuck/react-portal-tooltip/example/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "groups.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 370 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/r.berger/Dev/fuck/react-portal-tooltip/example/node_modules/react-hot-loader/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/r.berger/Dev/fuck/react-portal-tooltip/example/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _src = __webpack_require__(211);
+
+	var _src2 = _interopRequireDefault(_src);
+
+	var _reactImagePlaceholder = __webpack_require__(371);
+
+	var Style = (function (_React$Component) {
+	  _inherits(Style, _React$Component);
+
+	  function Style() {
+	    _classCallCheck(this, Style);
+
+	    _get(Object.getPrototypeOf(Style.prototype), 'constructor', this).apply(this, arguments);
+
+	    this.state = {
+	      display: false
+	    };
+	  }
+
+	  _createClass(Style, [{
+	    key: 'getText',
+	    value: function getText() {
+	      var base = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\n    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\n    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\n    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\n    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\n    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+	      var text = [];
+
+	      for (var i = 0; i < 10; i++) {
+	        text.push(base);
+	      }
+
+	      return text;
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.state.display || this.setState({ display: true });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var style = {
+	        style: {
+	          background: 'rgba(0,0,0,.8)',
+	          padding: 20,
+	          boxShadow: '5px 5px 3px rgba(0,0,0,.5)'
+	        },
+	        arrowStyle: {
+	          borderBottom: '11px solid rgba(0,0,0,.4)'
+	        }
+	      };
+
+	      return _react2['default'].createElement(
+	        'div',
+	        { style: { padding: 20 } },
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { marginBottom: 20 } },
+	          _react2['default'].createElement(
+	            'p',
+	            null,
+	            'You can provide a ',
+	            _react2['default'].createElement(
+	              'code',
+	              null,
+	              'style'
+	            ),
+	            ' prop to customize some part of the tooltip. You can give it an object with two properties: ',
+	            _react2['default'].createElement(
+	              'code',
+	              null,
+	              'style'
+	            ),
+	            ', that will be applied to the tooltip itself, and ',
+	            _react2['default'].createElement(
+	              'code',
+	              null,
+	              'arrowStyle'
+	            ),
+	            ' which will be applied to the arrows. The last one is tricky as the arrows are made with borders so it can be painfull to customize.'
+	          ),
+	          _react2['default'].createElement(
+	            'p',
+	            null,
+	            _react2['default'].createElement(
+	              'a',
+	              { href: 'https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js' },
+	              'Check out this example to see how this one is done'
+	            )
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { textAlign: 'center' } },
+	          _react2['default'].createElement(
+	            'span',
+	            { className: 'btn btn-primary', id: 'style-btn', style: { marginBottom: 20 } },
+	            'Thanks react-image-placeholder!'
+	          ),
+	          _react2['default'].createElement(
+	            _src2['default'],
+	            { parent: '#style-btn', active: this.state.display, position: 'bottom', arrow: 'center', style: style },
+	            _react2['default'].createElement(_reactImagePlaceholder.NicolasCage, null)
+	          )
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          null,
+	          this.getText()
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Style;
+	})(_react2['default'].Component);
+
+	exports['default'] = Style;
+	module.exports = exports['default'];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/r.berger/Dev/fuck/react-portal-tooltip/example/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "style.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var ImagePlaceholder = (function (_Component) {
+	  _inherits(ImagePlaceholder, _Component);
+
+	  function ImagePlaceholder() {
+	    _classCallCheck(this, ImagePlaceholder);
+
+	    _get(Object.getPrototypeOf(ImagePlaceholder.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  _createClass(ImagePlaceholder, [{
+	    key: 'render',
+	    value: function render() {
+	      var rand = 150 + Math.round(Math.random() * 150);
+	      var w = this.props.width || rand;
+	      var h = this.props.height || rand;
+	      var types = {
+	        'nicolas-cage': 'http://www.placecage.com/' + w + '/' + h,
+	        'bill-murray': 'http://www.fillmurray.com/' + w + '/' + h,
+	        'steven-seagal': 'http://www.stevensegallery.com/' + w + '/' + h,
+	        'the-hoff': 'http://place-hoff.com/' + w + '/' + h,
+	        'vanilla-ice': 'http://nicenicejpg.com/' + w + '/' + h,
+	        'bacon': 'http://baconmockup.com/' + w + '/' + h,
+	        'beard': 'http://placebeard.it/' + w + '/' + h,
+	        'beer': 'http://beerhold.it/' + w + '/' + h,
+
+	        'cats': 'http://lorempixel.com/' + w + '/' + h + '/cats',
+	        'nature': 'http://lorempixel.com/' + w + '/' + h + '/nature',
+	        'sports': 'http://lorempixel.com/' + w + '/' + h + '/sports',
+	        'food': 'http://lorempixel.com/' + w + '/' + h + '/food',
+	        'technics': 'http://lorempixel.com/' + w + '/' + h + '/technics',
+	        'people': 'http://lorempixel.com/' + w + '/' + h + '/people',
+	        'business': 'http://lorempixel.com/' + w + '/' + h + '/business',
+	        'city': 'http://lorempixel.com/' + w + '/' + h + '/city',
+	        'unsplash': 'https://unsplash.it/' + w + '/' + h + '?random'
+
+	      };
+
+	      var src = undefined;
+	      if (this.props.text) {
+	        src = 'http://dummyimage.com/' + w + 'x' + h + '/000000/FFFFFF?text=' + this.props.text;
+	      } else if (types[this.props.type]) {
+	        src = types[this.props.type];
+	      } else {
+	        src = 'http://dummyimage.com/' + w + 'x' + h + '/000000/FFFFFF?text=' + this.props.type;
+	      }
+
+	      return _react2['default'].createElement('img', { src: src, width: w, height: h, style: { backgroundColor: '#000' } });
+	    }
+	  }]);
+
+	  return ImagePlaceholder;
+	})(_react.Component);
+
+	exports['default'] = ImagePlaceholder;
+
+	ImagePlaceholder.defaultProps = { width: 150, height: 150, type: 'nature' };
+	ImagePlaceholder.propTypes = {
+	  width: _react2['default'].PropTypes.number,
+	  height: _react2['default'].PropTypes.number,
+	  type: _react2['default'].PropTypes.string
+	};
+
+	var NicolasCage = (function (_ImagePlaceholder) {
+	  _inherits(NicolasCage, _ImagePlaceholder);
+
+	  function NicolasCage() {
+	    _classCallCheck(this, NicolasCage);
+
+	    _get(Object.getPrototypeOf(NicolasCage.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  return NicolasCage;
+	})(ImagePlaceholder);
+
+	exports.NicolasCage = NicolasCage;
+
+	NicolasCage.defaultProps = { type: 'nicolas-cage' };
+
+	var BillMurray = (function (_ImagePlaceholder2) {
+	  _inherits(BillMurray, _ImagePlaceholder2);
+
+	  function BillMurray() {
+	    _classCallCheck(this, BillMurray);
+
+	    _get(Object.getPrototypeOf(BillMurray.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  return BillMurray;
+	})(ImagePlaceholder);
+
+	exports.BillMurray = BillMurray;
+
+	BillMurray.defaultProps = { type: 'bill-murray' };
+
+	var StevenSeagal = (function (_ImagePlaceholder3) {
+	  _inherits(StevenSeagal, _ImagePlaceholder3);
+
+	  function StevenSeagal() {
+	    _classCallCheck(this, StevenSeagal);
+
+	    _get(Object.getPrototypeOf(StevenSeagal.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  return StevenSeagal;
+	})(ImagePlaceholder);
+
+	exports.StevenSeagal = StevenSeagal;
+
+	StevenSeagal.defaultProps = { type: 'steven-seagal' };
+
+	var TheHoff = (function (_ImagePlaceholder4) {
+	  _inherits(TheHoff, _ImagePlaceholder4);
+
+	  function TheHoff() {
+	    _classCallCheck(this, TheHoff);
+
+	    _get(Object.getPrototypeOf(TheHoff.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  return TheHoff;
+	})(ImagePlaceholder);
+
+	exports.TheHoff = TheHoff;
+
+	TheHoff.defaultProps = { type: 'the-hoff' };
+
+	var VanillaIce = (function (_ImagePlaceholder5) {
+	  _inherits(VanillaIce, _ImagePlaceholder5);
+
+	  function VanillaIce() {
+	    _classCallCheck(this, VanillaIce);
+
+	    _get(Object.getPrototypeOf(VanillaIce.prototype), 'constructor', this).apply(this, arguments);
+	  }
+
+	  return VanillaIce;
+	})(ImagePlaceholder);
+
+	exports.VanillaIce = VanillaIce;
+
+	VanillaIce.defaultProps = { type: 'vanilla-ice' };
+
+
 
 /***/ }
 /******/ ]);
