@@ -70,6 +70,7 @@ $ npm start
 
 # to build run this command from the root directory
 $ npm build
+```
 
 ## License
 
