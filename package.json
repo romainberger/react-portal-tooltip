@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/romainberger/react-portal-tooltip"
   },
-  "homepage": "https://github.com/dailymotion/react-collider",
+  "homepage": "https://github.com/dailymotion/react-portal-tooltip",
   "scripts": {
     "start": "./node_modules/.bin/babel src --watch --out-dir lib",
     "build": "./node_modules/.bin/babel src --out-dir lib",
