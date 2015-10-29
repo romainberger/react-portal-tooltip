@@ -26780,6 +26780,10 @@
 	      height: 0
 	    };
 	    this.margin = 15;
+	    this.defaultArrowStyle = {
+	      color: '#fff',
+	      borderColor: 'rgba(0,0,0,.4)'
+	    };
 	  }
 
 	  _createClass(Card, [{
@@ -26912,8 +26916,6 @@
 	        var marginRight = theme.marginRight;
 
 	        var validTheme = _objectWithoutProperties(theme, ['position', 'top', 'left', 'right', 'bottom', 'marginLeft', 'marginRight']);
-
-	        console.log(validTheme);
 
 	        return (0, _objectAssign2['default'])(style, validTheme);
 	      }
@@ -27121,9 +27123,14 @@
 	      fgStyle.zIndex = 60;
 	      bgStyle.zIndex = 55;
 
-	      var fgColorBorder = '10px solid #fff';
+	      var arrowStyle = (0, _objectAssign2['default'])(this.defaultArrowStyle, this.props.style.arrowStyle);
+	      var bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent';
+
+	      console.log(arrowStyle);
+
+	      var fgColorBorder = '10px solid ' + arrowStyle.color;
 	      var fgTransBorder = '8px solid transparent';
-	      var bgColorBorder = '11px solid rgba(0,0,0,.4)';
+	      var bgColorBorder = '11px solid ' + bgBorderColor;
 	      var bgTransBorder = '9px solid transparent';
 
 	      var _props = this.props;
@@ -27201,9 +27208,15 @@
 	        }
 	      }
 
+	      var _props$style$arrowStyle = this.props.style.arrowStyle;
+	      var color = _props$style$arrowStyle.color;
+	      var borderColor = _props$style$arrowStyle.borderColor;
+
+	      var propsArrowStyle = _objectWithoutProperties(_props$style$arrowStyle, ['color', 'borderColor']);
+
 	      return {
-	        fgStyle: this.mergeStyle(fgStyle, this.props.style.arrowStyle),
-	        bgStyle: this.mergeStyle(bgStyle, this.props.style.arrowStyle)
+	        fgStyle: this.mergeStyle(fgStyle, propsArrowStyle),
+	        bgStyle: this.mergeStyle(bgStyle, propsArrowStyle)
 	      };
 	    }
 	  }], [{
@@ -47846,9 +47859,13 @@
 	      return text;
 	    }
 	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      this.state.display || this.setState({ display: true });
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this = this;
+
+	      setTimeout(function () {
+	        return _this.setState({ display: true });
+	      }, 0);
 	    }
 	  }, {
 	    key: 'render',
@@ -47860,7 +47877,8 @@
 	          boxShadow: '5px 5px 3px rgba(0,0,0,.5)'
 	        },
 	        arrowStyle: {
-	          borderBottom: '11px solid rgba(0,0,0,.4)'
+	          color: 'rgba(0,0,0,.8)',
+	          borderColor: null
 	        }
 	      };
 
@@ -47891,7 +47909,7 @@
 	              null,
 	              'arrowStyle'
 	            ),
-	            ' which will be applied to the arrows. The last one is tricky as the arrows are made with borders so it can be painfull to customize.'
+	            ' which will be applied to the arrows. The last one is tricky as the arrows are made with borders so it can be painfull to customize. To make it easier, the `arrowStyle.color` property will change the background color of the arrow and `arrowStyle.borderColor` its border. To remove completely the border use a falsy value.'
 	          ),
 	          _react2['default'].createElement(
 	            'p',
