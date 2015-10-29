@@ -75,8 +75,6 @@ class Card extends React.Component {
     let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
     let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
 
-    console.log(arrowStyle)
-
     let fgColorBorder = `10px solid ${arrowStyle.color}`
     let fgTransBorder = '8px solid transparent'
     let bgColorBorder = `11px solid ${bgBorderColor}`
