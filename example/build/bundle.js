@@ -47909,7 +47909,19 @@
 	              null,
 	              'arrowStyle'
 	            ),
-	            ' which will be applied to the arrows. The last one is tricky as the arrows are made with borders so it can be painfull to customize. To make it easier, the `arrowStyle.color` property will change the background color of the arrow and `arrowStyle.borderColor` its border. To remove completely the border use a falsy value.'
+	            ' which will be applied to the arrows. The last one is tricky as the arrows are made with borders so it can be painfull to customize. To make it easier, the ',
+	            _react2['default'].createElement(
+	              'code',
+	              null,
+	              'arrowStyle.color'
+	            ),
+	            ' property will change the background color of the arrow and ',
+	            _react2['default'].createElement(
+	              'code',
+	              null,
+	              'arrowStyle.borderColor'
+	            ),
+	            ' its border. To remove completely the border use a falsy value.'
 	          ),
 	          _react2['default'].createElement(
 	            'p',
