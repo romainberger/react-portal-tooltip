@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react'
+import PureComponent from 'react-pure-render/component'
 import isClient from 'is-client'
 import assign from 'object-assign'
 
-class Card extends React.Component {
+class Card extends PureComponent {
   static PropTypes = {
     active: PropTypes.bool,
     position: PropTypes.oneOf([
@@ -323,7 +324,8 @@ export default class ToolTip extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if ((!portalNodes[this.props.group] && !nextProps.active)) {
+    if ((!portalNodes[this.props.group] && !nextProps.active) ||
+      (!this.props.active && !nextProps.active)) {
       return
     }
 

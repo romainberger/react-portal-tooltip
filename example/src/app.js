@@ -22,6 +22,7 @@ export default class App extends React.Component {
                         <ul className="nav nav-tabs">
                           <li><Link to="/">Basic usage</Link></li>
                           <li><Link to="/groups">Groups</Link></li>
+                          <li><Link to="/random">Random</Link></li>
                         </ul>
                     </div>
                 </div>
