@@ -14,7 +14,8 @@
   "scripts": {
     "start": "./node_modules/.bin/babel src --watch --out-dir lib",
     "build": "./node_modules/.bin/babel src --out-dir lib",
-    "test": "mocha --compilers js:babel/register"
+    "test": "mocha --compilers js:babel/register",
+    "prepublish": "rm -rf lib && npm run build"
   },
   "keywords": [
     "react",
