@@ -346,11 +346,13 @@ export default class ToolTip extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if ((!portalNodes[this.props.group] && !nextProps.active)) {
+    if ((!portalNodes[this.props.group] && !nextProps.active) ||
+      (!this.props.active && !nextProps.active)) {
       return
     }
 
     let newProps = nextProps
+
     if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
       clearTimeout(portalNodes[this.props.group].timeout)
     }
