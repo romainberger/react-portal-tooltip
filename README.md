@@ -2,7 +2,7 @@
 
 Awesome tooltips.
 
-**Warning** The latest version on npm is compatible with React 0.14. For React 0.13 install the [0.6.6](https://github.com/romainberger/react-portal-tooltip/tree/v0.6.4) version.
+**Warning** The latest version on npm is compatible with React 0.14. For React 0.13 install the [0.6.4](https://github.com/romainberger/react-portal-tooltip/tree/v0.6.4) version.
 
 ![react tooltip](https://raw.githubusercontent.com/romainberger/react-portal-tooltip/master/react-portal-tooltip.gif)
 
