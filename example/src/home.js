@@ -6,7 +6,7 @@ import ToolTip from './../../src'
 export default class Home extends React.Component {
   state = {
     isTooltipActive: false,
-    placement: 'right',
+    position: 'right',
     arrow: true,
     arrowOptions: null
   }
@@ -31,7 +31,7 @@ export default class Home extends React.Component {
   }
   getBasicExample() {
     return {
-      __html: this.escape(`<ToolTip active={true} parent="#parent" placement="right" arrow="center">
+      __html: this.escape(`<ToolTip active={true} parent="#parent" position="right" arrow="center">
   ToolTip content here
 </ToolTip>`)
     }
@@ -72,7 +72,7 @@ export default class Home extends React.Component {
               <div style={{marginBottom: 20}}>
                 Result:
                 <span className="btn btn-default" id="result" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
-                <ToolTip active={this.state.isTooltipActive} parent="#result" placement="right" arrow="center" group="result">
+                <ToolTip active={this.state.isTooltipActive} parent="#result" position="right" arrow="center" group="result">
                   Tooltip content here
                 </ToolTip>
               </div>
@@ -80,8 +80,8 @@ export default class Home extends React.Component {
           </div>
           <div className="row">
             <div className="col-lg-3">
-              <label htmlFor="placement-select" style={{marginRight: 10}}>Position:</label>
-              <select id="placement-select" onChange={::this.handleOnChange} ref="placement" defaultValue="right">
+              <label htmlFor="position-select" style={{marginRight: 10}}>Position:</label>
+              <select id="position-select" onChange={::this.handleOnChange} ref="position" defaultValue="right">
                 <option value="top">top</option>
                 <option value="right">right</option>
                 <option value="bottom">bottom</option>
@@ -98,7 +98,7 @@ export default class Home extends React.Component {
           <div className="row">
             <h4 className="col-lg-12">Hover the usernames to display the tooltips</h4>
           </div>
-          <List data={this.props.users.list.slice(0, 12)} placement={this.state.placement} arrow={this.state.arrow}/>
+          <List data={this.props.users.list.slice(0, 12)} position={this.state.position} arrow={this.state.arrow}/>
         </div>
       </div>
     )

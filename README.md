@@ -32,7 +32,7 @@ class MyComponent extends React.Component {
         return (
             <div>
                 <p id="text" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>This is a cool component</p>
-                <ToolTip active={this.state.isTooltipActive} placement="top" arrow="center" parent="#text">
+                <ToolTip active={this.state.isTooltipActive} position="top" arrow="center" parent="#text">
                     <div>
                         <p>This is the content of the tooltip</p>
                         <img src="image.png"/>
@@ -47,10 +47,30 @@ class MyComponent extends React.Component {
 ### Props
 
 * `active`: boolean, the tooltip will be visible if true
-* `placement`: top, right, bottom or left. Default to right
-* `arrow`: center, right, left, top or bottom (depending on the placement prop). No arrow when the prop is not sepecified
+* `position`: top, right, bottom or left. Default to right
+* `arrow`: center, right, left, top or bottom (depending on the position prop). No arrow when the prop is not sepecified
 * `parent`: the tooltip will be placed next to this element
 * `group`: string, necessary if you want several independant tooltips
+* `style`: object, allows customizing the tooltip. Checkout the [example](https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js) for details.
+
+## Development
+
+```shell
+# clone
+$ git clone git@github.com:romainberger/react-portal-tooltip.git
+
+# install the dependencies
+$ npm install
+
+# go to the example folder, then install more dependencies
+$ cd example && npm install
+
+# start the development server with hot reloading
+$ npm start
+
+# to build run this command from the root directory
+$ npm build
+```
 
 ## License
 
