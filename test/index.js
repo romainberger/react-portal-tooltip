@@ -1,7 +1,7 @@
+import React from 'react'
 import assert from 'assert'
-import React from 'react/addons'
+import TestUtils from 'react-addons-test-utils'
 import Tooltip from '../src'
-const TestUtils = React.addons.TestUtils
 
 const renderer = (Component) => {
   const shallowRenderer = TestUtils.createRenderer()

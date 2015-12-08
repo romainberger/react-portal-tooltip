@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import isClient from 'is-client'
 import assign from 'object-assign'
 
@@ -255,6 +256,8 @@ class Card extends React.Component {
       if (style.left < 0) {
         let offset = style.left
         style.left = this.margin
+        arrowStyle.fgStyle.marginLeft += offset
+        arrowStyle.bgStyle.marginLeft += offset
 
         if (this.props.arrow === 'right') {
           arrowStyle.fgStyle.marginRight = -(offset - this.margin + 10)
@@ -301,7 +304,7 @@ class Card extends React.Component {
     this.setState({transition: this.state.hover || this.props.active ? 'all' : 'opacity'})
   }
   updateSize() {
-    let self = React.findDOMNode(this)
+    let self = ReactDOM.findDOMNode(this)
     this.setState({
       width: self.offsetWidth,
       height: self.offsetHeight
@@ -351,17 +354,18 @@ export default class ToolTip extends React.Component {
       return
     }
 
-    let newProps = nextProps
+    let props = assign({}, nextProps)
+    let newProps = assign({}, nextProps)
 
     if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
       clearTimeout(portalNodes[this.props.group].timeout)
     }
 
-    if (this.props.active && !nextProps.active) {
+    if (this.props.active && !props.active) {
       newProps.active = true
       portalNodes[this.props.group].timeout = setTimeout(() => {
-        nextProps.active = false
-        this.renderPortal(nextProps)
+        props.active = false
+        this.renderPortal(props)
       }, 500)
     }
 
@@ -384,7 +388,7 @@ export default class ToolTip extends React.Component {
     }
     let {parent, ...other} = props
     let parentEl = document.querySelector(parent)
-    React.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].el)
+    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].el)
   }
   shouldComponentUpdate() {
     return false
