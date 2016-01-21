@@ -372,7 +372,7 @@ export default class ToolTip extends React.Component {
     this.renderPortal(newProps)
   }
   componentWillUnmount() {
-    portalNodes[this.props.group] && React.unmountComponentAtNode(portalNodes[this.props.group].el)
+    portalNodes[this.props.group] && ReactDOM.unmountComponentAtNode(portalNodes[this.props.group].el)
   }
   createPortal() {
     portalNodes[this.props.group] = {
