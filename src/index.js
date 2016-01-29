@@ -167,8 +167,10 @@ class Card extends React.Component {
   getStyle(position, arrow) {
     let parent = this.props.parentEl
     let tooltipPosition = parent.getBoundingClientRect()
-    let top = window.scrollY + tooltipPosition.top
-    let left = window.scrollX + tooltipPosition.left
+    let scrollY = window.scrollY ? window.scrollY : window.pageYOffset
+    let scrollX = window.scrollX ? window.scrollX : window.pageXOffset
+    let top = scrollY + tooltipPosition.top
+    let left = scrollX + tooltipPosition.left
     let style = {}
 
     switch (position) {
