@@ -3,5 +3,9 @@ node_js:
   - "0.10"
   - "0.12"
 
+install:
+  - npm install react react-dom
+  - npm install
+
 notifications:
   email: false

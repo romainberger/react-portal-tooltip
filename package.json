@@ -26,11 +26,13 @@
   ],
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
-  "dependencies": {
-    "is-client": "0.0.2",
-    "object-assign": "^4.0.1",
+  "peerDependencies": {
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
+  },
+  "dependencies": {
+    "is-client": "0.0.2",
+    "object-assign": "^4.0.1"
   },
   "devDependencies": {
     "babel": "^5.8.21",
