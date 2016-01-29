@@ -1,4 +1,5 @@
-# React Portal Tooltip [![Build Status](https://api.travis-ci.org/romainberger/react-portal-tooltip.svg?branch=master)](https://travis-ci.org/romainberger/react-portal-tooltip)
+# React Portal Tooltip [![Build Status]https://img.shields.io/travis/romainberger/react-portal-tooltip/master.svg?style=flat-square](https://travis-ci.org/romainberger/react-portal-tooltip) [![npm version](https://img.shields.io/npm/v/react-portal-tooltip.svg?style=flat-square)](https://www.npmjs.com/package/react-portal-tooltip)
+[![npm downloads](https://img.shields.io/npm/dm/react-portal-tooltip.svg?style=flat-square)](https://www.npmjs.com/package/react-portal-tooltip)
 
 Awesome tooltips.
 
