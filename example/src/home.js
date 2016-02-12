@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import List from './list'
 import ToolTip from './../../src'
 
@@ -20,9 +19,9 @@ export default class Home extends React.Component {
     this.setState({isTooltipActive: false})
   }
   handleOnChange() {
-    let arrow = ReactDOM.findDOMNode(this.refs.arrow).value === 'disable' ? null : ReactDOM.findDOMNode(this.refs.arrow).value
+    let arrow = this.refs.arrow.value === 'disable' ? null : this.refs.arrow.value
     this.setState({
-      placement: ReactDOM.findDOMNode(this.refs.placement).value,
+      position: this.refs.position.value,
       arrow
     }, this.getArrowOptions)
   }
@@ -37,7 +36,7 @@ export default class Home extends React.Component {
     }
   }
   getArrowOptions() {
-    let node = ReactDOM.findDOMNode(this.refs.placement)
+    let node = this.refs.position
     let value = node ? node.value : 'right'
     let arrowOptions = [
       <option value="center" key="arrow-center">center</option>,
