@@ -1,6 +1,6 @@
 {
   "name": "react-portal-tooltip",
-  "version": "0.2.0",
+  "version": "1.0.4",
   "description": "Awesome React tooltips",
   "main": "lib/index.js",
   "repository": {
@@ -10,10 +10,12 @@
   "bugs": {
     "url": "https://github.com/romainberger/react-portal-tooltip"
   },
-  "homepage": "https://github.com/dailymotion/react-collider",
+  "homepage": "https://github.com/dailymotion/react-portal-tooltip",
   "scripts": {
     "start": "./node_modules/.bin/babel src --watch --out-dir lib",
-    "build": "./node_modules/.bin/babel src --out-dir lib"
+    "build": "./node_modules/.bin/babel src --out-dir lib",
+    "test": "mocha --compilers js:babel/register",
+    "prepublish": "rm -rf lib && npm run build"
   },
   "keywords": [
     "react",
@@ -24,11 +26,19 @@
   ],
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
+  "peerDependencies": {
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
   "dependencies": {
     "is-client": "0.0.2",
-    "react": "^0.13.3"
+    "object-assign": "^4.0.1"
   },
   "devDependencies": {
-    "babel": "^5.8.21"
+    "babel": "^5.8.21",
+    "mocha": "^2.3.3",
+    "react": "^0.14.7",
+    "react-addons-test-utils": "^0.14.3",
+    "react-dom": "^0.14.7"
   }
 }

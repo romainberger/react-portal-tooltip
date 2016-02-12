@@ -14,13 +14,13 @@ export default class Groups extends React.Component {
           <div className="row">
             <h2>first group</h2>
             <div className="col-lg-12">
-              <List data={this.props.users.list.slice(0, 10)} group="first"/>
+              <List data={this.props.users.list.slice(0, 10)} group="first" arrow="center"/>
             </div>
           </div>
           <div className="row">
             <h2>second group</h2>
             <div className="col-lg-12">
-              <List data={this.props.users.list.slice(10, 20)} group="second"/>
+              <List data={this.props.users.list.slice(10, 20)} group="second" arrow="center"/>
             </div>
           </div>
         </div>
