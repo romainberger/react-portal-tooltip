@@ -113,9 +113,9 @@ class Card extends React.Component {
       }
       if (arrow === 'bottom') {
         fgStyle.top = null
-        fgStyle.bottom = this.margin + 1
+        fgStyle.bottom = this.margin - 7
         bgStyle.top = null
-        bgStyle.bottom = this.margin
+        bgStyle.bottom = this.margin - 8
       }
     }
     else {
