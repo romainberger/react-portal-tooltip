@@ -292,6 +292,114 @@ class Card extends React.Component {
 
     return style
   }
+  getStyle(position, arrow) {
+    let parent = this.props.parentEl
+    let tooltipPosition = parent.getBoundingClientRect()
+    let top = window.scrollY + tooltipPosition.top
+    let left = window.scrollX + tooltipPosition.left
+    let style = {}
+
+    switch (position) {
+      case 'left':
+        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left - this.state.width - this.margin
+
+        if (arrow) {
+          switch (arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - this.margin
+              style.left = left - this.state.width - this.margin
+              break
+
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + this.margin
+              style.left = left - this.state.width - this.margin
+              break
+          }
+        }
+        break
+
+      case 'right':
+        style.top = (top + parent.offsetHeight / 2) - ((this.state.height) / 2)
+        style.left = left + parent.offsetWidth + this.margin
+
+        if (arrow) {
+          switch (arrow) {
+            case 'top':
+              style.top = (top + parent.offsetHeight / 2) - this.margin
+              style.left = left + parent.offsetWidth + this.margin
+              break
+
+            case 'bottom':
+              style.top = (top + parent.offsetHeight / 2) - this.state.height + this.margin
+              style.left = left + parent.offsetWidth + this.margin
+              break
+          }
+        }
+        break
+
+      case 'top':
+        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top - this.state.height - this.margin
+
+        if (arrow) {
+          switch(arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+              style.top = top - this.state.height - this.margin
+              break
+
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - this.margin
+              style.top = top - this.state.height - this.margin
+              break
+          }
+        }
+        break
+
+      case 'bottom':
+        style.left = left - (this.state.width / 2) + parent.offsetWidth / 2
+        style.top = top + parent.offsetHeight + this.margin
+
+        if (arrow){
+          switch (arrow) {
+            case 'right':
+              style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+              style.top = top + parent.offsetHeight + this.margin
+              break
+
+            case 'left':
+              style.left = left + parent.offsetWidth / 2 - this.margin
+              style.top = top + parent.offsetHeight + this.margin
+              break
+          }
+        }
+        break
+    }
+
+    return style
+  }
+  checkWindowPosition(style, arrowStyle) {
+    if (this.props.position === 'top' || this.props.position === 'bottom') {
+      if (style.left < 0) {
+        let offset = style.left
+        style.left = this.margin
+        arrowStyle.fgStyle.marginLeft += offset
+        arrowStyle.bgStyle.marginLeft += offset
+      }
+      else {
+        let rightOffset = style.left + this.state.width - window.innerWidth
+        if (rightOffset > 0) {
+          let originalLeft = style.left
+          style.left = window.innerWidth - this.state.width - this.margin
+          arrowStyle.fgStyle.marginLeft += originalLeft - style.left
+          arrowStyle.bgStyle.marginLeft += originalLeft - style.left
+        }
+      }
+    }
+
+    return {style, arrowStyle}
+  }
   handleMouseEnter() {
     this.props.active && this.setState({hover: true})
   }
