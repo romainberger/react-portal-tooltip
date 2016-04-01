@@ -443,7 +443,8 @@ var portalNodes = {}
 export default class ToolTip extends React.Component {
   static defaultProps = {
     active: false,
-    group: 'main'
+    group: 'main',
+    tooltipTimeout: 500
   }
   static propTypes = {
     active: PropTypes.bool,
@@ -476,7 +477,7 @@ export default class ToolTip extends React.Component {
       portalNodes[this.props.group].timeout = setTimeout(() => {
         props.active = false
         this.renderPortal(props)
-      }, 500)
+      }, this.props.tooltipTimeout)
     }
 
     this.renderPortal(newProps)
