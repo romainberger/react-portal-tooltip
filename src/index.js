@@ -448,7 +448,8 @@ export default class ToolTip extends React.Component {
   }
   static propTypes = {
     active: PropTypes.bool,
-    group: PropTypes.string
+    group: PropTypes.string,
+    tooltipTimeout: PropTypes.number
   }
   componentDidMount() {
     if (!this.props.active) {
