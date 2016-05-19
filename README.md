@@ -5,13 +5,23 @@ Awesome tooltips.
 [![Build Status](https://img.shields.io/travis/romainberger/react-portal-tooltip/master.svg?style=flat-square)](https://travis-ci.org/romainberger/react-portal-tooltip) [![npm version](https://img.shields.io/npm/v/react-portal-tooltip.svg?style=flat-square)](https://www.npmjs.com/package/react-portal-tooltip)
 [![npm downloads](https://img.shields.io/npm/dm/react-portal-tooltip.svg?style=flat-square)](https://www.npmjs.com/package/react-portal-tooltip)
 
-**Warning** The latest version on npm is compatible with React 0.14. For React 0.13 install the [0.6.4](https://github.com/romainberger/react-portal-tooltip/tree/v0.6.4) version.
-
 ![react tooltip](https://raw.githubusercontent.com/romainberger/react-portal-tooltip/master/react-portal-tooltip.gif)
 
 ## Installation
 
-    $ npm install react-portal-tooltip
+```shell
+$ npm install react-portal-tooltip
+```
+
+**Warning** The latest version on npm is compatible with React 15. Corresponding versions for older versions of React:
+
+```shell
+# For react 0.14
+$ npm install react-portal-tooltip@0.14
+
+# For react 0.13
+$ npm install react-portal-tooltip@0.13
+```
 
 ## Documentation and demo
 
