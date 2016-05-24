@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
 import isClient from 'is-client'
 import assign from 'object-assign'
 
@@ -372,15 +372,15 @@ export default class ToolTip extends React.Component {
     this.renderPortal(newProps)
   }
   componentWillUnmount() {
-    portalNodes[this.props.group] && React.unmountComponentAtNode(portalNodes[this.props.group].el)
+    portalNodes[this.props.group] && React.unmountComponentAtNode(portalNodes[this.props.group].node)
   }
   createPortal() {
     portalNodes[this.props.group] = {
-      el: document.createElement('div'),
+      node: document.createElement('div'),
       timeout: false
     }
-    portalNodes[this.props.group].el.className = 'ToolTipPortal'
-    document.body.appendChild(portalNodes[this.props.group].el)
+    portalNodes[this.props.group].node.className = 'ToolTipPortal'
+    document.body.appendChild(portalNodes[this.props.group].node)
   }
   renderPortal(props) {
     if (!portalNodes[this.props.group]) {
@@ -388,7 +388,7 @@ export default class ToolTip extends React.Component {
     }
     let {parent, ...other} = props
     let parentEl = document.querySelector(parent)
-    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].el)
+    renderSubtreeIntoContainer(this, <Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].node)
   }
   shouldComponentUpdate() {
     return false
