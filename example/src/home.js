@@ -14,10 +14,12 @@ export default class Home extends React.Component {
     this.getArrowOptions()
   }
   showTooltip() {
-    this.setState({isTooltipActive: true, isTooltipLoading: true})
-    setTimeout(() => {
-      this.setState({isTooltipLoading: false})
-    }, 2000)
+    // this.setState({isTooltipActive: true, isTooltipLoading: true})
+    // setTimeout(() => {
+    //   this.setState({isTooltipLoading: false})
+    // }, 2000)
+
+    this.setState({isTooltipActive: true})
   }
   hideTooltip() {
     this.setState({isTooltipActive: false})
@@ -77,7 +79,7 @@ export default class Home extends React.Component {
                 <span className="btn btn-default" id="result" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
                 <ToolTip active={this.state.isTooltipActive} parent="#result" position="right" arrow="center" group="result">
 
-                { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here<br/><br/><br/><br/><br/><br/><br/><br/>---</div>}
+                { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
                 </ToolTip>
               </div>
             </div>
