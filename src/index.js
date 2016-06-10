@@ -412,8 +412,9 @@ class Card extends React.Component {
     this.updateSize()
   }
   componentWillReceiveProps() {
-    this.updateSize()
-    this.setState({transition: this.state.hover || this.props.active ? 'all' : 'opacity'})
+    this.setState({transition: this.state.hover || this.props.active ? 'all' : 'opacity'}, () => {
+      this.updateSize()
+    })
   }
   updateSize() {
     let self = ReactDOM.findDOMNode(this)
