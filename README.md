@@ -46,7 +46,7 @@ class MyComponent extends React.Component {
     render() {
         return (
             <div>
-                <p id="text" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>This is a cool component</p>
+                <p id="text" onMouseEnter={this.showTooltip.bind(this)} onMouseLeave={this.hideTooltip.bind(this)}>This is a cool component</p>
                 <ToolTip active={this.state.isTooltipActive} position="top" arrow="center" parent="#text">
                     <div>
                         <p>This is the content of the tooltip</p>
