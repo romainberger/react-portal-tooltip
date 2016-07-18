@@ -444,15 +444,16 @@ class Card extends React.Component {
 var portalNodes = {}
 
 export default class ToolTip extends React.Component {
+  static propTypes = {
+    parent: PropTypes.string.isRequired,
+    active: PropTypes.bool,
+    group: PropTypes.string,
+    tooltipTimeout: PropTypes.number
+  }
   static defaultProps = {
     active: false,
     group: 'main',
     tooltipTimeout: 500
-  }
-  static propTypes = {
-    active: PropTypes.bool,
-    group: PropTypes.string,
-    tooltipTimeout: PropTypes.number
   }
   componentDidMount() {
     if (!this.props.active) {
