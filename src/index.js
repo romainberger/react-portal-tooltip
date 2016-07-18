@@ -4,7 +4,7 @@ import isClient from 'is-client'
 import assign from 'object-assign'
 
 class Card extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     active: PropTypes.bool,
     position: PropTypes.oneOf([
       'top',
