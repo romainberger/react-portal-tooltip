@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react'
 import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
-import isClient from 'is-client'
 import assign from 'object-assign'
 
 class Card extends React.Component {
@@ -460,9 +459,7 @@ export default class ToolTip extends React.Component {
       return
     }
 
-    if (isClient()) {
-      this.renderPortal(this.props)
-    }
+    this.renderPortal(this.props)
   }
   componentWillReceiveProps(nextProps) {
     if ((!portalNodes[this.props.group] && !nextProps.active) ||
