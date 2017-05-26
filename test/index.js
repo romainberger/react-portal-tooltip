@@ -1,10 +1,10 @@
 import React from 'react'
 import assert from 'assert'
-import TestUtils from 'react-addons-test-utils'
+import ReactShallowRenderer from 'react-test-renderer/shallow'
 import Tooltip from '../src'
 
 const renderer = (Component) => {
-  const shallowRenderer = TestUtils.createRenderer()
+  const shallowRenderer = new ReactShallowRenderer()
   shallowRenderer.render(Component)
   return shallowRenderer.getRenderOutput()
 }
