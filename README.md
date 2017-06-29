@@ -1,4 +1,4 @@
-# React Portal Tooltip 
+# React Portal Tooltip
 
 Awesome tooltips.
 
@@ -68,6 +68,7 @@ class MyComponent extends React.Component {
 * `parent`: the tooltip will be placed next to this element
 * `group`: string, necessary if you want several independant tooltips
 * `style`: object, allows customizing the tooltip. Checkout the [example](https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js) for details.
+* `sticky`: boolean, the tooltip will not be closed when you move your cursor out of the tooltip. This is useful when you want to totally control the visibility of the tooltip.
 
 ## Development
 

@@ -23,6 +23,7 @@ export default class App extends React.Component {
                           <li><Link to="/">Basic usage</Link></li>
                           <li><Link to="/groups">Groups</Link></li>
                           <li><Link to="/style">Style</Link></li>
+                          <li><Link to="/sticky">Sticky mode</Link></li>
                         </ul>
                     </div>
                 </div>
