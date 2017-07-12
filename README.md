@@ -66,7 +66,7 @@ class MyComponent extends React.Component {
 * `arrow`: center, right, left, top or bottom (depending on the position prop). No arrow when the prop is not sepecified
 * `tooltipTimeout`: timeout for the tooltip fade out in milliseconds. Default to 500
 * `parent`: the tooltip will be placed next to this element
-* `group`: string, necessary if you want several independant tooltips
+* `group`: string, necessary if you want several independent tooltips
 * `style`: object, allows customizing the tooltip. Checkout the [example](https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js) for details.
 
 ## Development
