@@ -39,7 +39,7 @@ class Card extends React.Component {
     color: '#fff',
     borderColor: 'rgba(0,0,0,.4)'
   }
-  get style() {
+  getGlobalStyle() {
     if (!this.props.parentEl) {
       return {display: 'none'}
     }
@@ -60,16 +60,16 @@ class Card extends React.Component {
 
     return this.mergeStyle(style, this.props.style.style)
   }
-  get baseArrowStyle() {
+  getBaseArrowStyle() {
     return {
       position: 'absolute',
       content: '""',
       transition: 'all .3s ease-in-out'
     }
   }
-  get arrowStyle() {
-    let fgStyle = this.baseArrowStyle
-    let bgStyle = this.baseArrowStyle
+  getArrowStyle() {
+    let fgStyle = this.getBaseArrowStyle()
+    let bgStyle = this.getBaseArrowStyle()
     fgStyle.zIndex = 60
     bgStyle.zIndex = 55
 
@@ -424,7 +424,7 @@ class Card extends React.Component {
     })
   }
   render() {
-    let {style, arrowStyle} = this.checkWindowPosition(this.style, this.arrowStyle)
+    let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
 
     return (
       <div style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
