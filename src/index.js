@@ -184,35 +184,35 @@ class Card extends React.Component {
 
     const stylesFromPosition = {
       left: () => {
-        style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
-        style.left = left - this.state.width - this.margin;
+        style.top = top + parent.offsetHeight / 2 - this.state.height / 2
+        style.left = left - this.state.width - this.margin
       },
       right: () => {
-        style.top = top + parent.offsetHeight / 2 - this.state.height / 2;
-        style.left = left + parent.offsetWidth + this.margin;
+        style.top = top + parent.offsetHeight / 2 - this.state.height / 2
+        style.left = left + parent.offsetWidth + this.margin
       },
       top: () => {
-        style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
-        style.top = top - this.state.height - this.margin;
+        style.left = left - this.state.width / 2 + parent.offsetWidth / 2
+        style.top = top - this.state.height - this.margin
       },
       bottom: () => {
-        style.left = left - this.state.width / 2 + parent.offsetWidth / 2;
-        style.top = top + parent.offsetHeight + this.margin;
+        style.left = left - this.state.width / 2 + parent.offsetWidth / 2
+        style.top = top + parent.offsetHeight + this.margin
       },
     }
 
     const stylesFromArrow = {
       left: () => {
-        style.left = left + parent.offsetWidth / 2 - this.margin;
+        style.left = left + parent.offsetWidth / 2 - this.margin
       },
       right: () => {
-        style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin;
+        style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
       },
       top: () => {
-        style.top = top + parent.offsetHeight / 2 - this.margin;
+        style.top = top + parent.offsetHeight / 2 - this.margin
       },
       bottom: () => {
-        style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin;
+        style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin
       },
     }
 
@@ -220,7 +220,7 @@ class Card extends React.Component {
       if (Object.prototype.hasOwnProperty.call(object, key)){
         object[key]()
       }
-    };
+    }
 
     executeFunctionIfExist(stylesFromPosition, arrow)
     executeFunctionIfExist(stylesFromArrow, arrow)
