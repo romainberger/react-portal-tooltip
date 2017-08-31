@@ -76,10 +76,12 @@ class Card extends React.Component {
     let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
     let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
 
+    let fgSize = 8
+    let bgSize = 9
     let fgColorBorder = `10px solid ${arrowStyle.color}`
-    let fgTransBorder = '8px solid transparent'
+    let fgTransBorder = `${fgSize}px solid transparent`
     let bgColorBorder = `11px solid ${bgBorderColor}`
-    let bgTransBorder = '9px solid transparent'
+    let bgTransBorder = `${bgSize}px solid transparent`
 
     let {position, arrow} = this.props
 
@@ -143,16 +145,16 @@ class Card extends React.Component {
 
       if (arrow === 'right') {
         fgStyle.left = null
-        fgStyle.right = this.margin + 1
+        fgStyle.right = this.margin + 1 - fgSize
         fgStyle.marginLeft = 0
         bgStyle.left = null
-        bgStyle.right = this.margin
+        bgStyle.right = this.margin - fgSize
         bgStyle.marginLeft = 0
       }
       if (arrow === 'left') {
-        fgStyle.left = this.margin + 1
+        fgStyle.left = this.margin + 1 - fgSize
         fgStyle.marginLeft = 0
-        bgStyle.left = this.margin
+        bgStyle.left = this.margin - fgSize
         bgStyle.marginLeft = 0
       }
     }
