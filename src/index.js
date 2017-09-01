@@ -216,13 +216,7 @@ class Card extends React.Component {
       },
     }
 
-    const executeFunctionIfExist = (object, key) => {
-      if (Object.prototype.hasOwnProperty.call(object, key)){
-        object[key]()
-      }
-    }
-
-    executeFunctionIfExist(stylesFromPosition, arrow)
+    executeFunctionIfExist(stylesFromPosition, position)
     executeFunctionIfExist(stylesFromArrow, arrow)
 
     return style
@@ -358,5 +352,11 @@ export default class ToolTip extends React.Component {
   }
   render() {
     return null
+  }
+}
+
+const executeFunctionIfExist = (object, key) => {
+  if (Object.prototype.hasOwnProperty.call(object, key)){
+    object[key]()
   }
 }
