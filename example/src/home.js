@@ -7,7 +7,7 @@ export default class Home extends React.Component {
     isTooltipActive: false,
     isTooltipLoading: false,
     position: 'right',
-    arrow: true,
+    arrow: 'center',
     arrowOptions: null
   }
   componentDidMount() {
@@ -77,7 +77,7 @@ export default class Home extends React.Component {
               <div style={{marginBottom: 20}}>
                 Result:
                 <span className="btn btn-default" id="result" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
-                <ToolTip active={this.state.isTooltipActive} parent="#result" position="right" arrow="center" group="result">
+                <ToolTip active={this.state.isTooltipActive} parent="#result" position={this.state.position} arrow={this.state.arrow} group="result">
 
                 { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
                 </ToolTip>
