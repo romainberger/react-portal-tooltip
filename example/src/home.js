@@ -1,29 +1,34 @@
-import React from 'react'
-import List from './list'
-import ToolTip from './../../src'
+import React, {Component} from 'react'
+import ListItems from './ListItems'
+import CardWrapper from './../../src/CardWrapper'
 
-export default class Home extends React.Component {
-  state = {
-    isTooltipActive: false,
-    isTooltipLoading: false,
-    position: 'right',
-    arrow: 'center',
-    arrowOptions: null
+ class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.showTooltip = this.showTooltip.bind(this);
+    this.hideTooltip = this.hideTooltip.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.state = {
+      isTooltipActive: false,
+      isTooltipLoading: false,
+      position: 'right',
+      arrow: 'center',
+      arrowOptions: null
+    };
   }
+  
   componentDidMount() {
     this.getArrowOptions()
   }
-  showTooltip() {
-    // this.setState({isTooltipActive: true, isTooltipLoading: true})
-    // setTimeout(() => {
-    //   this.setState({isTooltipLoading: false})
-    // }, 2000)
 
+  showTooltip() {
     this.setState({isTooltipActive: true})
   }
+
   hideTooltip() {
     this.setState({isTooltipActive: false})
   }
+
   handleOnChange() {
     let arrow = this.refs.arrow.value === 'disable' ? null : this.refs.arrow.value
     this.setState({
@@ -31,16 +36,19 @@ export default class Home extends React.Component {
       arrow
     }, this.getArrowOptions)
   }
+
   escape(html) {
     return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
   }
+
   getBasicExample() {
     return {
-      __html: this.escape(`<ToolTip active={true} parent="#parent" position="right" arrow="center">
-  ToolTip content here
-</ToolTip>`)
+      __html: this.escape(`<CardWrapper active={true} parent="#parent" position="right" arrow="center">
+              ToolTip content here
+              </CardWrapper>`)
     }
   }
+
   getArrowOptions() {
     let node = this.refs.position
     let value = node ? node.value : 'right'
@@ -64,6 +72,7 @@ export default class Home extends React.Component {
 
     this.setState({arrowOptions})
   }
+
   render() {
     return (
       <div className="row" style={{marginTop: 20}}>
@@ -76,18 +85,18 @@ export default class Home extends React.Component {
               </div>
               <div style={{marginBottom: 20}}>
                 Result:
-                <span className="btn btn-default" id="result" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
-                <ToolTip active={this.state.isTooltipActive} parent="#result" position={this.state.position} arrow={this.state.arrow} group="result">
+                <span className="btn btn-default" id="result" onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
+                <CardWrapper  className="react__portal__tooltip" active={this.state.isTooltipActive} parent="#result" position={this.state.position} group="result">
 
                 { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
-                </ToolTip>
+                </CardWrapper>
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col-lg-3">
               <label htmlFor="position-select" style={{marginRight: 10}}>Position:</label>
-              <select id="position-select" onChange={::this.handleOnChange} ref="position" defaultValue="right">
+              <select id="position-select" onChange={this.handleOnChange} ref="position" defaultValue="right">
                 <option value="top">top</option>
                 <option value="right">right</option>
                 <option value="bottom">bottom</option>
@@ -96,7 +105,7 @@ export default class Home extends React.Component {
             </div>
             <div className="col-lg-3">
               <label htmlFor="arrow" style={{marginRight: 10}}>Arrow:</label>
-              <select id="arrow" onChange={::this.handleOnChange} ref="arrow" defaultValue="center">
+              <select id="arrow" onChange={this.handleOnChange} ref="arrow" defaultValue="center">
                 {this.state.arrowOptions}
               </select>
             </div>
@@ -104,9 +113,11 @@ export default class Home extends React.Component {
           <div className="row">
             <h4 className="col-lg-12">Hover the usernames to display the tooltips</h4>
           </div>
-          <List data={this.props.users.list.slice(0, 12)} position={this.state.position} arrow={this.state.arrow}/>
+          <ListItems data={this.props.users.list.slice(0, 12)} position={this.state.position} arrow={this.state.arrow}/>
         </div>
       </div>
     )
   }
 }
+
+export default Home;

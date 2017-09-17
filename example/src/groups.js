@@ -1,7 +1,11 @@
-import React from 'react'
-import List from './list'
+import React, { Component } from 'react'
+import ListItems from './ListItems'
 
-export default class Groups extends React.Component {
+class Groups extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <div className="row" style={{marginTop: 20}}>
@@ -14,17 +18,19 @@ export default class Groups extends React.Component {
           <div className="row">
             <h2>first group</h2>
             <div className="col-lg-12">
-              <List data={this.props.users.list.slice(0, 10)} group="first" arrow="center"/>
+              <ListItems data={this.props.users.list.slice(0, 10)} group="first" arrow="center"/>
             </div>
           </div>
           <div className="row">
             <h2>second group</h2>
             <div className="col-lg-12">
-              <List data={this.props.users.list.slice(10, 20)} group="second" arrow="center"/>
+              <ListItems data={this.props.users.list.slice(10, 20)} group="second" arrow="center"/>
             </div>
           </div>
         </div>
       </div>
     )
   }
-}
+};
+
+export default Groups;

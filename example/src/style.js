@@ -1,13 +1,20 @@
 import React from 'react'
-import ToolTip from './../../src'
+import CardWrapper from './../../src/CardWrapper'
 
-export default class Style extends React.Component {
-  state = {
-    display: false
-  }
+class Style extends React.Component {
+  constructor(props) {
+    super(props);
+    this.showTooltip = this.showTooltip.bind(this);
+    this.hideTooltip = this.hideTooltip.bind(this);   
+    this.state = {
+      display: false
+    }
+  };
+
   escape(html) {
     return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
-  }
+  };
+
   getBasicExample() {
     return {
       __html: this.escape(`let style = {
@@ -22,18 +29,18 @@ export default class Style extends React.Component {
   }
 }
 
-<ToolTip parent="#style-btn" active={true} position="bottom" arrow="center" style={style}>
+<CardWrapper className="react__portal__tooltip__card" parent="#style-btn" active={true} position="bottom" arrow="center" style={style}>
   <NicolasCage/>
-</ToolTip>`)
+</CardWrapper>`)
     }
-  }
+  };
 
   showTooltip() {
     this.setState({display: true})
-  }
+  };
   hideTooltip() {
     this.setState({display: false})
-  }
+  };
 
   render() {
     let style = {
@@ -55,10 +62,10 @@ export default class Style extends React.Component {
           <p><a href="https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js">Check out this example to see how this one is done</a></p>
         </div>
         <div style={{textAlign: 'center'}}>
-          <button className="btn btn-primary" id="style-btn" style={{marginBottom: 20}} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Thanks www.nyan.cat</button>
-          <ToolTip parent="#style-btn" active={this.state.display} position="bottom" arrow="center" style={style}>
+          <button className="btn btn-primary" id="style-btn" style={{marginBottom: 20}} onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip}>Thanks www.nyan.cat</button>
+          <CardWrapper className= "react__portal__tooltip__card" parent="#style-btn" active={this.state.display} position="bottom" arrow="center" style={style}>
             <img src="http://www.nyan.cat/cats/original.gif" height="168" width="272" />
-          </ToolTip>
+          </CardWrapper>
         </div>
         <div style={{marginBottom: 20}}>
           <pre dangerouslySetInnerHTML={this.getBasicExample()}/>
@@ -66,4 +73,6 @@ export default class Style extends React.Component {
       </div>
     )
   }
-}
+};
+
+export default Style;
