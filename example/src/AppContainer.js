@@ -1,11 +1,16 @@
-import React from 'react'
-import {Link} from 'react-router'
+import React,{ PropTypes, Component } from 'react'
+import { Link } from 'react-router'
 import request from 'superagent'
+import '../styles/main.scss';
 
-export default class App extends React.Component {
-    state = {
-        users: {list: []},
+class AppContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            users: {list: []}
+        };
     }
+ 
     componentWillMount() {
         request('GET', 'https://api.dailymotion.com/users?fields=id,username,screenname,cover_250_url,avatar_120_url,videos_total,fans_total&list=recommended&limit=20')
             .send()
@@ -14,7 +19,14 @@ export default class App extends React.Component {
                 this.setState({users: res.body})
             })
     }
+
     render() {
+        const {users} = this.state;
+
+        var children = React.Children.map(this.props.children, function (child) {
+                return React.cloneElement(child, {users: users})
+        });
+
         return (
             <div>
                 <div className="row">
@@ -26,8 +38,9 @@ export default class App extends React.Component {
                         </ul>
                     </div>
                 </div>
-                {React.cloneElement(this.props.children, {users: this.state.users})}
+                {children}
             </div>
         )
     }
 }
+export default AppContainer;

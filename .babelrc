@@ -1,3 +1,4 @@
 {
-  "stage": 0
+	"presets": ["react", "env", "stage-2"],
+	"plugins": ["transform-runtime", "transform-es2015-arrow-functions","transform-class-properties"]
 }

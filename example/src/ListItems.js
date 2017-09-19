@@ -1,7 +1,11 @@
-import React from 'react'
-import User from './user'
+import React, { Component } from 'react'
+import User from './User'
 
-export default class List extends React.Component {
+class ListItems extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   split(data, n) {
     let result = [],
         set = []
@@ -21,9 +25,11 @@ export default class List extends React.Component {
 
     return result
   }
+
   shouldComponentUpdate(nextProps) {
     return this.props.data !== nextProps.data || this.props.position !== nextProps.position || this.props.arrow !== nextProps.arrow
   }
+
   getList() {
     let list = []
     this.split(this.props.data, 4).forEach((set, i) => {
@@ -34,7 +40,10 @@ export default class List extends React.Component {
 
     return list
   }
+  
   render() {
     return <div>{this.getList()}</div>
   }
-}
+};
+
+export default ListItems;

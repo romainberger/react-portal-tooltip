@@ -11,8 +11,23 @@ var config = {
     filename: 'bundle.js'
   },
   module: {
-    loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel-loader?stage=0']}
+    rules: [
+      {
+        test: /\.js$/, 
+        exclude: /node_modules/, 
+        use: [
+          {
+            loader: 'react-hot-loader'
+          }, 
+          {
+            loader: 'babel-loader'
+          }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['css-hot-loader', 'style-loader','css-loader']
+      }
     ]
   },
   plugins: [
@@ -33,7 +48,7 @@ if (!process.env.BUILD) {
 
   config.plugins = [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ]
 }
 
