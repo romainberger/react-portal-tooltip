@@ -3,9 +3,17 @@ import PropTypes from 'prop-types'
 import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
 import assign from 'object-assign'
 
-class Card extends React.Component {
-  static propTypes = {
+
+const defaultProps = {
+    active: false,
+    position: 'right',
+    arrow: null,
+    style: {style: {}, arrowStyle: {}}
+};
+
+const propTypes = {
     active: PropTypes.bool,
+    parentEl: PropTypes.object,
     position: PropTypes.oneOf([
       'top',
       'right',
@@ -20,46 +28,52 @@ class Card extends React.Component {
       'bottom',
       'left'
     ]),
-    style: PropTypes.object
+    style: PropTypes.object,
+    className : PropTypes.string
+};
+
+const executeFunctionIfExist = (object, key) => {
+  if (Object.prototype.hasOwnProperty.call(object, key)){
+    object[key]()
   }
-  static defaultProps = {
-    active: false,
-    position: 'right',
-    arrow: null,
-    style: {style: {}, arrowStyle: {}}
+};
+
+class Card extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.state = {
+      hover: false,
+      transition: 'opacity',
+      width: 0,
+      height: 0,
+      margin: 15
+    };
+    this.defaultArrowStyle = {
+      color: '#fff',
+      borderColor: 'rgba(0,0,0,.4)'
+    };
+
+
   }
-  state = {
-    hover: false,
-    transition: 'opacity',
-    width: 0,
-    height: 0
-  }
-  margin = 15
-  defaultArrowStyle = {
-    color: '#fff',
-    borderColor: 'rgba(0,0,0,.4)'
-  }
+
   getGlobalStyle() {
     if (!this.props.parentEl) {
       return {display: 'none'}
     }
 
     let style = {
-      position: 'absolute',
-      padding: '5px',
-      background: '#fff',
-      boxShadow: '0 0 8px rgba(0,0,0,.3)',
-      borderRadius: '3px',
       transition: `${this.state.transition} .3s ease-in-out, visibility .3s ease-in-out`,
       opacity: this.state.hover || this.props.active ? 1 : 0,
-      visibility: this.state.hover || this.props.active ? 'visible' : 'hidden',
-      zIndex: 50
+      visibility: this.state.hover || this.props.active ? 'visible' : 'hidden'
     }
 
     assign(style, this.getStyle(this.props.position, this.props.arrow))
-
+    
     return this.mergeStyle(style, this.props.style.style)
   }
+
   getBaseArrowStyle() {
     return {
       position: 'absolute',
@@ -67,12 +81,13 @@ class Card extends React.Component {
       transition: 'all .3s ease-in-out'
     }
   }
+
   getArrowStyle() {
     let fgStyle = this.getBaseArrowStyle()
     let bgStyle = this.getBaseArrowStyle()
     fgStyle.zIndex = 60
     bgStyle.zIndex = 55
-
+    
     let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
     let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
 
@@ -110,14 +125,14 @@ class Card extends React.Component {
       }
 
       if (arrow === 'top') {
-        fgStyle.top = this.margin
-        bgStyle.top = this.margin
+        fgStyle.top = this.state.margin
+        bgStyle.top = this.state.margin
       }
       if (arrow === 'bottom') {
         fgStyle.top = null
-        fgStyle.bottom = this.margin - 7
+        fgStyle.bottom = this.state.margin - 7
         bgStyle.top = null
-        bgStyle.bottom = this.margin - 8
+        bgStyle.bottom = this.state.margin - 8
       }
     }
     else {
@@ -145,16 +160,16 @@ class Card extends React.Component {
 
       if (arrow === 'right') {
         fgStyle.left = null
-        fgStyle.right = this.margin + 1 - fgSize
+        fgStyle.right = this.state.margin + 1 - fgSize
         fgStyle.marginLeft = 0
         bgStyle.left = null
-        bgStyle.right = this.margin - fgSize
+        bgStyle.right = this.state.margin - fgSize
         bgStyle.marginLeft = 0
       }
       if (arrow === 'left') {
-        fgStyle.left = this.margin + 1 - fgSize
+        fgStyle.left = this.state.margin + 1 - fgSize
         fgStyle.marginLeft = 0
-        bgStyle.left = this.margin - fgSize
+        bgStyle.left = this.state.margin - fgSize
         bgStyle.marginLeft = 0
       }
     }
@@ -166,6 +181,7 @@ class Card extends React.Component {
       bgStyle: this.mergeStyle(bgStyle, propsArrowStyle)
     }
   }
+
   mergeStyle(style, theme) {
     if (theme) {
       let {position, top, left, right, bottom, marginLeft, marginRight, ...validTheme} = theme
@@ -175,6 +191,8 @@ class Card extends React.Component {
 
     return style
   }
+
+
   getStyle(position, arrow) {
     let parent = this.props.parentEl
     let tooltipPosition = parent.getBoundingClientRect()
@@ -187,47 +205,47 @@ class Card extends React.Component {
     const stylesFromPosition = {
       left: () => {
         style.top = top + parent.offsetHeight / 2 - this.state.height / 2
-        style.left = left - this.state.width - this.margin
+        style.left = left - this.state.width - this.state.margin
       },
       right: () => {
         style.top = top + parent.offsetHeight / 2 - this.state.height / 2
-        style.left = left + parent.offsetWidth + this.margin
+        style.left = left + parent.offsetWidth + this.state.margin
       },
       top: () => {
         style.left = left - this.state.width / 2 + parent.offsetWidth / 2
-        style.top = top - this.state.height - this.margin
+        style.top = top - this.state.height - this.state.margin
       },
       bottom: () => {
         style.left = left - this.state.width / 2 + parent.offsetWidth / 2
-        style.top = top + parent.offsetHeight + this.margin
+        style.top = top + parent.offsetHeight + this.state.margin
       },
     }
 
     const stylesFromArrow = {
       left: () => {
-        style.left = left + parent.offsetWidth / 2 - this.margin
+        style.left = left + parent.offsetWidth / 2 - this.state.margin
       },
       right: () => {
-        style.left = left - this.state.width + parent.offsetWidth / 2 + this.margin
+        style.left = left - this.state.width + parent.offsetWidth / 2 + this.state.margin
       },
       top: () => {
-        style.top = top + parent.offsetHeight / 2 - this.margin
+        style.top = top + parent.offsetHeight / 2 - this.state.margin
       },
       bottom: () => {
-        style.top = top + parent.offsetHeight / 2 - this.state.height + this.margin
+        style.top = top + parent.offsetHeight / 2 - this.state.height + this.state.margin
       },
     }
-
     executeFunctionIfExist(stylesFromPosition, position)
     executeFunctionIfExist(stylesFromArrow, arrow)
-
+        
     return style
   }
+
   checkWindowPosition(style, arrowStyle) {
     if (this.props.position === 'top' || this.props.position === 'bottom') {
       if (style.left < 0) {
         let offset = style.left
-        style.left = this.margin
+        style.left = this.state.margin
         arrowStyle.fgStyle.marginLeft += offset
         arrowStyle.bgStyle.marginLeft += offset
       }
@@ -235,29 +253,33 @@ class Card extends React.Component {
         let rightOffset = style.left + this.state.width - window.innerWidth
         if (rightOffset > 0) {
           let originalLeft = style.left
-          style.left = window.innerWidth - this.state.width - this.margin
+          style.left = window.innerWidth - this.state.width - this.state.margin
           arrowStyle.fgStyle.marginLeft += originalLeft - style.left
           arrowStyle.bgStyle.marginLeft += originalLeft - style.left
         }
       }
     }
-
     return {style, arrowStyle}
   }
+
   handleMouseEnter() {
     this.props.active && this.setState({hover: true})
   }
+
   handleMouseLeave() {
     this.setState({hover: false})
   }
+
   componentDidMount() {
     this.updateSize()
   }
+
   componentWillReceiveProps() {
     this.setState({transition: this.state.hover || this.props.active ? 'all' : 'opacity'}, () => {
       this.updateSize()
     })
   }
+
   updateSize() {
     let self = ReactDOM.findDOMNode(this)
     this.setState({
@@ -265,11 +287,13 @@ class Card extends React.Component {
       height: self.offsetHeight
     })
   }
+
   render() {
-    let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
+    let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle());
+    const {className} = this.props;
 
     return (
-      <div style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
+      <div className = {className} style = {style} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         {this.props.arrow ? (
           <div>
             <span style={arrowStyle.fgStyle}/>
@@ -281,84 +305,9 @@ class Card extends React.Component {
       </div>
     )
   }
-}
+};
 
-var portalNodes = {}
 
-export default class ToolTip extends React.Component {
-  static propTypes = {
-    parent: PropTypes.string.isRequired,
-    active: PropTypes.bool,
-    group: PropTypes.string,
-    tooltipTimeout: PropTypes.number
-  }
-  static defaultProps = {
-    active: false,
-    group: 'main',
-    tooltipTimeout: 500
-  }
-  componentDidMount() {
-    if (!this.props.active) {
-      return
-    }
-
-    this.renderPortal(this.props)
-  }
-  componentWillReceiveProps(nextProps) {
-    if ((!portalNodes[this.props.group] && !nextProps.active) ||
-      (!this.props.active && !nextProps.active)) {
-      return
-    }
-
-    let props = assign({}, nextProps)
-    let newProps = assign({}, nextProps)
-
-    if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
-      clearTimeout(portalNodes[this.props.group].timeout)
-    }
-
-    if (this.props.active && !props.active) {
-      newProps.active = true
-      portalNodes[this.props.group].timeout = setTimeout(() => {
-        props.active = false
-        this.renderPortal(props)
-      }, this.props.tooltipTimeout)
-    }
-
-    this.renderPortal(newProps)
-  }
-  componentWillUnmount() {
-    if (portalNodes[this.props.group]) {
-      ReactDOM.unmountComponentAtNode(portalNodes[this.props.group].node)
-      clearTimeout(portalNodes[this.props.group].timeout)
-    }
-  }
-  createPortal() {
-    portalNodes[this.props.group] = {
-      node: document.createElement('div'),
-      timeout: false
-    }
-    portalNodes[this.props.group].node.className = 'ToolTipPortal'
-    document.body.appendChild(portalNodes[this.props.group].node)
-  }
-  renderPortal(props) {
-    if (!portalNodes[this.props.group]) {
-      this.createPortal()
-    }
-    let {parent, ...other} = props
-    let parentEl = document.querySelector(parent)
-    renderSubtreeIntoContainer(this, <Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].node)
-  }
-  shouldComponentUpdate() {
-    return false
-  }
-  render() {
-    return null
-  }
-}
-
-const executeFunctionIfExist = (object, key) => {
-  if (Object.prototype.hasOwnProperty.call(object, key)){
-    object[key]()
-  }
-}
+Card.defaultProps = defaultProps;
+Card.propTypes = propTypes;
+export default Card;

@@ -47,7 +47,7 @@ class MyComponent extends React.Component {
         return (
             <div>
                 <p id="text" onMouseEnter={this.showTooltip.bind(this)} onMouseLeave={this.hideTooltip.bind(this)}>This is a cool component</p>
-                <ToolTip active={this.state.isTooltipActive} position="top" arrow="center" parent="#text">
+                <ToolTip className = "react__portal__tooltip" active={this.state.isTooltipActive} position="top" arrow="center" parent="#text">
                     <div>
                         <p>This is the content of the tooltip</p>
                         <img src="image.png"/>
@@ -61,9 +61,10 @@ class MyComponent extends React.Component {
 
 ### Props
 
+* `className` : string, the default tooltip css will be used if not specified. check an example in (/example/styles/main.scss)
 * `active`: boolean, the tooltip will be visible if true
 * `position`: top, right, bottom or left. Default to right
-* `arrow`: center, right, left, top or bottom (depending on the position prop). No arrow when the prop is not sepecified
+* `arrow`: center, right, left, top or bottom (depending on the position prop). No arrow when the prop is not specified
 * `tooltipTimeout`: timeout for the tooltip fade out in milliseconds. Default to 500
 * `parent`: the tooltip will be placed next to this element
 * `group`: string, necessary if you want several independent tooltips
