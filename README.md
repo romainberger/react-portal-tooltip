@@ -13,9 +13,12 @@ Awesome tooltips.
 $ npm install react-portal-tooltip
 ```
 
-**Warning** The latest version on npm is compatible with React 15. Corresponding versions for older versions of React:
+**Warning** The versions 2.x on npm are compatible with React 16. Corresponding versions for older versions of React:
 
 ```shell
+# For react v15
+$ npm install react-portal-tooltip@1
+
 # For react 0.14
 $ npm install react-portal-tooltip@0.14
 
