@@ -1,6 +1,8 @@
 var path = require('path'),
     webpack = require('webpack')
 
+const NODE_ENV = process.env.NODE_ENV || 'development'
+
 var config = {
   entry: [
     path.join(__dirname, 'src/index.js')
@@ -12,7 +14,7 @@ var config = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['react-hot', 'babel-loader?stage=0']}
+      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader?stage=0']}
     ]
   },
   plugins: [
@@ -27,12 +29,11 @@ var config = {
   ],
 }
 
-if (!process.env.BUILD) {
+if (NODE_ENV === "development") {
   config.entry.push('webpack-dev-server/client?http://0.0.0.0:3000')
-  config.entry.push('webpack/hot/only-dev-server')
+  config.devtool = "inline-source-map"
 
   config.plugins = [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ]
 }

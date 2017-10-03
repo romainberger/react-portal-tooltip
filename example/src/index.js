@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Router, {Route} from 'react-router'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 import App from './app'
 import Home from './home'
 import Groups from './groups'
 import Style from './style'
 
 ReactDOM.render((
-  <Router>
-    <Route component={App}>
-      <Route path="/" component={Home}/>
+  <Router history={ hashHistory }>
+    <Route path="/" component={App}>
+      <IndexRoute component={Home}/>
       <Route path="/groups" component={Groups}/>
       <Route path="/style" component={Style}/>
     </Route>

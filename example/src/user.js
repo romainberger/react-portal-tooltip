@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ToolTip from './../../src'
 
-export default class User extends React.Component {
+export default class User extends Component {
   state = {
     isTooltipActive: false
   }

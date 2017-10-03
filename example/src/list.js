@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import User from './user'
 
-export default class List extends React.Component {
+export default class List extends Component {
   split(data, n) {
     let result = [],
         set = []

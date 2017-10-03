@@ -27,8 +27,8 @@
   "author": "Romain Berger <romain@romainberger.com>",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "dependencies": {
     "object-assign": "^4.0.1"
@@ -36,8 +36,8 @@
   "devDependencies": {
     "babel": "^5.8.21",
     "mocha": "^2.3.3",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-test-renderer": "^15.5.4"
   }
 }
