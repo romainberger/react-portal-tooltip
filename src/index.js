@@ -287,7 +287,10 @@ var portalNodes = {}
 
 export default class ToolTip extends React.Component {
   static propTypes = {
-    parent: PropTypes.string.isRequired,
+    parent: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ]).isRequired,
     active: PropTypes.bool,
     group: PropTypes.string,
     tooltipTimeout: PropTypes.number
@@ -346,7 +349,7 @@ export default class ToolTip extends React.Component {
       this.createPortal()
     }
     let {parent, ...other} = props
-    let parentEl = document.querySelector(parent)
+    let parentEl = typeof parent === 'string' ? document.querySelector(parent) : parent
     renderSubtreeIntoContainer(this, <Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].node)
   }
   shouldComponentUpdate() {
