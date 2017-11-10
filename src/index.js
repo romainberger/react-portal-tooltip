@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
 import assign from 'object-assign'
 
+let FG_SIZE = 8
+let BG_SIZE = 9
+
 class Card extends React.Component {
   static propTypes = {
     active: PropTypes.bool,
@@ -76,12 +79,10 @@ class Card extends React.Component {
     let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
     let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
 
-    let fgSize = 8
-    let bgSize = 9
     let fgColorBorder = `10px solid ${arrowStyle.color}`
-    let fgTransBorder = `${fgSize}px solid transparent`
+    let fgTransBorder = `${FG_SIZE}px solid transparent`
     let bgColorBorder = `11px solid ${bgBorderColor}`
-    let bgTransBorder = `${bgSize}px solid transparent`
+    let bgTransBorder = `${BG_SIZE}px solid transparent`
 
     let {position, arrow} = this.props
 
@@ -145,16 +146,16 @@ class Card extends React.Component {
 
       if (arrow === 'right') {
         fgStyle.left = null
-        fgStyle.right = this.margin + 1 - fgSize
+        fgStyle.right = this.margin + 1 - FG_SIZE
         fgStyle.marginLeft = 0
         bgStyle.left = null
-        bgStyle.right = this.margin - fgSize
+        bgStyle.right = this.margin - FG_SIZE
         bgStyle.marginLeft = 0
       }
       if (arrow === 'left') {
-        fgStyle.left = this.margin + 1 - fgSize
+        fgStyle.left = this.margin + 1 - FG_SIZE
         fgStyle.marginLeft = 0
-        bgStyle.left = this.margin - fgSize
+        bgStyle.left = this.margin - FG_SIZE
         bgStyle.marginLeft = 0
       }
     }
@@ -229,11 +230,15 @@ class Card extends React.Component {
         const parent = this.props.parentEl
         if (parent && this.tooltipref) {          
           const tooltipWidth = this.tooltipref.offsetWidth
-          const parentWidth = parent.offsetWidth
-          const newBgRight = Math.round(arrowStyle.bgStyle.right - style.left + this.margin)
+          let bgStyleRight = arrowStyle.bgStyle.right
+          // If it's arrow center
+          if (!bgStyleRight) {
+            bgStyleRight = (tooltipWidth / 2) - (BG_SIZE / 2)
+          }
+          const newBgRight = Math.round(bgStyleRight - style.left + this.margin)
           arrowStyle = Object.assign({}, arrowStyle, {
-            bgStyle: Object.assign({}, arrowStyle.bgStyle, {right: newBgRight}),
-            fgStyle: Object.assign({}, arrowStyle.fgStyle, {right: newBgRight + 1})
+            bgStyle: Object.assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
+            fgStyle: Object.assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
           })
         }
         style.left = this.margin
