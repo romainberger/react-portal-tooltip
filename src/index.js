@@ -122,7 +122,7 @@ class Card extends React.Component {
       }
     }
     else {
-      fgStyle.left = (this.state.width / 2) - FG_SIZE
+      fgStyle.left = Math.round((this.state.width / 2) - FG_SIZE)
       fgStyle.borderLeft = fgTransBorder
       fgStyle.borderRight = fgTransBorder
       fgStyle.marginLeft = 0
@@ -227,11 +227,11 @@ class Card extends React.Component {
         if (parent) {          
           const tooltipWidth = this.state.width
           let bgStyleRight = arrowStyle.bgStyle.right
-          // If it's arrow center
+          // For arrow = center
           if (!bgStyleRight) {
             bgStyleRight = (tooltipWidth / 2) - BG_SIZE
           }
-          const newBgRight = bgStyleRight - style.left + this.margin
+          const newBgRight = Math.round(bgStyleRight - style.left + this.margin)
           arrowStyle = Object.assign({}, arrowStyle, {
             bgStyle: Object.assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
             fgStyle: Object.assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
