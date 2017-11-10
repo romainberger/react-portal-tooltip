@@ -228,14 +228,14 @@ class Card extends React.Component {
     if (this.props.position === 'top' || this.props.position === 'bottom') {
       if (style.left < 0) {
         const parent = this.props.parentEl
-        if (parent && this.tooltipref) {          
-          const tooltipWidth = this.tooltipref.offsetWidth
+        if (parent) {          
+          const tooltipWidth = this.state.width
           let bgStyleRight = arrowStyle.bgStyle.right
           // If it's arrow center
           if (!bgStyleRight) {
-            bgStyleRight = (tooltipWidth / 2) - (BG_SIZE / 2)
+            bgStyleRight = (tooltipWidth / 2) - BG_SIZE
           }
-          const newBgRight = Math.round(bgStyleRight - style.left + this.margin)
+          const newBgRight = bgStyleRight - style.left + this.margin
           arrowStyle = Object.assign({}, arrowStyle, {
             bgStyle: Object.assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
             fgStyle: Object.assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
@@ -280,7 +280,7 @@ class Card extends React.Component {
     let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
 
     return (
-      <div ref={(node) => this.tooltipref = node} style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
+      <div style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
         {this.props.arrow ? (
           <div>
             <span style={arrowStyle.fgStyle}/>
