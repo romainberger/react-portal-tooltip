@@ -122,14 +122,14 @@ class Card extends React.Component {
       }
     }
     else {
-      fgStyle.left = '50%'
-      fgStyle.marginLeft = -10
+      fgStyle.left = (this.state.width / 2) - FG_SIZE
       fgStyle.borderLeft = fgTransBorder
       fgStyle.borderRight = fgTransBorder
-      bgStyle.left = '50%'
-      bgStyle.marginLeft = -11
+      fgStyle.marginLeft = 0
+      bgStyle.left = fgStyle.left - 1
       bgStyle.borderLeft = bgTransBorder
       bgStyle.borderRight = bgTransBorder
+      bgStyle.marginLeft = 0
 
       if (position === 'top') {
         fgStyle.bottom = -10
@@ -147,16 +147,12 @@ class Card extends React.Component {
       if (arrow === 'right') {
         fgStyle.left = null
         fgStyle.right = this.margin + 1 - FG_SIZE
-        fgStyle.marginLeft = 0
         bgStyle.left = null
         bgStyle.right = this.margin - FG_SIZE
-        bgStyle.marginLeft = 0
       }
       if (arrow === 'left') {
         fgStyle.left = this.margin + 1 - FG_SIZE
-        fgStyle.marginLeft = 0
         bgStyle.left = this.margin - FG_SIZE
-        bgStyle.marginLeft = 0
       }
     }
 
