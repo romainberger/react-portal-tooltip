@@ -232,9 +232,9 @@ class Card extends React.Component {
             bgStyleRight = (tooltipWidth / 2) - BG_SIZE
           }
           const newBgRight = Math.round(bgStyleRight - style.left + this.margin)
-          arrowStyle = Object.assign({}, arrowStyle, {
-            bgStyle: Object.assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
-            fgStyle: Object.assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
+          arrowStyle = assign({}, arrowStyle, {
+            bgStyle: assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
+            fgStyle: assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
           })
         }
         style.left = this.margin
