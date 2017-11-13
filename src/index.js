@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
 import assign from 'object-assign'
 
-let FG_SIZE = 8
-let BG_SIZE = 9
+const FG_SIZE = 8
+const BG_SIZE = 9
 
 class Card extends React.Component {
   static propTypes = {
