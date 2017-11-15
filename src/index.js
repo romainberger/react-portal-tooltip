@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
 import assign from 'object-assign'
 
+const FG_SIZE = 8
+const BG_SIZE = 9
+
 class Card extends React.Component {
   static propTypes = {
     active: PropTypes.bool,
@@ -76,12 +79,10 @@ class Card extends React.Component {
     let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
     let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
 
-    let fgSize = 8
-    let bgSize = 9
     let fgColorBorder = `10px solid ${arrowStyle.color}`
-    let fgTransBorder = `${fgSize}px solid transparent`
+    let fgTransBorder = `${FG_SIZE}px solid transparent`
     let bgColorBorder = `11px solid ${bgBorderColor}`
-    let bgTransBorder = `${bgSize}px solid transparent`
+    let bgTransBorder = `${BG_SIZE}px solid transparent`
 
     let {position, arrow} = this.props
 
@@ -121,14 +122,14 @@ class Card extends React.Component {
       }
     }
     else {
-      fgStyle.left = '50%'
-      fgStyle.marginLeft = -10
+      fgStyle.left = Math.round((this.state.width / 2) - FG_SIZE)
       fgStyle.borderLeft = fgTransBorder
       fgStyle.borderRight = fgTransBorder
-      bgStyle.left = '50%'
-      bgStyle.marginLeft = -11
+      fgStyle.marginLeft = 0
+      bgStyle.left = fgStyle.left - 1
       bgStyle.borderLeft = bgTransBorder
       bgStyle.borderRight = bgTransBorder
+      bgStyle.marginLeft = 0
 
       if (position === 'top') {
         fgStyle.bottom = -10
@@ -145,17 +146,13 @@ class Card extends React.Component {
 
       if (arrow === 'right') {
         fgStyle.left = null
-        fgStyle.right = this.margin + 1 - fgSize
-        fgStyle.marginLeft = 0
+        fgStyle.right = this.margin + 1 - FG_SIZE
         bgStyle.left = null
-        bgStyle.right = this.margin - fgSize
-        bgStyle.marginLeft = 0
+        bgStyle.right = this.margin - FG_SIZE
       }
       if (arrow === 'left') {
-        fgStyle.left = this.margin + 1 - fgSize
-        fgStyle.marginLeft = 0
-        bgStyle.left = this.margin - fgSize
-        bgStyle.marginLeft = 0
+        fgStyle.left = this.margin + 1 - FG_SIZE
+        bgStyle.left = this.margin - FG_SIZE
       }
     }
 
@@ -226,10 +223,21 @@ class Card extends React.Component {
   checkWindowPosition(style, arrowStyle) {
     if (this.props.position === 'top' || this.props.position === 'bottom') {
       if (style.left < 0) {
-        let offset = style.left
+        const parent = this.props.parentEl
+        if (parent) {          
+          const tooltipWidth = this.state.width
+          let bgStyleRight = arrowStyle.bgStyle.right
+          // For arrow = center
+          if (!bgStyleRight) {
+            bgStyleRight = (tooltipWidth / 2) - BG_SIZE
+          }
+          const newBgRight = Math.round(bgStyleRight - style.left + this.margin)
+          arrowStyle = assign({}, arrowStyle, {
+            bgStyle: assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
+            fgStyle: assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
+          })
+        }
         style.left = this.margin
-        arrowStyle.fgStyle.marginLeft += offset
-        arrowStyle.bgStyle.marginLeft += offset
       }
       else {
         let rightOffset = style.left + this.state.width - window.innerWidth
@@ -241,7 +249,6 @@ class Card extends React.Component {
         }
       }
     }
-
     return {style, arrowStyle}
   }
   handleMouseEnter() {
