@@ -28,10 +28,10 @@ export default class Style extends React.Component {
     }
   }
 
-  showTooltip() {
+  showTooltip = () => {
     this.setState({display: true})
   }
-  hideTooltip() {
+  hideTooltip = () => {
     this.setState({display: false})
   }
 
@@ -55,7 +55,7 @@ export default class Style extends React.Component {
           <p><a href="https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js">Check out this example to see how this one is done</a></p>
         </div>
         <div style={{textAlign: 'center'}}>
-          <button className="btn btn-primary" id="style-btn" style={{marginBottom: 20}} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip}>Thanks www.nyan.cat</button>
+          <button className="btn btn-primary" id="style-btn" style={{marginBottom: 20}} onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip}>Thanks www.nyan.cat</button>
           <ToolTip parent="#style-btn" active={this.state.display} position="bottom" arrow="center" style={style}>
             <img src="http://www.nyan.cat/cats/original.gif" height="168" width="272" />
           </ToolTip>

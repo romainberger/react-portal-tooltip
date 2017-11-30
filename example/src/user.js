@@ -23,16 +23,16 @@ export default class User extends Component {
     width: 70,
     height: 70
   }
-  showTooltip() {
+  showTooltip = () => {
     this.setState({isTooltipActive: true})
   }
-  hideTooltip() {
+  hideTooltip = () => {
     this.setState({isTooltipActive: false})
   }
   render() {
     return (
       <div className={this.props.className}>
-        <span className="btn btn-link" id={`user-${this.props.id}`} onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{cursor: 'pointer'}}>{this.props.username}</span>
+        <span className="btn btn-link" id={`user-${this.props.id}`} onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} style={{cursor: 'pointer'}}>{this.props.username}</span>
         <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`} position={this.props.position} arrow={this.props.arrow} group={this.props.group}>
           <div className="row" style={User.coverWrapperStyle}>
             <img src={this.props.cover_250_url} style={User.coverStyle}/>

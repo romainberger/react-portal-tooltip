@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM, {unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer} from 'react-dom'
-import assign from 'object-assign'
 
 const FG_SIZE = 8
 const BG_SIZE = 9
@@ -47,7 +46,7 @@ class Card extends React.Component {
       return {display: 'none'}
     }
 
-    let style = {
+    const style = {
       position: 'absolute',
       padding: '5px',
       background: '#fff',
@@ -56,10 +55,9 @@ class Card extends React.Component {
       transition: `${this.state.transition} .3s ease-in-out, visibility .3s ease-in-out`,
       opacity: this.state.hover || this.props.active ? 1 : 0,
       visibility: this.state.hover || this.props.active ? 'visible' : 'hidden',
-      zIndex: 50
+      zIndex: 50,
+      ...this.getStyle(this.props.position, this.props.arrow),
     }
-
-    assign(style, this.getStyle(this.props.position, this.props.arrow))
 
     return this.mergeStyle(style, this.props.style.style)
   }
@@ -76,7 +74,7 @@ class Card extends React.Component {
     fgStyle.zIndex = 60
     bgStyle.zIndex = 55
 
-    let arrowStyle = assign(this.defaultArrowStyle, this.props.style.arrowStyle)
+    let arrowStyle = { ...this.defaultArrowStyle, ...this.props.style.arrowStyle }
     let bgBorderColor = arrowStyle.borderColor ? arrowStyle.borderColor : 'transparent'
 
     let fgColorBorder = `10px solid ${arrowStyle.color}`
@@ -165,9 +163,12 @@ class Card extends React.Component {
   }
   mergeStyle(style, theme) {
     if (theme) {
-      let {position, top, left, right, bottom, marginLeft, marginRight, ...validTheme} = theme
+      let { position, top, left, right, bottom, marginLeft, marginRight, ...validTheme } = theme
 
-      return assign(style, validTheme)
+      return {
+        ...style,
+        ...validTheme,
+      }
     }
 
     return style
@@ -224,7 +225,7 @@ class Card extends React.Component {
     if (this.props.position === 'top' || this.props.position === 'bottom') {
       if (style.left < 0) {
         const parent = this.props.parentEl
-        if (parent) {          
+        if (parent) {
           const tooltipWidth = this.state.width
           let bgStyleRight = arrowStyle.bgStyle.right
           // For arrow = center
@@ -232,10 +233,19 @@ class Card extends React.Component {
             bgStyleRight = (tooltipWidth / 2) - BG_SIZE
           }
           const newBgRight = Math.round(bgStyleRight - style.left + this.margin)
-          arrowStyle = assign({}, arrowStyle, {
-            bgStyle: assign({}, arrowStyle.bgStyle, {right: newBgRight, left: null}),
-            fgStyle: assign({}, arrowStyle.fgStyle, {right: newBgRight + 1, left: null})
-          })
+          arrowStyle = {
+            ...arrowStyle,
+            bgStyle: {
+              ...arrowStyle.bgStyle,
+              right: newBgRight,
+              left: null,
+            },
+            fgStyle: {
+              ...arrowStyle.fgStyle,
+              right: newBgRight + 1,
+              left: null,
+            },
+          }
         }
         style.left = this.margin
       }
@@ -251,10 +261,10 @@ class Card extends React.Component {
     }
     return {style, arrowStyle}
   }
-  handleMouseEnter() {
+  handleMouseEnter = () => {
     this.props.active && this.setState({hover: true})
   }
-  handleMouseLeave() {
+  handleMouseLeave = () => {
     this.setState({hover: false})
   }
   componentDidMount() {
@@ -276,7 +286,7 @@ class Card extends React.Component {
     let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
 
     return (
-      <div style={style} onMouseEnter={::this.handleMouseEnter} onMouseLeave={::this.handleMouseLeave}>
+      <div style={style} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
         {this.props.arrow ? (
           <div>
             <span style={arrowStyle.fgStyle}/>
@@ -320,8 +330,8 @@ export default class ToolTip extends React.Component {
       return
     }
 
-    let props = assign({}, nextProps)
-    let newProps = assign({}, nextProps)
+    let props = { ...nextProps }
+    let newProps = { ...nextProps }
 
     if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
       clearTimeout(portalNodes[this.props.group].timeout)

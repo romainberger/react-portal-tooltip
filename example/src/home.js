@@ -13,7 +13,7 @@ export default class Home extends Component {
   componentDidMount() {
     this.getArrowOptions()
   }
-  showTooltip() {
+  showTooltip = () => {
     // this.setState({isTooltipActive: true, isTooltipLoading: true})
     // setTimeout(() => {
     //   this.setState({isTooltipLoading: false})
@@ -21,10 +21,10 @@ export default class Home extends Component {
 
     this.setState({isTooltipActive: true})
   }
-  hideTooltip() {
+  hideTooltip = () => {
     this.setState({isTooltipActive: false})
   }
-  handleOnChange() {
+  handleOnChange = () => {
     let arrow = this.refs.arrow.value === 'disable' ? null : this.refs.arrow.value
     this.setState({
       position: this.refs.position.value,
@@ -76,7 +76,7 @@ export default class Home extends Component {
               </div>
               <div style={{marginBottom: 20}}>
                 Result:
-                <span className="btn btn-default" id="result" onMouseEnter={::this.showTooltip} onMouseLeave={::this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
+                <span className="btn btn-default" id="result" onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
                 <ToolTip active={this.state.isTooltipActive} parent="#result" position={this.state.position} arrow={this.state.arrow} group="result">
 
                 { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
@@ -87,7 +87,7 @@ export default class Home extends Component {
           <div className="row">
             <div className="col-lg-3">
               <label htmlFor="position-select" style={{marginRight: 10}}>Position:</label>
-              <select id="position-select" onChange={::this.handleOnChange} ref="position" defaultValue="right">
+              <select id="position-select" onChange={this.handleOnChange} ref="position" defaultValue="right">
                 <option value="top">top</option>
                 <option value="right">right</option>
                 <option value="bottom">bottom</option>
@@ -96,7 +96,7 @@ export default class Home extends Component {
             </div>
             <div className="col-lg-3">
               <label htmlFor="arrow" style={{marginRight: 10}}>Arrow:</label>
-              <select id="arrow" onChange={::this.handleOnChange} ref="arrow" defaultValue="center">
+              <select id="arrow" onChange={this.handleOnChange} ref="arrow" defaultValue="center">
                 {this.state.arrowOptions}
               </select>
             </div>

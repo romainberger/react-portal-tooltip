@@ -30,9 +30,6 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
-  "dependencies": {
-    "object-assign": "^4.0.1"
-  },
   "devDependencies": {
     "babel": "^5.8.21",
     "mocha": "^2.3.3",
