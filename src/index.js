@@ -217,7 +217,7 @@ class Card extends Component {
         style.left = left + parentSize.width / 2 - this.margin
       },
       right: () => {
-        style.left = left - this.state.width + parentSize.offsetWidth / 2 + this.margin
+        style.left = left - this.state.width + parentSize.width / 2 + this.margin
       },
       top: () => {
         style.top = top + parentSize.height / 2 - this.margin
