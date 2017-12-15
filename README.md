@@ -71,6 +71,7 @@ class MyComponent extends React.Component {
 * `parent`: the tooltip will be placed next to this element. Can be the id of the parent or the ref (see example below)
 * `group`: string, necessary if you want several independent tooltips
 * `style`: object, allows customizing the tooltip. Checkout the [example](https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js) for details.
+* `useHover` bool, default to true. If true, the tooltip will stay visible when hovered.
 
 ### Parent prop
 

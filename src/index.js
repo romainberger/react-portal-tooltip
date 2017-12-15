@@ -22,13 +22,15 @@ class Card extends Component {
       'bottom',
       'left'
     ]),
-    style: PropTypes.object
+    style: PropTypes.object,
+    useHover: PropTypes.bool
   }
   static defaultProps = {
     active: false,
     position: 'right',
     arrow: null,
-    style: {style: {}, arrowStyle: {}}
+    style: {style: {}, arrowStyle: {}},
+    useHover: true
   }
   state = {
     hover: false,
@@ -274,7 +276,7 @@ class Card extends Component {
     return {style, arrowStyle}
   }
   handleMouseEnter = () => {
-    this.props.active && this.setState({hover: true})
+    this.props.active && this.props.useHover && this.setState({hover: true})
   }
   handleMouseLeave = () => {
     this.setState({hover: false})
