@@ -21,6 +21,7 @@ export default class App extends React.Component {
                     <div className="col-lg-12">
                         <ul className="nav nav-tabs">
                           <li><Link to="/">Basic usage</Link></li>
+                          <li><Link to="/stateful">Stateful usage</Link></li>
                           <li><Link to="/groups">Groups</Link></li>
                           <li><Link to="/style">Style</Link></li>
                         </ul>

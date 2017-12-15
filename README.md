@@ -103,6 +103,32 @@ You can use an id or a ref to reference the parent:
 </ToolTip>
 ```
 
+### Stateful ToolTip
+
+If you only use the Tooltip for mouse enter / mouse leave, you may not want to handle the state yourself for all elements. In this case, you can use the stateful version which will do it for you:
+
+Import the stateful version:
+
+```js
+import { StatefulToolTip } from "react-portal-tooltip"
+```
+
+Then create your parent and give it as a prop to the Tooltip:
+
+```js
+const button = <span>Hover me to display the tooltip</span>
+
+return (
+  <StatefulToolTip parent={ button }>
+    Stateful Tooltip content here!
+  </StatefulToolTip>
+)
+```
+
+`StatefulToolTip` takes the same props as `ToolTip`, plus a `className` prop that will be applied to the root element wrapping the parent ([see the example](https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/stateful.js)).
+
+[See the example live](http://romainberger.github.io/react-portal-tooltip/#/stateful).
+
 ## Development
 
 ```shell
