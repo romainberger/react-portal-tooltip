@@ -7,6 +7,7 @@ const BG_SIZE = 9
 
 class Card extends Component {
   static propTypes = {
+    className: PropTypes.string,
     active: PropTypes.bool,
     position: PropTypes.oneOf([
       'top',
@@ -26,6 +27,7 @@ class Card extends Component {
     useHover: PropTypes.bool
   }
   static defaultProps = {
+    className: '',
     active: false,
     position: 'right',
     arrow: null,
@@ -298,17 +300,17 @@ class Card extends Component {
   }
   render() {
     let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
-
+    const { className, arrow, children } = this.props;
     return (
-      <div style={style} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-        {this.props.arrow ? (
+      <div style={style} className={className} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+        {arrow ? (
           <div>
             <span style={arrowStyle.fgStyle}/>
             <span style={arrowStyle.bgStyle}/>
           </div>)
           : null
         }
-        {this.props.children}
+        {children}
       </div>
     )
   }
@@ -394,41 +396,5 @@ export default class ToolTip extends Component {
 const executeFunctionIfExist = (object, key) => {
   if (Object.prototype.hasOwnProperty.call(object, key)){
     object[key]()
-  }
-}
-
-export class StatefulToolTip extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-  }
-
-  static defaultProps = {
-    className: '',
-  }
-
-  state = {
-    tooltipVisible: false,
-  }
-
-  onMouseEnter = () => {
-    this.setState({ tooltipVisible: true })
-  }
-
-  onMouseLeave = () => {
-    this.setState({ tooltipVisible: false })
-  }
-
-  render() {
-    const {
-      children,
-      className,
-      parent,
-      ...props
-    } = this.props
-
-    return [
-      <span className={ className } onMouseEnter={ this.onMouseEnter } onMouseLeave={ this.onMouseLeave } ref={ p => this.parent = p } key="parent">{ this.props.parent }</span>,
-      this.parent ? <ToolTip { ...props } active={ this.state.tooltipVisible } parent={ this.parent } key="tooltip">{ this.props.children }</ToolTip> : null,
-    ]
   }
 }
