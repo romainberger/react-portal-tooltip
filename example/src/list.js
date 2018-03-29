@@ -28,7 +28,7 @@ export default class List extends Component {
     let list = []
     this.split(this.props.data, 4).forEach((set, i) => {
       list.push(<div className="row" style={{marginBottom: 20}} key={i}>
-        {set.map((user, key) => (<User className="col-lg-3" {...user} key={key} position={this.props.position} arrow={this.props.arrow} group={this.props.group}/>))}
+        {set.map((user, key) => (<User className="col-lg-3" {...user} key={key} position={this.props.position} align={this.props.align} arrow={this.props.arrow} group={this.props.group}/>))}
       </div>)
     })
 

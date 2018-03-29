@@ -22,6 +22,12 @@ class Card extends Component {
       'bottom',
       'left'
     ]),
+    align: PropTypes.oneOf([
+      null,
+      'center',
+      'right',
+      'left'
+    ]),
     style: PropTypes.object,
     useHover: PropTypes.bool
   }
@@ -29,6 +35,7 @@ class Card extends Component {
     active: false,
     position: 'right',
     arrow: null,
+    align: null,
     style: {style: {}, arrowStyle: {}},
     useHover: true
   }
@@ -176,7 +183,9 @@ class Card extends Component {
     return style
   }
   getStyle(position, arrow) {
+    let alignOffset = 0;
     let parent = this.props.parentEl
+    let align = this.props.align;
     let tooltipPosition = parent.getBoundingClientRect()
     let scrollY = (window.scrollY !== undefined) ? window.scrollY : window.pageYOffset
     let scrollX = (window.scrollX !== undefined) ? window.scrollX : window.pageXOffset
@@ -195,6 +204,13 @@ class Card extends Component {
       parentSize.height = parent.getBoundingClientRect().height
     }
 
+    if (align === 'left') {
+      alignOffset = - parentSize.width / 2 + FG_SIZE;
+    }
+    else if (align === 'right') {
+      alignOffset = parentSize.width / 2 - FG_SIZE;
+    }
+
     const stylesFromPosition = {
       left: () => {
         style.top = top + parentSize.height / 2 - this.state.height / 2
@@ -205,21 +221,21 @@ class Card extends Component {
         style.left = left + parentSize.width + this.margin
       },
       top: () => {
-        style.left = left - this.state.width / 2 + parentSize.width / 2
+        style.left = left - this.state.width / 2 + parentSize.width / 2 + alignOffset
         style.top = top - this.state.height - this.margin
       },
       bottom: () => {
-        style.left = left - this.state.width / 2 + parentSize.width / 2
+        style.left = left - this.state.width / 2 + parentSize.width / 2 + alignOffset
         style.top = top + parentSize.height + this.margin
       },
     }
 
     const stylesFromArrow = {
       left: () => {
-        style.left = left + parentSize.width / 2 - this.margin
+        style.left = left + parentSize.width / 2 - this.margin + alignOffset
       },
       right: () => {
-        style.left = left - this.state.width + parentSize.width / 2 + this.margin
+        style.left = left - this.state.width + parentSize.width / 2 + this.margin + alignOffset
       },
       top: () => {
         style.top = top + parentSize.height / 2 - this.margin

@@ -8,10 +8,13 @@ export default class Home extends Component {
     isTooltipLoading: false,
     position: 'right',
     arrow: 'center',
-    arrowOptions: null
+    align: 'center',
+    arrowOptions: null,
+    alignOptions: null,
   }
   componentDidMount() {
     this.getArrowOptions()
+    this.getAlignOptions()
   }
   showTooltip = () => {
     // this.setState({isTooltipActive: true, isTooltipLoading: true})
@@ -26,10 +29,15 @@ export default class Home extends Component {
   }
   handleOnChange = () => {
     let arrow = this.refs.arrow.value === 'disable' ? null : this.refs.arrow.value
+    let align = this.refs.align.value || null;
     this.setState({
       position: this.refs.position.value,
-      arrow
-    }, this.getArrowOptions)
+      arrow,
+      align
+    }, () => {
+      this.getArrowOptions()
+      this.getAlignOptions()
+    })
   }
   escape(html) {
     return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
@@ -64,6 +72,21 @@ export default class Home extends Component {
 
     this.setState({arrowOptions})
   }
+  getAlignOptions() {
+    let node = this.refs.position
+    let value = node ? node.value : 'right'
+    let alignOptions = []
+
+    if (value === 'top' || value === 'bottom') {
+      alignOptions = alignOptions.concat([
+        <option value="center" key="align-center">center(default)</option>,
+        <option value="right" key="align-right">right</option>,
+        <option value="left" key="align-left">left</option>
+      ])
+    }
+
+    this.setState({alignOptions})
+  }
   render() {
     return (
       <div className="row" style={{marginTop: 20}}>
@@ -77,7 +100,7 @@ export default class Home extends Component {
               <div style={{marginBottom: 20}}>
                 Result:
                 <span className="btn btn-default" id="result" onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
-                <ToolTip active={this.state.isTooltipActive} parent="#result" position={this.state.position} arrow={this.state.arrow} group="result">
+                <ToolTip active={this.state.isTooltipActive} parent="#result" position={this.state.position} arrow={this.state.arrow} align={this.state.align} group="result">
 
                 { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
                 </ToolTip>
@@ -100,11 +123,17 @@ export default class Home extends Component {
                 {this.state.arrowOptions}
               </select>
             </div>
+            <div className="col-lg-3">
+              <label htmlFor="align" style={{marginRight: 10}}>Align:</label>
+              <select id="align" onChange={this.handleOnChange} ref="align" defaultValue="center">
+                {this.state.alignOptions}
+              </select>
+            </div>
           </div>
           <div className="row">
             <h4 className="col-lg-12">Hover the usernames to display the tooltips</h4>
           </div>
-          <List data={this.props.users.list.slice(0, 12)} position={this.state.position} arrow={this.state.arrow}/>
+          <List data={this.props.users.list.slice(0, 12)} position={this.state.position} arrow={this.state.arrow} align={this.state.align} />
         </div>
       </div>
     )

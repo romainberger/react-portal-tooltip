@@ -67,6 +67,7 @@ class MyComponent extends React.Component {
 * `active`: boolean, the tooltip will be visible if true
 * `position`: top, right, bottom or left. Default to right
 * `arrow`: center, right, left, top or bottom (depending on the position prop). No arrow when the prop is not sepecified
+* `align`: the alignment of the whole tooltip relative to the `parent` element. possible values : center, right, left. Default to center.
 * `tooltipTimeout`: timeout for the tooltip fade out in milliseconds. Default to 500
 * `parent`: the tooltip will be placed next to this element. Can be the id of the parent or the ref (see example below)
 * `group`: string, necessary if you want several independent tooltips

@@ -33,7 +33,7 @@ export default class User extends Component {
     return (
       <div className={this.props.className}>
         <span className="btn btn-link" id={`user-${this.props.id}`} onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} style={{cursor: 'pointer'}}>{this.props.username}</span>
-        <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`} position={this.props.position} arrow={this.props.arrow} group={this.props.group}>
+        <ToolTip active={this.state.isTooltipActive} parent={`#user-${this.props.id}`} position={this.props.position} arrow={this.props.arrow} align={this.props.align} group={this.props.group}>
           <div className="row" style={User.coverWrapperStyle}>
             <img src={this.props.cover_250_url} style={User.coverStyle}/>
             <a href="#"><img src={this.props.avatar_120_url} style={User.avatarStyle}/></a>
