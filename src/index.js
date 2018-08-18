@@ -381,6 +381,7 @@ export default class ToolTip extends Component {
     if (portalNodes[this.props.group]) {
       ReactDOM.unmountComponentAtNode(portalNodes[this.props.group].node)
       clearTimeout(portalNodes[this.props.group].timeout)
+      document.body.removeChild(portalNodes[this.props.group].node);
     }
   }
   createPortal() {
