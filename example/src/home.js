@@ -101,8 +101,7 @@ export default class Home extends Component {
                 Result:
                 <span className="btn btn-default" id="result" onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} style={{marginLeft: 10}}>Hover me!</span>
                 <ToolTip active={this.state.isTooltipActive} parent="#result" position={this.state.position} arrow={this.state.arrow} align={this.state.align} group="result">
-
-                { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
+                  { this.state.isTooltipLoading ? 'Loading...' : <div>Tooltip content here</div>}
                 </ToolTip>
               </div>
             </div>
