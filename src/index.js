@@ -322,8 +322,10 @@ class Card extends Component {
     this.updateSize()
   }
 
-  componentDidUpdate() {
-    this.updateSize()
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props !== prevProps){
+      this.updateSize()
+    }
   }
 
   updateSize() {
