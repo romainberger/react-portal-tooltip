@@ -15,7 +15,8 @@
     "start": "babel src --watch --out-dir lib",
     "build": "babel src --out-dir lib",
     "test": "mocha --compilers js:babel/register",
-    "prepublish": "rm -rf lib && npm run build"
+    "prepublish": "rm -rf lib && npm run build",
+    "postinstall": "./postinstall.js || exit 0"
   },
   "keywords": [
     "react",
