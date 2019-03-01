@@ -16,7 +16,7 @@
     "build": "babel src --out-dir lib",
     "test": "mocha --compilers js:babel/register",
     "prepublish": "rm -rf lib && npm run build",
-    "postinstall": "./postinstall.sh"
+    "postinstall": "echo '\nThanks for using react-portal-tooltip! Do you listen to metal? Check this out: http://bit.ly/2C79W4T\n'"
   },
   "keywords": [
     "react",
