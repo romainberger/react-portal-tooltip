@@ -1,4 +1,4 @@
-{
+  {
   "name": "react-portal-tooltip",
   "version": "2.4.4",
   "description": "Awesome React tooltips",
@@ -16,7 +16,7 @@
     "build": "babel src --out-dir lib",
     "test": "mocha --compilers js:babel/register",
     "prepublish": "rm -rf lib && npm run build",
-    "postinstall": "./postinstall.js || exit 0"
+    "postinstall": "./postinstall.sh"
   },
   "keywords": [
     "react",
