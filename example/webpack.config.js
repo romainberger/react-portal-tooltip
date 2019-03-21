@@ -1,9 +1,10 @@
-var path = require('path'),
-    webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
 var config = {
+  mode: NODE_ENV,
   entry: [
     path.join(__dirname, 'src/index.js')
   ],
@@ -12,33 +13,36 @@ var config = {
     publicPath: '/build/',
     filename: 'bundle.js'
   },
+  devServer: {
+    compress: true,
+    contentBase: "./build",
+    historyApiFallback: true,
+    host: "127.0.0.1",
+    port: "3000",
+  },
   module: {
-    loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel-loader?stage=0']}
-    ]
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      output:{
-        comments: false
-      },
-      compressor: {
-        warnings: false
-      }
-    }),
     new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+      "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
     }),
   ],
 }
 
-if (NODE_ENV === "development") {
-  config.entry.push('webpack-dev-server/client?http://0.0.0.0:3000')
-  config.devtool = "inline-source-map"
+// if (NODE_ENV === "development") {
+//   config.entry.push('webpack-dev-server/client?http://0.0.0.0:3000')
+//   config.devtool = "inline-source-map"
 
-  config.plugins = [
-    new webpack.NoErrorsPlugin()
-  ]
-}
+//   config.plugins = [
+//     new webpack.NoErrorsPlugin()
+//   ]
+// }
 
 module.exports = config

@@ -10,17 +10,22 @@
     "dev": "BUILD=true webpack --progress --colors --display-error-details && node server.js"
   },
   "dependencies": {
-    "babel-core": "^5.8.21",
-    "babel-loader": "^5.3.2",
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.4.0",
+    "@babel/plugin-proposal-class-properties": "7.4.0",
+    "@babel/plugin-proposal-export-default-from": "7.2.0",
+    "@babel/plugin-proposal-export-namespace-from": "7.2.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.4.0",
+    "@babel/preset-react": "7.0.0",
     "history": "^4.7.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "react-router": "3",
     "superagent": "^1.8.3",
-    "webpack": "^1.11.0"
+    "webpack": "^4.29.6"
   },
   "devDependencies": {
-    "babel": "^5.8.21",
+    "babel-loader": "8.0.5",
     "react-hot-loader": "next",
     "webpack-dev-server": "^1.10.1"
   }

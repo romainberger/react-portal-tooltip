@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import List from './list'
-import ToolTip from './../../src'
+import ToolTip from './../../'
 
 export default class Home extends Component {
   state = {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { StatefulToolTip } from './../../src'
+import { StatefulToolTip } from './../..'
 
 export default class Stateful extends Component {
   escape(html) {
