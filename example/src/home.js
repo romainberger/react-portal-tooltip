@@ -12,10 +12,12 @@ export default class Home extends Component {
     arrowOptions: null,
     alignOptions: null,
   }
+
   componentDidMount() {
     this.getArrowOptions()
     this.getAlignOptions()
   }
+
   showTooltip = () => {
     // this.setState({isTooltipActive: true, isTooltipLoading: true})
     // setTimeout(() => {
@@ -24,9 +26,11 @@ export default class Home extends Component {
 
     this.setState({isTooltipActive: true})
   }
+
   hideTooltip = () => {
     this.setState({isTooltipActive: false})
   }
+
   handleOnChange = () => {
     let arrow = this.refs.arrow.value === 'disable' ? null : this.refs.arrow.value
     let align = this.refs.align.value || null;
@@ -39,9 +43,11 @@ export default class Home extends Component {
       this.getAlignOptions()
     })
   }
+
   escape(html) {
     return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
   }
+
   getBasicExample() {
     return {
       __html: this.escape(`<ToolTip active={true} parent="#parent" position="right" arrow="center">
@@ -49,6 +55,7 @@ export default class Home extends Component {
 </ToolTip>`)
     }
   }
+
   getArrowOptions() {
     let node = this.refs.position
     let value = node ? node.value : 'right'
@@ -72,6 +79,7 @@ export default class Home extends Component {
 
     this.setState({arrowOptions})
   }
+
   getAlignOptions() {
     let node = this.refs.position
     let value = node ? node.value : 'right'
@@ -87,6 +95,7 @@ export default class Home extends Component {
 
     this.setState({alignOptions})
   }
+
   render() {
     return (
       <div className="row" style={{marginTop: 20}}>

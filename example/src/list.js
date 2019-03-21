@@ -21,9 +21,11 @@ export default class List extends Component {
 
     return result
   }
+
   shouldComponentUpdate(nextProps) {
     return this.props.data !== nextProps.data || this.props.position !== nextProps.position || this.props.arrow !== nextProps.arrow
   }
+
   getList() {
     let list = []
     this.split(this.props.data, 4).forEach((set, i) => {
@@ -34,6 +36,7 @@ export default class List extends Component {
 
     return list
   }
+
   render() {
     return <div>{this.getList()}</div>
   }

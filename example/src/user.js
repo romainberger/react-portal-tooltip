@@ -5,10 +5,12 @@ export default class User extends Component {
   state = {
     isTooltipActive: false
   }
+
   static coverWrapperStyle = {
     width: 370,
     height: 80
   }
+
   static coverStyle = {
     position: 'absolute',
     width: 350,
@@ -16,6 +18,7 @@ export default class User extends Component {
     top: 0,
     left: 0
   }
+
   static avatarStyle = {
     position: 'relative',
     top: 30,
@@ -23,12 +26,15 @@ export default class User extends Component {
     width: 70,
     height: 70
   }
+
   showTooltip = () => {
     this.setState({isTooltipActive: true})
   }
+
   hideTooltip = () => {
     this.setState({isTooltipActive: false})
   }
+
   render() {
     return (
       <div className={this.props.className}>

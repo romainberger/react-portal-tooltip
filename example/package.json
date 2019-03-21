@@ -20,7 +20,8 @@
     "history": "^4.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-router": "3",
+    "react-router": "5.0.0",
+    "react-router-dom": "5.0.0",
     "superagent": "^1.8.3",
     "webpack": "^4.29.6"
   },

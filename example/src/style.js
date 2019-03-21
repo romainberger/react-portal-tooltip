@@ -5,9 +5,11 @@ export default class Style extends React.Component {
   state = {
     display: false
   }
+
   escape(html) {
     return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML
   }
+
   getBasicExample() {
     return {
       __html: this.escape(`let style = {
@@ -31,6 +33,7 @@ export default class Style extends React.Component {
   showTooltip = () => {
     this.setState({display: true})
   }
+
   hideTooltip = () => {
     this.setState({display: false})
   }
