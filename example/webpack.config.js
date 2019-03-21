@@ -15,10 +15,11 @@ var config = {
   },
   devServer: {
     compress: true,
-    contentBase: "./build",
     historyApiFallback: true,
+    hot: true,
     host: "127.0.0.1",
     port: "3000",
+    publicPath: "/build/",
   },
   module: {
     rules: [
