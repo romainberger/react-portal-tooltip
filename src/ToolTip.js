@@ -9,8 +9,8 @@ const portalNodes = {}
 export default class ToolTip extends React.Component {
   static propTypes = {
     parent: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object
+      PropTypes.string,
+      PropTypes.object
     ]).isRequired,
     active: PropTypes.bool,
     group: PropTypes.string,
@@ -22,72 +22,36 @@ export default class ToolTip extends React.Component {
     group: 'main',
     tooltipTimeout: 500
   }
+  constructor(props) {
+    super(props)
+    this.cardRef = React.createRef()
 
-  createPortal() {
-    portalNodes[this.props.group] = {
-      node: document.createElement('div'),
-      timeout: false
-    }
-    portalNodes[this.props.group].node.className = 'ToolTipPortal'
-    document.body.appendChild(portalNodes[this.props.group].node)
-  }
-
-  renderPortal(props) {
-    if (!portalNodes[this.props.group]) {
-      this.createPortal()
-    }
-    let {parent, ...other} = props
-    let parentEl = typeof parent === 'string' ? document.querySelector(parent) : parent
-    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].node)
+    const divEl = document.createElement('div')
+    divEl.id = 'react-portal-tooltip-root'
+    document.body.appendChild(divEl)
+    this.el = divEl
   }
 
   componentDidMount() {
     if (!this.props.active) {
       return
     }
-
-    this.renderPortal(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if ((!portalNodes[this.props.group] && !nextProps.active) ||
-      (!this.props.active && !nextProps.active)) {
-      return
-    }
-
-    let props = { ...nextProps }
-    let newProps = { ...nextProps }
-
-    if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
-      clearTimeout(portalNodes[this.props.group].timeout)
-    }
-
-    if (this.props.active && !props.active) {
-      newProps.active = true
-      portalNodes[this.props.group].timeout = setTimeout(() => {
-        props.active = false
-        this.renderPortal(props)
-      }, this.props.tooltipTimeout)
-    }
-
-    this.renderPortal(newProps)
   }
 
   componentWillUnmount() {
-    if (portalNodes[this.props.group]) {
-      ReactDOM.unmountComponentAtNode(portalNodes[this.props.group].node)
-      clearTimeout(portalNodes[this.props.group].timeout)
+    document.body.removeChild(this.el)
+  }
 
-      try {
-        document.body.removeChild(portalNodes[this.props.group].node)
-      }
-      catch(e) {}
-
-      portalNodes[this.props.group] = null
+  updateToolTipSize() {
+    if (this.cardRef.current) {
+      this.cardRef.current.updateSize()
     }
   }
 
   render() {
-    return null
+    let { parent, ...other } = this.props
+    let parentEl = typeof parent === 'string' ? document.querySelector(parent) : parent
+
+    return ReactDOM.createPortal(<Card ref={this.cardRef} parentEl={parentEl} {...other} />, this.el)
   }
 }

@@ -36,29 +36,34 @@ export default class Card extends Component {
     position: 'right',
     arrow: null,
     align: null,
-    style: {style: {}, arrowStyle: {}},
+    style: { style: {}, arrowStyle: {} },
     useHover: true
   }
 
-  state = {
-    hover: false,
-    transition: 'opacity',
-    width: 0,
-    height: 0,
+  constructor(props) {
+    super(props)
+    this.state = {
+      hover: false,
+      transition: 'opacity',
+      width: 0,
+      height: 0,
+      top: undefined,
+      left: undefined,
+    }
+
+    this.margin = 15
+
+    this.defaultArrowStyle = {
+      color: '#fff',
+      borderColor: 'rgba(0,0,0,.4)'
+    }
+
+    this.rootRef = React.createRef()
   }
-
-  margin = 15
-
-  defaultArrowStyle = {
-    color: '#fff',
-    borderColor: 'rgba(0,0,0,.4)'
-  }
-
-  rootRef = React.createRef()
 
   getGlobalStyle() {
     if (!this.props.parentEl) {
-      return {display: 'none'}
+      return { display: 'none' }
     }
 
     const style = {
@@ -99,7 +104,7 @@ export default class Card extends Component {
     let bgColorBorder = `11px solid ${bgBorderColor}`
     let bgTransBorder = `${BG_SIZE}px solid transparent`
 
-    let {position, arrow} = this.props
+    let { position, arrow } = this.props
 
     if (position === 'left' || position === 'right') {
       fgStyle.top = '50%'
@@ -171,7 +176,7 @@ export default class Card extends Component {
       }
     }
 
-    let {color, borderColor, ...propsArrowStyle} = this.props.style.arrowStyle
+    let { color, borderColor, ...propsArrowStyle } = this.props.style.arrowStyle
 
     return {
       fgStyle: this.mergeStyle(fgStyle, propsArrowStyle),
@@ -192,15 +197,28 @@ export default class Card extends Component {
     return style
   }
 
+  getTop() {
+    let parent = this.props.parentEl
+    if (!parent) return undefined
+    let tooltipPosition = parent.getBoundingClientRect()
+    let scrollY = (window.scrollY !== undefined) ? window.scrollY : window.pageYOffset
+    return scrollY + tooltipPosition.top
+  }
+
+  getLeft() {
+    let parent = this.props.parentEl
+    if (!parent) return undefined
+    let tooltipPosition = parent.getBoundingClientRect()
+    let scrollX = (window.scrollX !== undefined) ? window.scrollX : window.pageXOffset
+    return scrollX + tooltipPosition.left
+  }
+
   getStyle(position, arrow) {
     let alignOffset = 0
     let parent = this.props.parentEl
     let align = this.props.align
-    let tooltipPosition = parent.getBoundingClientRect()
-    let scrollY = (window.scrollY !== undefined) ? window.scrollY : window.pageYOffset
-    let scrollX = (window.scrollX !== undefined) ? window.scrollX : window.pageXOffset
-    let top = scrollY + tooltipPosition.top
-    let left = scrollX + tooltipPosition.left
+    let top = this.state.top !== undefined ? this.state.top : this.getTop()
+    let left = this.state.left !== undefined ? this.state.left : this.getLeft()
     let style = {}
 
     const parentSize = {
@@ -300,15 +318,15 @@ export default class Card extends Component {
       }
     }
 
-    return {style, arrowStyle}
+    return { style, arrowStyle }
   }
 
   handleMouseEnter = () => {
-    this.props.active && this.props.useHover && this.setState({hover: true})
+    this.props.active && this.props.useHover && this.setState({ hover: true })
   }
 
   handleMouseLeave = () => {
-    this.setState({hover: false})
+    this.setState({ hover: false })
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -322,7 +340,7 @@ export default class Card extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props !== prevProps){
+    if (this.props !== prevProps) {
       this.updateSize()
     }
   }
@@ -330,24 +348,31 @@ export default class Card extends Component {
   updateSize() {
     const newWidth = this.rootRef.current.offsetWidth
     const newHeight = this.rootRef.current.offsetHeight
+    const newTop = this.getTop()
+    const newtLeft = this.getLeft()
 
-    if (newWidth !== this.state.width || newHeight !== this.state.height) {
+    if (newWidth !== this.state.width
+      || newHeight !== this.state.height
+      || newTop !== this.state.top
+      || newtLeft !== this.state.left) {
       this.setState({
         width: newWidth,
         height: newHeight,
+        top: newTop,
+        left: newtLeft
       })
     }
   }
 
   render() {
-    let {style, arrowStyle} = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
+    let { style, arrowStyle } = this.checkWindowPosition(this.getGlobalStyle(), this.getArrowStyle())
 
     return (
-      <div style={style} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} ref={ this.rootRef }>
+      <div style={style} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} ref={this.rootRef}>
         {this.props.arrow ? (
           <div>
-            <span style={arrowStyle.fgStyle}/>
-            <span style={arrowStyle.bgStyle}/>
+            <span style={arrowStyle.fgStyle} />
+            <span style={arrowStyle.bgStyle} />
           </div>)
           : null
         }
@@ -358,7 +383,7 @@ export default class Card extends Component {
 }
 
 const executeFunctionIfExist = (object, key) => {
-  if (Object.prototype.hasOwnProperty.call(object, key)){
+  if (Object.prototype.hasOwnProperty.call(object, key)) {
     object[key]()
   }
 }
