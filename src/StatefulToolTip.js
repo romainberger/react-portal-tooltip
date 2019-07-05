@@ -16,11 +16,11 @@ export default class StatefulToolTip extends React.Component {
     tooltipVisible: false,
   }
 
-  onMouseEnter = () => {
+  show = () => {
     this.setState({ tooltipVisible: true })
   }
 
-  onMouseLeave = () => {
+  hide = () => {
     this.setState({ tooltipVisible: false })
   }
 
@@ -29,12 +29,13 @@ export default class StatefulToolTip extends React.Component {
       children,
       className,
       parent,
+      showOnClick,
       ...props
     } = this.props
 
     return (
       <Fragment>
-        <span className={ className } onMouseEnter={ this.onMouseEnter } onMouseLeave={ this.onMouseLeave } ref={ p => this.parent = p } key="parent">{ this.props.parent }</span>
+        <span className={ className } onClick={ showOnClick ? this.show : undefined } onMouseEnter={ this.show } onMouseLeave={ this.hide } ref={ p => this.parent = p } key="parent">{ this.props.parent }</span>
         {
           this.parent ?
             <ToolTip { ...props } active={ this.state.tooltipVisible } parent={ this.parent } key="tooltip">{ this.props.children }</ToolTip>
