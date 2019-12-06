@@ -14,13 +14,15 @@ export default class ToolTip extends React.Component {
     ]).isRequired,
     active: PropTypes.bool,
     group: PropTypes.string,
-    tooltipTimeout: PropTypes.number
+    tooltipTimeout: PropTypes.number,
+    containerClassName: PropTypes.string,
   }
 
   static defaultProps = {
     active: false,
     group: 'main',
-    tooltipTimeout: 500
+    tooltipTimeout: 500,
+    containerClassName: ''
   }
 
   createPortal() {
@@ -28,7 +30,7 @@ export default class ToolTip extends React.Component {
       node: document.createElement('div'),
       timeout: false
     }
-    portalNodes[this.props.group].node.className = 'ToolTipPortal'
+    portalNodes[this.props.group].node.className = `ToolTipPortal ${this.props.containerClassName}`.trim()
     document.body.appendChild(portalNodes[this.props.group].node)
   }
 
@@ -49,7 +51,7 @@ export default class ToolTip extends React.Component {
     this.renderPortal(this.props)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if ((!portalNodes[this.props.group] && !nextProps.active) ||
       (!this.props.active && !nextProps.active)) {
       return
