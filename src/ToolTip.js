@@ -25,54 +25,53 @@ export default class ToolTip extends React.Component {
     containerClassName: ''
   }
 
-  createPortal() {
-    portalNodes[this.props.group] = {
+  state = {
+    wasActive: false
+  }
+
+  static createPortal(props) {
+    portalNodes[props.group] = {
       node: document.createElement('div'),
       timeout: false
     }
-    portalNodes[this.props.group].node.className = `ToolTipPortal ${this.props.containerClassName}`.trim()
-    document.body.appendChild(portalNodes[this.props.group].node)
+
+    portalNodes[props.group].node.className = `ToolTipPortal ${props.containerClassName}`.trim()
+    document.body.appendChild(portalNodes[props.group].node)
   }
 
-  renderPortal(props) {
-    if (!portalNodes[this.props.group]) {
-      this.createPortal()
+  static renderPortal(props) {
+    if (!portalNodes[props.group]) {
+      this.createPortal(props)
     }
     let {parent, ...other} = props
     let parentEl = typeof parent === 'string' ? document.querySelector(parent) : parent
-    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].node)
+    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNodes[props.group].node)
   }
 
-  componentDidMount() {
-    if (!this.props.active) {
-      return
+
+  static getDerivedStateFromProps(props, state) {
+    const portalNode = portalNodes[props.group]
+    if (!state.wasActive && !props.active) {
+      return null
     }
 
-    this.renderPortal(this.props)
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if ((!portalNodes[this.props.group] && !nextProps.active) ||
-      (!this.props.active && !nextProps.active)) {
-      return
+    if (portalNode && portalNode.timeout) {
+      clearTimeout(portalNode.timeout)
     }
 
-    let props = { ...nextProps }
-    let newProps = { ...nextProps }
-
-    if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
-      clearTimeout(portalNodes[this.props.group].timeout)
-    }
-
-    if (this.props.active && !props.active) {
+    const newProps = {...props}
+    if (state.wasActive && !props.active) {
       newProps.active = true
-      portalNodes[this.props.group].timeout = setTimeout(() => {
-        props.active = false
-        this.renderPortal(props)
-      }, this.props.tooltipTimeout)
+      portalNode.timeout = setTimeout(() => {
+        ToolTip.renderPortal({...props, active: false})
+      }, props.tooltipTimeout)
     }
 
-    this.renderPortal(newProps)
+    ToolTip.renderPortal(newProps)
+
+    return {
+      wasActive: props.active
+    }
   }
 
   componentWillUnmount() {
