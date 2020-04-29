@@ -2,6 +2,8 @@ import React from 'react'
 import {Link} from 'react-router'
 import request from 'superagent'
 
+import Banner from './banner'
+
 export default class App extends React.Component {
     state = {
         users: {list: []},
@@ -17,17 +19,28 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <div className="row">
-                    <div className="col-lg-12">
-                        <ul className="nav nav-tabs">
-                          <li><Link to="/">Basic usage</Link></li>
-                          <li><Link to="/stateful">Stateful usage</Link></li>
-                          <li><Link to="/groups">Groups</Link></li>
-                          <li><Link to="/style">Style</Link></li>
-                        </ul>
-                    </div>
+                <Banner />
+                <div className="container">
+                  <div className="row">
+                    <h1 className="col-lg-8">
+                      React Portal ToolTip Example
+                    </h1>
+                    <h3 className="col-lg-4">
+                      <a href="https://github.com/romainberger/react-portal-tooltip">Github</a>
+                    </h3>
+                  </div>
+                  <div className="row">
+                      <div className="col-lg-12">
+                          <ul className="nav nav-tabs">
+                            <li><Link to="/">Basic usage</Link></li>
+                            <li><Link to="/stateful">Stateful usage</Link></li>
+                            <li><Link to="/groups">Groups</Link></li>
+                            <li><Link to="/style">Style</Link></li>
+                          </ul>
+                      </div>
+                  </div>
+                  {React.cloneElement(this.props.children, {users: this.state.users})}
                 </div>
-                {React.cloneElement(this.props.children, {users: this.state.users})}
             </div>
         )
     }
