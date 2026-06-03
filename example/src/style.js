@@ -55,7 +55,7 @@ export default class Style extends React.Component {
       <div style={{padding: 20}}>
         <div style={{marginBottom: 20}}>
           <p>You can provide a <code>style</code> prop to customize some part of the tooltip. You can give it an object with two properties: <code>style</code>, that will be applied to the tooltip itself, and <code>arrowStyle</code> which will be applied to the arrows. The last one is tricky as the arrows are made with borders so it can be painfull to customize. To make it easier, the <code>arrowStyle.color</code> property will change the background color of the arrow and <code>arrowStyle.borderColor</code> its border. To remove completely the border use a falsy value.</p>
-          <p><a href="https://github.com/romainberger/react-portal-tooltip/blob/master/example/src/style.js">Check out this example to see how this one is done</a></p>
+          <p><a href="https://github.com/murtaza7799/react-portal-tooltip/blob/master/example/src/style.js">Check out this example to see how this one is done</a></p>
         </div>
         <div style={{textAlign: 'center'}}>
           <button className="btn btn-primary" id="style-btn" style={{marginBottom: 20}} onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip}>Thanks www.nyan.cat</button>

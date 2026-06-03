@@ -1,3 +1,10 @@
 example
+nextjs-example
 react-portal-tooltip.gif
 .babelrc
+.travis.yml
+.github
+index.html
+test
+tsconfig.json
+src/*.d.ts

@@ -12,7 +12,7 @@ export default class App extends React.Component {
         users: {list: []},
     }
 
-    componentWillMount() {
+    componentDidMount() {
         request('GET', 'https://api.dailymotion.com/users?fields=id,username,screenname,cover_250_url,avatar_120_url,videos_total,fans_total&list=recommended&limit=20')
             .send()
             .set('Accept', 'application/json')

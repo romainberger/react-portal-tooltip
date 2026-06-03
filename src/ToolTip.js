@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import ReactDOM from 'react-dom'
+import React from "react"
+import { createRoot } from 'react-dom/client'
 import PropTypes from "prop-types"
 
 import Card from "./Card"
@@ -24,45 +24,48 @@ export default class ToolTip extends React.Component {
   }
 
   createPortal() {
+    if (typeof document === 'undefined') return
+    const node = document.createElement('div')
+    node.className = 'ToolTipPortal'
+    document.body.appendChild(node)
     portalNodes[this.props.group] = {
-      node: document.createElement('div'),
+      node,
+      root: createRoot(node),
       timeout: false
     }
-    portalNodes[this.props.group].node.className = 'ToolTipPortal'
-    document.body.appendChild(portalNodes[this.props.group].node)
   }
 
   renderPortal(props) {
+    if (typeof document === 'undefined') return
     if (!portalNodes[this.props.group]) {
       this.createPortal()
     }
     let {parent, ...other} = props
     let parentEl = typeof parent === 'string' ? document.querySelector(parent) : parent
-    ReactDOM.render(<Card parentEl={parentEl} {...other}/>, portalNodes[this.props.group].node)
+    portalNodes[this.props.group].root.render(<Card parentEl={parentEl} {...other}/>)
   }
 
   componentDidMount() {
     if (!this.props.active) {
       return
     }
-
     this.renderPortal(this.props)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ((!portalNodes[this.props.group] && !nextProps.active) ||
-      (!this.props.active && !nextProps.active)) {
+  componentDidUpdate(prevProps) {
+    if ((!portalNodes[this.props.group] && !this.props.active) ||
+      (!prevProps.active && !this.props.active)) {
       return
     }
 
-    let props = { ...nextProps }
-    let newProps = { ...nextProps }
+    let props = { ...this.props }
+    let newProps = { ...this.props }
 
     if (portalNodes[this.props.group] && portalNodes[this.props.group].timeout) {
       clearTimeout(portalNodes[this.props.group].timeout)
     }
 
-    if (this.props.active && !props.active) {
+    if (prevProps.active && !this.props.active) {
       newProps.active = true
       portalNodes[this.props.group].timeout = setTimeout(() => {
         props.active = false
@@ -74,9 +77,10 @@ export default class ToolTip extends React.Component {
   }
 
   componentWillUnmount() {
+    if (typeof document === 'undefined') return
     if (portalNodes[this.props.group]) {
-      ReactDOM.unmountComponentAtNode(portalNodes[this.props.group].node)
       clearTimeout(portalNodes[this.props.group].timeout)
+      portalNodes[this.props.group].root.unmount()
 
       try {
         document.body.removeChild(portalNodes[this.props.group].node)

@@ -197,8 +197,8 @@ export default class Card extends Component {
     let parent = this.props.parentEl
     let align = this.props.align
     let tooltipPosition = parent.getBoundingClientRect()
-    let scrollY = (window.scrollY !== undefined) ? window.scrollY : window.pageYOffset
-    let scrollX = (window.scrollX !== undefined) ? window.scrollX : window.pageXOffset
+    let scrollY = typeof window !== 'undefined' ? (window.scrollY !== undefined ? window.scrollY : window.pageYOffset) : 0
+    let scrollX = typeof window !== 'undefined' ? (window.scrollX !== undefined ? window.scrollX : window.pageXOffset) : 0
     let top = scrollY + tooltipPosition.top
     let left = scrollX + tooltipPosition.left
     let style = {}
@@ -290,10 +290,11 @@ export default class Card extends Component {
         style.left = this.margin
       }
       else {
-        let rightOffset = style.left + this.state.width - window.innerWidth
+        const innerWidth = typeof window !== 'undefined' ? window.innerWidth : Infinity
+      let rightOffset = style.left + this.state.width - innerWidth
         if (rightOffset > 0) {
           let originalLeft = style.left
-          style.left = window.innerWidth - this.state.width - this.margin
+          style.left = innerWidth - this.state.width - this.margin
           arrowStyle.fgStyle.marginLeft += originalLeft - style.left
           arrowStyle.bgStyle.marginLeft += originalLeft - style.left
         }
@@ -304,7 +305,7 @@ export default class Card extends Component {
   }
 
   handleMouseEnter = () => {
-    this.props.active && this.props.useHover && this.setState({hover: true})
+    this.props.useHover && this.setState({hover: true})
   }
 
   handleMouseLeave = () => {
@@ -321,8 +322,15 @@ export default class Card extends Component {
     this.updateSize()
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props !== prevProps){
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.active !== this.props.active ||
+      prevProps.position !== this.props.position ||
+      prevProps.arrow !== this.props.arrow ||
+      prevProps.align !== this.props.align ||
+      prevProps.children !== this.props.children ||
+      prevProps.parentEl !== this.props.parentEl
+    ) {
       this.updateSize()
     }
   }
